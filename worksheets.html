@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Worksheets</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Worksheets</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="settings.html">Settings</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="worksheet-grid">
+      <div class="card">
+        <h3>Beginner Level</h3>
+        <p>Identify shapes, pick the correct word.</p>
+        <button onclick="completeWorksheet('Beginner')">Start</button>
+      </div>
+
+      <div class="card">
+        <h3>Intermediate Level</h3>
+        <p>Simple bar chart reading and reasoning tasks.</p>
+        <button onclick="completeWorksheet('Intermediate')">Start</button>
+      </div>
+
+      <div class="card">
+        <h3>Advanced Level</h3>
+        <p>Challenging puzzles to test critical thinking.</p>
+        <button onclick="completeWorksheet('Advanced')">Start</button>
+      </div>
+    </section>
+
+    <div id="progress"></div>
+  </main>
+
+  <footer>
+    <p>Track your progress and keep improving!</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
