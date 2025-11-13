@@ -3,25 +3,33 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Critical Thinking Worksheets</title>
+  <title>Sign Up</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 <header>
-  <h1>Critical Thinking Worksheets</h1>
+  <h1>Create Account</h1>
   <nav>
     <a href="index.html">Home</a>
     <a href="login.html">Login</a>
-    <a href="signup.html">Sign Up</a>
-    <a href="settings.html">Settings</a>
   </nav>
 </header>
 
 <main>
   <section class="section-card">
-    <h2>Develop Thinking Skills</h2>
-    <p>Interactive, fun, and accessible worksheets for students.</p>
-    <a href="login.html" class="btn">Get Started</a>
+    <form>
+      <label>Full Name</label>
+      <input type="text" required />
+
+      <label>Email</label>
+      <input type="email" required />
+
+      <label>Password</label>
+      <input type="password" required />
+
+      <button class="btn" type="submit">Sign Up</button>
+      <p>Already have an account? <a href="login.html">Login</a></p>
+    </form>
   </section>
 </main>
 
