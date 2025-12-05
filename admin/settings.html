@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ThinkAble | Settings</title>
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="admin.css">
+  <style>
+    .toggle-row { margin: 1rem 0; }
+    .toggle-row label { font-size: 1rem; font-weight: 600; }
+    .toggle-btn { margin-left: 10px; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <img src="../Logo.png" alt="ThinkAble Logo" class="logo">
+    <h1>Admin – Settings</h1>
+    </div>
+  <nav>
+    <a href="home.html">Home</a>
+    <a href="login.html">Logout</a>
+  </nav>
+</header>
+
+<main>
+  <h2>Accessibility & Preferences</h2>
+
+  <!-- Dark Mode -->
+  <div class="toggle-row">
+    <label>🌙 Dark Mode</label>
+    <input type="checkbox" id="darkModeToggle" class="toggle-btn">
+  </div>
+
+  <!-- Large Text -->
+  <div class="toggle-row">
+    <label>🔍 Large Text Mode</label>
+    <input type="checkbox" id="largeTextToggle" class="toggle-btn">
+  </div>
+
+  <hr>
+
+  <h2>Parent Controls</h2>
+
+  <!-- Parent PIN -->
+  <div class="toggle-row">
+    <label>🔐 Set Parent PIN (4 digits)</label>
+    <input id="parentPIN" type="password" maxlength="4" placeholder="1234">
+    <button class="btn" onclick="saveParentPIN()">Save</button>
+  </div>
+
+  <p style="font-size:0.85rem;">This PIN is required for parents to view student's progress.</p>
+
+  <hr>
+
+  <h2>Subscription</h2>
+
+  <p>Your child currently has:
+    <strong id="subStatus"></strong>
+  </p>
+
+  <button class="btn secondary" onclick="activateSubscription()">Activate Full Subscription</button>
+
+  <p style="font-size:0.85rem;margin-top:1rem;">
+    Free trial allows 3 worksheets. Subscription unlocks everything.
+  </p>
+</main>
+
+<script src="script.js"></script>
+<script>
+
+// ======================
+// DARK MODE
+// ======================
+function applyDarkMode(enabled) {
+  if (enabled) document.body.classList.add("dark");
+  else document.body.classList.remove("dark");
+  localStorage.setItem("darkMode", enabled);
+}
+
+document.getElementById("darkModeToggle").addEventListener("change", (e) => {
+  applyDarkMode(e.target.checked);
+});
+
+// Load dark mode state
+if (localStorage.getItem("darkMode") === "true") {
+  document.getElementById("darkModeToggle").checked = true;
+  applyDarkMode(true);
+}
+
+
+// ======================
+// LARGE TEXT MODE
+// ======================
+function applyLargeText(enabled) {
+  if (enabled) document.body.classList.add("largeText");
+  else document.body.classList.remove("largeText");
+  localStorage.setItem("largeText", enabled);
+}
+
+document.getElementById("largeTextToggle").addEventListener("change", (e) => {
+  applyLargeText(e.target.checked);
+});
+
+if (localStorage.getItem("largeText") === "true") {
+  document.getElementById("largeTextToggle").checked = true;
+  applyLargeText(true);
+}
+
+
+// ======================
+// PARENT PIN LOCK
+// ======================
+function saveParentPIN() {
+  const pin = document.getElementById("parentPIN").value;
+  if (pin.length !== 4) return alert("PIN must be 4 digits!");
+  localStorage.setItem("parentPIN", pin);
+  alert("Parent PIN saved!");
+}
+
+
+// ======================
+// SUBSCRIPTION SYSTEM
+// ======================
+function activateSubscription() {
+  localStorage.setItem("subscriptionActive", "true");
+  document.getElementById("subStatus").innerText = "FULL ACCESS";
+  alert("Subscription activated! All worksheets unlocked.");
+}
+
+function updateSubStatus() {
+  const active = localStorage.getItem("subscriptionActive") === "true";
+  document.getElementById("subStatus").innerText =
+    active ? "FULL ACCESS" : "FREE TRIAL (3 worksheets only)";
+}
+
+updateSubStatus();
+
+</script>
+
+</body>
+</html>

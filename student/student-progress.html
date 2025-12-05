@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Student Progress | ThinkAble</title>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="student.css">
+<script src="../script.js" defer></script>
+
+<style>
+  .progress-container {
+    max-width: 1000px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: var(--soft-green);
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  }
+
+  .progress-title {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--dark-green);
+    margin-bottom: 0.5rem;
+  }
+
+  .progress-subtitle {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #444;
+    margin-bottom: 1.5rem;
+  }
+</style>
+
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-left">
+    <img src="../Logo.png" class="logo">
+    <h1>Student Progress</h1>
+  </div>
+  <nav>
+      <a href="home.html">Home</a>
+      <a href="worksheets.html">Worksheets</a>
+      <a href="../logout.html">Logout</a>
+  </nav>
+</header>
+
+<!-- MAIN CONTENT -->
+<main class="progress-container">
+
+  <h2 class="progress-title">Worksheet Performance</h2>
+  <p class="progress-subtitle">Student: <strong id="studentName">John Tan</strong></p>
+
+  <canvas id="resultsChart" height="120"></canvas>
+
+</main>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  // You can change name dynamically later (from login)
+  document.getElementById("studentName").textContent = "John Tan";
+
+  // === Sample Worksheet Names ===
+  const worksheetNames = [
+    "Colour Matching",
+    "Shape Recognition",
+    "Basic Counting"
+  ];
+
+  // === Sample Scores (out of 100) ===
+  const worksheetScores = [
+    85,  // Colour Matching
+    72,  // Shape Recognition
+    91   // Basic Counting
+  ];
+
+  const ctx = document.getElementById('resultsChart');
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: worksheetNames,
+      datasets: [{
+        label: "Score (%)",
+        data: worksheetScores,
+        backgroundColor: ["#DCEFD8", "#6FAF78", "#FFB36B"]
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: { 
+          beginAtZero: true,
+          max: 100 
+        }
+      }
+    }
+  });
+
+});
+</script>
+
+</body>
+</html>

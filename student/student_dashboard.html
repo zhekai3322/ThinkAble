@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ThinkAble | Student Dashboard</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="student.css">
+  <script src="../script.js" defer></script>
+</head>
+<body>
+
+<header>
+    <div class="header-left">
+      <img src="../Logo.png" class="logo">
+      <h1>Student Dashboard</h1>
+    </div>
+
+    <nav>
+        <a href="home.html">Home</a>
+        <a href="worksheets.html">Worksheets</a>
+        <a href="../logout.html">Logout</a>
+    </nav>
+</header>
+
+<!-- ============================
+     BUTTONS OUTSIDE BLUR
+============================ -->
+<div style="text-align:center; margin-top: 20px;">
+    <a href="#" onclick="startSubscription()" class="subscribe-btn">Activate Full Subscription</a>
+    <button class="parent-pin-btn" onclick="openPIN()">Enter Parent PIN</button>
+</div>
+
+<!-- ============================
+     BLURRED DASHBOARD CONTENT
+============================ -->
+<main id="studentDashboard" class="dashboard-container dashboard-locked">
+
+  <h2 class="dashboard-title">Welcome, Student & Parent!</h2>
+
+  <div class="section-card">
+    <h3>Your Subscription</h3>
+    <p>Status: <strong id="subStatus">FREE TRIAL (3 worksheets only)</strong></p>
+  </div>
+
+  <div class="section-card">
+    <h3>Your Worksheet Results</h3>
+    <p>Locked until Parent PIN is entered.</p>
+
+    <!-- Hidden graph -->
+    <canvas id="resultsChart" style="margin-top:2rem; display:none;"></canvas>
+  </div>
+
+</main>
+
+<!-- ============================
+     PIN MODAL
+============================ -->
+<div id="pinModal" class="modal">
+  <div class="modal-box">
+      <h3>Enter Parent PIN</h3>
+      <input type="password" id="pinInput" placeholder="4-digit PIN">
+
+      <button onclick="verifyPIN()">Submit</button>
+      <button onclick="closePIN()" class="modal-cancel">Cancel</button>
+  </div>
+</div>
+
+</body>
+</html>

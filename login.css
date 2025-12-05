@@ -1,0 +1,163 @@
+:root {
+  --primary-green: #6FAF78;
+  --soft-green: #A1CDA2;
+  --light-mint: #DCEFD8;
+  --off-white: #F5F7F2;
+  --accent-peach: #FFB36B;
+  --dark-green: #2D3A32;
+
+  /* Dark mode */
+  --dark-bg: var(--dark-green);
+  --dark-card: #1e1e1e;
+  --dark-text: var(--off-white);
+  --dark-border: var(--soft-green);
+}
+
+/* ===========================
+   PAGE LAYOUT (Split Screen)
+=========================== */
+.login-page {
+  display: flex;
+  min-height: 80vh;
+  max-width: 1200px;        /* NEW: limits giant wide space */
+  margin: 0 auto;           /* center whole layout */
+}
+
+/* LEFT = Login section */
+.login-left {
+  flex: 1;
+  background: var(--light-mint);      /* softer mint to match image */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;          /* smaller padding */
+}
+
+/* RIGHT = Illustration */
+.login-right {
+  flex: 1;
+  background: var(--primary-green);      /* slightly darker mint */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;          /* smaller padding */
+}
+
+/* Illustration image */
+.login-illustration {
+  width: 100%;               /* smaller image */
+  max-width: 580px;         /* smaller limit */
+  border-radius: 12px;      /* makes it visually softer */
+  object-fit: cover;
+  box-shadow: 0px 6px 12px rgba(0,0,0,0.15); /* adds harmony */
+}
+
+/* ===========================
+   LOGIN CARD
+=========================== */
+.login-card {
+  background: var(--off-white);
+  padding: 2rem 3rem;
+  border-radius: 25px;
+  width: 380px;
+  text-align: center;
+  box-shadow: 0px 8px 26px rgba(0,0,0,0.22);
+}
+
+/* Logo */
+.login-logo {
+  width: 160px;
+  margin-bottom: 1rem;
+}
+
+/* Title */
+.login-title {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: var(--dark-green);
+}
+
+/* Description */
+.login-subtitle {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 1.5rem;
+}
+
+/* ===========================
+   FORM
+=========================== */
+.login-form {
+  display: grid;
+  gap: 1rem;
+  text-align: left;
+}
+
+.login-form label {
+  font-weight: 600;
+  color: var(--dark-green);
+}
+
+/* Inputs */
+.login-form input {
+  width: 100%;
+  padding: 0.9rem;
+  border-radius: 14px;
+  border: 2px solid rgba(0,0,0,0.1);
+  background: var(--accent-peach);
+  font-size: 1rem;
+  color: black;
+  transition: 0.2s;
+}
+
+.login-form input:focus {
+  border-color: var(--dark-green);
+  outline: none;
+}
+
+/* ===========================
+   LOGIN BUTTON
+=========================== */
+.login-btn {
+  padding: 0.9rem;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 14px;
+  background: var(--primary-green);
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 0.5rem;
+  transition: 0.2s;
+}
+
+.login-btn:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+/* ===========================
+   HINT TEXT
+=========================== */
+.login-hint {
+  margin-top: 1.2rem;
+  font-size: 0.9rem;
+  color: #444;
+}
+
+/* ===========================
+   RESPONSIVE
+=========================== */
+@media (max-width: 380px) {
+  .login-page {
+    flex-direction: column;
+  }
+  .login-left, .login-right {
+    flex: unset;
+    height: auto;
+  }
+  .login-card {
+    width: 90%;
+  }
+}

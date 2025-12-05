@@ -1,0 +1,151 @@
+/* -----------------------------------
+            ADMIN PANEL
+------------------------------------ */
+
+.admin-title {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: var(--blue);
+  margin-bottom: 1rem;
+}
+
+.admin-dashboard-card {
+  background: var(--blue-light);
+  border: 1px solid #bbdefb;
+  padding: 1rem;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+}
+
+/* CRUD Layout */
+.admin-form-box {
+  padding: 1rem;
+  border-radius: 10px;
+  background: var(--grey);
+  border: 1px solid #ccc;
+}
+
+.admin-question-row {
+  display: grid;
+  grid-template-columns: 2fr 1.5fr auto;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+}
+
+.admin-warning {
+  background: #fff3cd;
+  color: #856404;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid #ffe58f;
+  margin-bottom: 1rem;
+}
+
+.admin-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+/* ===========================
+      BUILDER LAYOUT
+=========================== */
+
+.builder-container {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  gap: 1.5rem;
+}
+
+/* Toolbar */
+.builder-toolbar {
+  background: var(--blue-light);
+  padding: 1rem;
+  border-radius: 10px;
+  border: 1px solid #bbdefb;
+}
+.builder-toolbar h3 {
+  margin-top: 0;
+}
+.tool-item {
+  padding: 0.5rem;
+  background: #fff;
+  margin-bottom: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  cursor: grab;
+}
+.tool-item:active {
+  cursor: grabbing;
+}
+
+/* Workspace */
+.builder-workspace input,
+.builder-workspace textarea {
+  margin-bottom: 1rem;
+}
+
+/* Canvas */
+.builder-canvas {
+  padding: 1rem;
+  border-radius: 10px;
+  background: #fefefe;
+  border: 2px dashed #ccc;
+  min-height: 300px;
+}
+
+/* Component blocks */
+.builder-block {
+  padding: 1rem;
+  background: var(--blue-light);
+  border: 1px solid #bbdefb;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  position: relative;
+}
+
+.block-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.block-handle {
+  cursor: move;
+  font-size: 1.2rem;
+}
+
+.block-remove {
+  cursor: pointer;
+  color: red;
+}
+
+.card-grid {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  align-items: stretch;
+}
+
+.card {
+  background: #7d67a9;
+  padding: 20px;
+  border-radius: 12px;
+  width: 280px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* pushes button to the bottom */
+}
+
+.card h3 {
+  margin-bottom: 10px;
+}
+
+.card p {
+  flex-grow: 1; /* makes all descriptions equal height */
+}
+
+.card .btn {
+  align-self: flex-start; /* or center / flex-end depending on what you want */
+  margin-top: 20px;
+}

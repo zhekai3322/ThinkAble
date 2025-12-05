@@ -1,0 +1,577 @@
+/* ==========================================================
+                THINKABLE MOODBOARD COLOR SYSTEM
+========================================================== */
+:root {
+  --primary-green: #6FAF78;
+  --soft-green: #A1CDA2;
+  --light-mint: #DCEFD8;
+  --off-white: #F5F7F2;
+  --accent-peach: #FFB36B;
+  --dark-green: #2D3A32;
+
+  /* Dark mode */
+  --dark-bg: var(--dark-green);
+  --dark-card: #1e1e1e;
+  --dark-text: var(--off-white);
+  --dark-border: var(--soft-green);
+}
+
+* {
+  box-sizing: border-box;
+  font-family: "Poppins", system-ui, sans-serif;
+}
+
+/* ==========================================================
+                        BODY
+========================================================== */
+body {
+  margin: 0;
+  background: var(--light-mint);
+  color: var(--dark-green);
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* ==========================================================
+                        HEADER  (ALWAYS SAME IN BOTH MODES)
+========================================================== */
+header {
+  background: var(--dark-green);
+  color: white;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 12px solid var(--accent-peach);
+  flex-wrap: wrap;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  height: 100px;
+  max-width: 100%;
+  width: auto;
+  border-radius: 8px;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+/* navigation buttons */
+nav a {
+  color: black !important;
+  text-decoration: none;
+  margin-left: 1rem;
+  font-size: 1rem;
+  background: var(--light-mint);
+  padding: 0.45rem 1rem;
+  border-radius: 20px;
+  font-weight: 600;
+  transition: 0.2s;
+  display: inline-block;
+}
+
+nav a:hover {
+  opacity: 0.8;
+}
+
+/* ==========================================================
+                        MAIN
+========================================================== */
+main {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background: var(--soft-green);
+  border-radius: 18px;
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.07);
+}
+
+h2 {
+  color: var(--dark-green);
+}
+
+/* ===========================
+   WELCOME PAGE BIG BUTTONS
+=========================== */
+
+.welcome-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin: 3rem auto;
+  width: 100%;
+  max-width: 400px;
+}
+
+.big-btn {
+  display: block;
+  width: 100%;
+  padding: 1.2rem;
+  text-align: center;
+  font-size: 1.3rem;
+  font-weight: 700;
+  border-radius: 40px;
+  background: var(--accent-peach);
+  color: black;
+  text-decoration: none;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  transition: 0.2s;
+}
+
+.big-btn:hover {
+  opacity: 0.85;
+  transform: translateY(-3px);
+}
+
+/* ================================
+   WELCOME HERO SECTION
+================================ */
+
+.welcome-hero {
+  text-align: center;
+  margin: 2rem auto;
+  max-width: 650px;
+}
+
+/* Logo background circle / rounded card */
+.welcome-logo-container {
+  background: white;
+  padding: 1rem;
+  border-radius: 20px;
+  width: fit-content;
+  margin: 0 auto 1rem auto;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* Logo itself */
+.welcome-logo {
+  width: 160px;
+  height: auto;
+  display: block;
+}
+
+/* Title */
+.welcome-title {
+  margin-top: 1rem;
+  font-size: 2rem;
+  color: var(--dark-green);
+}
+
+/* Description text */
+.welcome-desc {
+  margin-top: 0.8rem;
+  font-size: 1.1rem;
+  color: var(--dark-green);
+  font-weight: bold;
+  max-width: 550px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* DARK MODE FIXES */
+body.dark .welcome-logo-container {
+  background: #2D3A32; /* slightly lighter so logo stands out */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+}
+
+body.dark .welcome-title,
+body.dark .welcome-desc {
+  color: var(--off-white);
+}
+
+/* ==========================================================
+                        BUTTONS
+========================================================== */
+.btn {
+  padding: 0.6rem 1rem;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  background: var(--accent-peach);
+  color: black;
+  font-weight: 600;
+}
+
+.btn.secondary {
+  background: var(--soft-green);
+  color: var(--dark-green);
+}
+
+.btn.danger {
+  background: #e25555;
+  color: white;
+}
+
+.btn.sm {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.8rem;
+}
+
+/* ==========================================================
+                        CARDS
+========================================================== */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.card {
+  padding: 1.2rem;
+  border-radius: 15px;
+  background: var(--light-mint);
+  color: white;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  position: relative;
+}
+
+.card .progress-bar {
+  background: rgba(255, 255, 255, 0.3);
+  height: 16px;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 1rem;
+}
+
+.card .progress-bar-fill {
+  background: var(--soft-green);
+  height: 100%;
+  width: 50%;
+}
+
+/* ==========================================================
+                        FORMS
+========================================================== */
+form {
+  display: grid;
+  gap: 0.75rem;
+  max-width: 700px;
+}
+
+label {
+  font-weight: 600;
+  color: var(--dark-green);
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 0.6rem;
+  border-radius: 10px;
+  border: 2px solid var(--soft-green);
+  background: white;
+  font-size: 1rem;
+  color: var(--dark-green);
+  transition: 0.2s;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--primary-green);
+  outline: none;
+}
+
+/* ==========================================================
+                        TABLES
+========================================================== */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  overflow-x: auto;
+  display: block;
+}
+
+th,
+td {
+  border: 1px solid #e0e0e0;
+  padding: 0.6rem;
+}
+
+th {
+  background: var(--soft-green);
+  color: var(--dark-green);
+}
+
+tbody tr:nth-child(even) {
+  background: #fdfdfd;
+}
+
+/* ==========================================================
+                        SMALL ELEMENTS
+========================================================== */
+.pill {
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  background: var(--accent-peach);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: black;
+}
+
+/* ==========================================================
+                        WORKSHEET CONTENT
+========================================================== */
+.ws-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 1rem;
+}
+
+/* ==========================================================
+                        DARK MODE (ACCESSIBLE + CLEAN)
+========================================================== */
+
+body.dark {
+  background: #1E2924; /* deep green-black */
+  color: var(--off-white);
+}
+
+/* HEADER stays untouched (your request) */
+
+/* MAIN CONTENT */
+body.dark main {
+  background: #2D3A32;  /* dark leaf green */
+  color: var(--off-white);
+}
+
+/* SECTION TITLES, LABELS, PARAGRAPHS, LINKS */
+body.dark h1,
+body.dark h2,
+body.dark h3,
+body.dark label,
+body.dark p,
+body.dark span,
+body.dark .subtitle,
+body.dark .footnote {
+  color: var(--off-white) !important;
+}
+
+/* CARDS */
+body.dark .card {
+  background: #35463D; /* slightly lighter so text stands out */
+  color: var(--off-white);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+}
+
+/* BUTTONS */
+body.dark .btn {
+  background: var(--accent-peach);
+  color: #1E2924 !important;
+}
+
+body.dark .btn.secondary {
+  background: var(--soft-green);
+  color: #1E2924 !important;
+}
+
+body.dark .btn.danger {
+  background: #D66;
+  color: white !important;
+}
+
+/* INPUTS & TEXTAREAS */
+body.dark input,
+body.dark select,
+body.dark textarea {
+  background: #1F2924;   
+  border-color: var(--soft-green);
+  color: var(--off-white);
+}
+
+body.dark input::placeholder,
+body.dark textarea::placeholder {
+  color: #C8D0CB;
+}
+
+body.dark input:focus,
+body.dark select:focus,
+body.dark textarea:focus {
+  border-color: var(--accent-peach);
+}
+
+/* TABLES */
+body.dark table {
+  color: var(--off-white);
+}
+
+body.dark table th {
+  background: #3B4A42;
+  color: var(--off-white);
+}
+
+body.dark table td {
+  border-color: #3A4841;
+  color: var(--off-white);
+}
+
+body.dark table tbody tr:nth-child(even) {
+  background: #263129;
+}
+
+body.dark table tbody tr:nth-child(odd) {
+  background: #1F2924;
+}
+
+/* PILLS / BADGES */
+body.dark .pill {
+  background: var(--accent-peach);
+  color: #1E2924;
+}
+
+/* LOGIN / SIGNUP PANELS */
+body.dark .login-card,
+body.dark .signup-card,
+body.dark .auth-card {
+  background: #2D3A32 !important;
+  color: var(--off-white);
+}
+
+/* FORM TITLES (Welcome Back, Create Account) */
+body.dark .login-card h2,
+body.dark .signup-card h2,
+body.dark .auth-card h2 {
+  color: var(--off-white);
+}
+
+/* HERO SECTION TITLE & TEXT */
+body.dark .hero-title,
+body.dark .hero-subtitle {
+  color: var(--off-white) !important;
+}
+
+/* PROGRESS PAGE */
+body.dark .progress-card {
+  background: #2D3A32;
+}
+
+body.dark .progress-table thead th {
+  background: var(--primary-green);
+  color: white;
+}
+
+body.dark .progress-table tbody tr:nth-child(even) {
+  background: #263129;
+}
+
+body.dark .progress-table tbody tr:nth-child(odd) {
+  background: #1E2924;
+}
+
+body.dark .progress-table td {
+  border-color: #3A4841;
+  color: var(--off-white);
+}
+
+/* STATUS TAGS */
+body.dark .status-complete {
+  background: var(--accent-peach);
+  color: #1E2924;
+}
+
+
+/* ==========================================================
+                        RESPONSIVE
+========================================================== */
+
+@media (max-width: 900px) {
+  header {
+    padding: 1rem;
+    flex-direction: column;
+    text-align: center;
+    gap: 0.8rem;
+  }
+
+  nav a {
+    margin: 0.3rem;
+  }
+
+  .logo {
+    height: 80px;
+  }
+
+  main {
+    margin: 1.5rem;
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 600px) {
+  header {
+    padding: 1rem;
+  }
+
+  header h1 {
+    font-size: 1.2rem;
+  }
+
+  .logo {
+    height: 60px;
+  }
+
+  nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  nav a {
+    font-size: 0.9rem;
+    padding: 0.4rem 0.8rem;
+  }
+
+  main {
+    padding: 1rem;
+    margin: 1rem;
+  }
+
+  .card {
+    padding: 1rem;
+  }
+
+  h2 {
+    font-size: 1.3rem;
+  }
+
+  table {
+    font-size: 0.8rem;
+  }
+
+  .btn {
+    font-size: 0.85rem;
+    padding: 0.5rem 0.8rem;
+  }
+}
+
+/* ==========================================================
+                        LARGE TEXT MODE (MOVE TO END)
+========================================================== */
+body.largeText {
+  font-size: 1.3rem;
+}
+
+body.largeText h1 {
+  font-size: 2rem !important;
+}
+
+body.largeText h2 {
+  font-size: 1.7rem !important;
+}
+
+body.largeText * {
+  font-size: 1.3rem !important;
+}

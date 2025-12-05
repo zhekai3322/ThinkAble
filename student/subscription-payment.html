@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Subscription Payment | ThinkAble</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="student.css">
+<script src="../script.js" defer></script>
+</head>
+
+<body>
+
+<header>
+  <div class="header-left">
+    <img src="../Logo.png" class="logo">
+    <h1>Subscription Payment</h1>
+  </div>
+</header>
+
+<main class="dashboard-container">
+
+  <h2>Parent Subscription Payment</h2>
+  <p>Your child is currently on a FREE TRIAL.</p>
+
+  <div class="section-card">
+    <h3>Full Access Subscription</h3>
+    <p>Unlock all worksheets, unlimited attempts, and progress tracking.</p>
+
+    <button onclick="completePayment()" class="subscribe-btn" style="margin-top:20px;">
+      Pay Now (Prototype)
+    </button>
+  </div>
+
+</main>
+
+<script>
+function completePayment() {
+  alert("Payment successful! Subscription Activated.");
+  localStorage.setItem("subscriptionActive", "true");
+
+  // return to dashboard
+  window.location.href = "home.html";
+}
+</script>
+
+</body>
+</html>
