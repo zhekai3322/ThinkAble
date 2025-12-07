@@ -1,44 +1,88 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Admin | Manage Worksheets</title>
-  <link rel="stylesheet" href="../style.css">
+  <meta charset="UTF-8" />
+  <title>Manage Worksheets | ThinkAble Admin</title>
   <link rel="stylesheet" href="admin.css">
 </head>
+
 <body>
   <header>
     <div class="header-left">
-    <img src="../Logo.png" alt="ThinkAble Logo" class="logo">
-    <h1>Admin – Worksheet</h1>
+    <img src="../public/Logo.png" alt="ThinkAble Logo" class="logo">
+    <h1>ThinkAble Admin</h1>
     </div>
     <nav>
       <a href="home.html">Home</a>
       <a href="manage-student.html">Students</a>
+      <a href="manage-worksheets.html">Worksheets</a>
+      <a href="settings.html">Settings</a>      
       <a href="../logout.html">Logout</a>
     </nav>
   </header>
-  <main>
-    <h2>Worksheet Management</h2>
-    <div class="card-grid">
-      <div class="card">
-        <h3>Create Worksheet</h3>
-        <p>Build a new critical thinking worksheet with questions and answers.</p>
-        <a class="btn" href="worksheet-create.html">Create</a>
-      </div>
-      <div class="card">
-        <h3>View / Edit Worksheets</h3>
-        <p>View, edit and delete existing worksheets.</p>
-        <a class="btn secondary" href="worksheet-read.html">Open List</a>
-      </div>
-      <div class="card">
-        <h3>Upload Worksheets</h3>
-        <p>Upload PDF or external worksheet files (mock UI).</p>
-        <a class="btn" href="upload-worksheets.html">Upload</a>
-      </div>
+  <div class="container">
+    <h1>Manage Worksheets</h1>
+
+    <!-- List Section -->
+    <div id="listSection" class="section active">
+      <button class="btn btn-primary" onclick="showCreateForm()">+ Add Worksheet</button>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Topic</th>
+            <th>Level</th>
+            <th>Total Qns</th>
+            <th class="action-col">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="worksheetTable"></tbody>
+      </table>
     </div>
-  </main>
-  <script src="../script.js"></script>
+
+    <!-- Form Section -->
+    <div id="formSection" class="section">
+      <h2 id="formTitle">Add Worksheet</h2>
+
+      <form id="worksheetForm" onsubmit="saveWorksheet(event)">
+        <input type="hidden" id="wsId">
+
+        <label>Title</label>
+        <input id="title" required>
+
+        <label>Topic</label>
+        <input id="topic" required>
+
+        <label>Level</label>
+        <select id="level">
+          <option>Elementary</option>
+          <option>Intermediate</option>
+          <option>Expert</option>
+        </select>
+
+        <label>Description</label>
+        <textarea id="description" rows="4"></textarea>
+
+        <label>Total Questions</label>
+        <input id="totalQuestions" type="number" min="1" required>
+
+        <button class="btn btn-primary" type="submit">Save</button>
+        <button class="btn" onclick="showList(); return false;">Cancel</button>
+      </form>
+    </div>
+
+    <!-- Delete Section -->
+    <div id="deleteSection" class="section">
+      <h2>Delete Worksheet</h2>
+      <p id="deleteText"></p>
+      <button class="btn btn-delete" id="confirmDeleteBtn">Delete</button>
+      <button class="btn" onclick="showList()">Cancel</button>
+    </div>
+
+  </div>
+
+  <script src="manage-worksheets.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>

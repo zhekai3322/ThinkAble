@@ -1,48 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Admin | Manage Students</title>
-  <link rel="stylesheet" href="../style.css">
+  <meta charset="UTF-8" />
+  <title>Manage Students | ThinkAble Admin</title>
   <link rel="stylesheet" href="admin.css">
-  <style>
-    .crud-buttons {
-      display: flex;
-      gap: 1rem;
-      margin-top: 1.5rem;
-    }
-    .crud-buttons a {
-      text-decoration: none;
-    }
-  </style>
 </head>
+
 <body>
-<header>
-  <div class="header-left">
-    <img src="../Logo.png" alt="ThinkAble Logo" class="logo">
-    <h1>Admin – Manage Students</h1>
+  <header>
+    <div class="header-left">
+    <img src="../public/Logo.png" alt="ThinkAble Logo" class="logo">
+    <h1>ThinkAble Admin</h1>
     </div>
-  <nav>
-    <a href="home.html">Home</a>
-    <a href="manage-worksheets.html">Worksheets</a>
-    <a href="../logout.html">Logout</a>
-  </nav>
-</header>
+    <nav>
+      <a href="home.html">Home</a>
+      <a href="manage-student.html">Students</a>
+      <a href="manage-worksheets.html">Worksheets</a>
+      <a href="settings.html">Settings</a>      
+      <a href="../logout.html">Logout</a>
+    </nav>
+  </header>
+  <div class="container">
+    <h1>Manage Students</h1>
 
-<main>
-  <h2>Student Management</h2>
-  <p style="margin-bottom: 1rem;">
-    These are placeholder pages. Student CRUD logic can be implemented later.
-  </p>
+    <!-- Student List Section -->
+    <div id="listSection" class="section active">
+      <button class="btn btn-primary" onclick="showCreateForm()">+ Add Student</button>
 
-  <div class="crud-buttons">
-    <a href="student-create.html"><button class="btn">Create Student</button></a>
-    <a href="student-read.html"><button class="btn secondary">View Students</button></a>
-    <a href="student-update.html"><button class="btn">Update Student</button></a>
-    <a href="student-delete.html"><button class="btn danger">Delete Student</button></a>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Age</th>
+            <th>School</th>
+            <th>Verbal</th>
+            <th class="action-col">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="studentTable"></tbody>
+      </table>
+    </div>
+
+    <!-- Create/Update Form Section -->
+    <div id="formSection" class="section">
+      <h2 id="formTitle">Add Student</h2>
+
+      <form id="studentForm" onsubmit="saveStudent(event)">
+        <input type="hidden" id="studentId">
+
+        <label>Name</label>
+        <input id="name" required>
+
+        <label>Age</label>
+        <input id="age" type="number" required>
+
+        <label>School</label>
+        <input id="school" required>
+
+        <label>Verbal or Non-verbal</label>
+        <select id="verbal">
+          <option value="Verbal">Verbal</option>
+          <option value="Non-verbal">Non-verbal</option>
+        </select>
+
+        <button class="btn btn-primary" type="submit">Save</button>
+        <button class="btn" onclick="showList()">Cancel</button>
+      </form>
+    </div>
+
+    <!-- Delete Confirm Section -->
+    <div id="deleteSection" class="section">
+      <h2>Delete Student</h2>
+      <p id="deleteText"></p>
+      <button class="btn btn-delete" id="confirmDeleteBtn">Delete</button>
+      <button class="btn" onclick="showList()">Cancel</button>
+    </div>
+
   </div>
-</main>
 
-<script src="../script.js"></script>
+  <script src="manage-student.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
