@@ -74,6 +74,39 @@ function toggleLargeText() {
   localStorage.setItem("largeText", enabled);
 }
 
+// ======================
+// CUSTOM COLOR THEME
+// ======================
+
+// Apply the user's saved color
+function applyCustomColor(hex) {
+  if (!hex) return;
+  document.documentElement.style.setProperty("--accent-peach", hex);
+  localStorage.setItem("customColor", hex);
+}
+
+// Save button handler
+function saveCustomColor() {
+  const color = document.getElementById("customColorInput").value.trim();
+
+  // Basic HEX validation
+  if (!/^#([0-9A-F]{3}){1,2}$/i.test(color)) {
+    alert("Please enter a valid HEX color. Example: #FFB36B");
+    return;
+  }
+
+  applyCustomColor(color);
+  alert("Theme color updated!");
+}
+
+// Load saved custom color on startup
+const savedColor = localStorage.getItem("customColor");
+if (savedColor) {
+  applyCustomColor(savedColor);
+  document.getElementById("customColorInput").value = savedColor;
+}
+
+
 // =========================
 // Parent PIN (for student dashboard)
 // =========================

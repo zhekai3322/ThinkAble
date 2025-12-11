@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>ThinkAble | Settings</title>
   <link rel="stylesheet" href="../style.css">
-  <link rel="stylesheet" href="../parent.css">
+  <link rel="stylesheet" href="../student.css">
   <style>
     .toggle-row { margin: 1rem 0; }
     .toggle-row label { font-size: 1rem; font-weight: 600; }
@@ -16,11 +16,11 @@
 <header>
   <div class="header-left">
     <img src="../Logo.png" alt="ThinkAble Logo" class="logo">
-    <h1>Parent – Settings</h1>
+    <h1>Student – Settings</h1>
     </div>
   <nav>
     <a href="home.html">Home</a>
-    <a href="login.html">Logout</a>
+    <a href="logout.html">Logout</a>
   </nav>
 </header>
 
@@ -40,6 +40,17 @@
   </div>
 
   <hr>
+  <!-- Custom Theme Color -->
+  <div class="toggle-row">
+    <label>🎨 Set Your Own Color (e.g. #FFB36B)</label>
+    <input 
+      id="customColorInput" 
+      type="text" 
+      placeholder="#FFB36B" 
+      style="padding:8px;border-radius:8px;border:2px solid var(--soft-green);width:200px;"
+    >
+    <button class="btn" onclick="saveCustomColor()">Save</button>
+  </div>
 
   <h2>Parent Controls</h2>
 
