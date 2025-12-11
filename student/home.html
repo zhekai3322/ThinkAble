@@ -3,53 +3,107 @@
 <head>
   <meta charset="UTF-8">
   <title>Student Homepage</title>
-  <link rel="stylesheet" href="../style.css">
-  <link rel="stylesheet" href="../student.css">
+  <link rel="stylesheet" href="student.css">
 </head>
 <body>
 
-<header>
-  <div class="header-left">
-    <img src="public/logo.png" alt="ThinkAble Logo" class="logo">
-    <h1>Student – Home</h1>
-    </div>
-  <nav>
-    <a href="home.html">Home</a>
-    <a href="worksheets.html">Worksheets</a>
-    <a href="rewards.html">Rewards</a>
-    <a href="student_dashboard.html">Dashboard</a>
-    <a href="settings.html">Settings</a>
-    <a href="../logout.html">Logout</a>
+<header class="top-header">
+  <div class="branding">
+    <img src="../public/logo.png" class="logo">
+    <span class="brand-name">ThinkAble</span>
+  </div>
+
+  <nav class="main-nav">
+    <a class="nav-btn active" href="home.html">Home</a>
+    <a class="nav-btn" href="worksheets.html">Worksheets</a>
+    <a class="nav-btn" href="parent.html">Parent</a>
   </nav>
 </header>
 
-<main>
-  <h2>Welcome!</h2>
-  <p>Choose a worksheet to start practising your critical thinking skills.</p>
+<div class="color-divider"></div>
 
-  <div class="card-grid">
+<main class="main-layout">
 
-    <div class="card">
-      <h3>🧠 Logical Reasoning – Level 1</h3>
-      <p>Simple pattern and logic questions.</p>
-      <a class="btn" href="worksheet-1.html">Start</a>
+  <!-- LEFT CONTENT -->
+  <section class="left-section">
+
+    <h1 class="welcome-title">Hello John!</h1>
+    <p class="subtitle">Lets finish your worksheets today!</p>
+
+    <h2 class="section-title">Worksheets in progress</h2>
+
+    <!-- CARD 1 -->
+    <div class="worksheet-card">
+      <img src="../public/literacy.png" class="card-img">
+
+      <div class="card-info">
+        <h3>Literacy: Alphabets-lowercase “a” to “f”</h3>
+        <p class="level">Basic</p>
+        <p class="completion">80% complete</p>
+
+        <div class="progress-bar">
+          <div class="progress-fill" style="width: 80%;"></div>
+        </div>
+      </div>
     </div>
 
-    <div class="card">
-      <h3>🔍 Picture Analysis</h3>
-      <p>Find differences and explain observations.</p>
-      <a class="btn secondary" href="worksheet-2.html">Start</a>
+    <!-- CARD 2 -->
+    <div class="worksheet-card">
+      <img src="../public/math.png" class="card-img">
+
+      <div class="card-info">
+        <h3>Mathematical Reasoning</h3>
+        <p class="level">Basic</p>
+        <p class="completion">80% complete</p>
+
+        <div class="progress-bar">
+          <div class="progress-fill" style="width: 80%;"></div>
+        </div>
+      </div>
     </div>
 
-    <div class="card">
-      <h3>🧩 Story Problem Solving</h3>
-      <p>Read the story and answer deduction questions.</p>
-      <a class="btn" href="worksheet-3.html">Start</a>
+
+    <!-- CARD 3 -->
+    <div class="worksheet-card">
+      <img src="../public/numeracy.png" class="card-img">
+
+      <div class="card-info">
+        <h3>Numeracy: Number Recognition 1-5</h3>
+        <p class="level">Basic</p>
+        <p class="completion">80% complete</p>
+
+        <div class="progress-bar">
+          <div class="progress-fill" style="width: 80%;"></div>
+        </div>
+      </div>
     </div>
 
-  </div>
+  </section>
+
+  <!-- RIGHT SIDEBAR -->
+  <aside class="right-section">
+
+    <div class="profile-box">
+      <img src="../public/user.png" class="profile-img">
+      <div>
+        <h3 class="profile-name">John Naruto</h3>
+        <p class="profile-role">Student</p>
+      </div>
+    </div>
+
+    <div class="progress-chart-box">
+      <h3>Progress chart</h3>
+      <img src="../public/chart-placeholder.png" class="chart-img">
+      <div class="legend">
+        <span class="dot blue"></span> completed  
+        <span class="dot red"></span> in progress  
+        <span class="dot yellow"></span> not attempted  
+      </div>
+    </div>
+
+  </aside>
+
 </main>
 
-<script src="../script.js"></script>
 </body>
 </html>
