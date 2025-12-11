@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>WS1 Q1 Literacy</title>
+
+  <style>
+    body {
+      margin: 0;
+      background: #F5F7F2;
+      color: black;
+      font-family: "Poppins", sans-serif;
+    }
+
+    /* Top worksheet header */
+    .ws-top {
+      background: #2D3A32;
+      color: white;
+      padding: 10px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+    }
+
+    .exit-btn {
+      cursor: pointer;
+      font-size: 13px;
+      text-decoration: underline;
+    }
+
+    /* Full-screen question area */
+    .ws-page {
+      display: none;
+      min-height: calc(100vh - 50px);
+      padding: 30px;
+      text-align: center;
+    }
+
+    .ws-page.active {
+      display: block;
+    }
+
+    .ws-title {
+      margin-top: 10px;
+      font-size: 18px;
+      font-weight: 500;
+    }
+
+    .ws-instruction {
+      margin: 20px 0;
+      font-size: 16px;
+    }
+
+    .letters {
+      font-size: 46px;
+      letter-spacing: 40px;
+      color: #7A55D1; /* purple, same as your design */
+      margin: 40px 0;
+    }
+
+    .underline {
+      border-top: 2px solid black;
+      width: 80%;
+      margin: 40px auto 0 auto;
+    }
+
+    .nav-buttons {
+      margin-top: 30px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      background: #FFB36B;
+      font-weight: bold;
+    }
+
+    .btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- =======================
+    TOP BLACK BAR
+======================= -->
+<div class="ws-top">
+  <div id="pageTitle">WS1 Q1</div>
+  <div class="exit-btn" onclick="exitWorksheet()">Exit Worksheet</div>
+</div>
+
+<!-- =======================
+    QUESTION PAGES
+======================= -->
+
+<!-- Q1 -->
+<div class="ws-page active" id="q1">
+  <div class="ws-title">MindCognition(TM)</div>
+  <div>Advanced</div>
+  <div>Literacy: Alphabets-lowercase<br>"h" to "n"</div>
+
+  <div class="ws-instruction">(1) Point to h</div>
+
+  <div class="letters">h</div>
+
+  <div class="underline"></div>
+
+  <div class="nav-buttons">
+    <button class="btn" onclick="nextPage()">Next</button>
+  </div>
+</div>
+
+<!-- Q2 -->
+<div class="ws-page" id="q2">
+  <div class="ws-instruction">(2) Point to h</div>
+
+  <div class="letters">j l h</div>
+
+  <div class="underline"></div>
+
+  <div class="nav-buttons">
+    <button class="btn" onclick="prevPage()">Previous</button>
+    <button class="btn" onclick="nextPage()">Next</button>
+  </div>
+</div>
+
+<!-- Q3 -->
+<div class="ws-page" id="q3">
+  <div class="ws-instruction">(3) Circle j and k</div>
+
+  <div class="letters">k j i<br>h</div>
+
+  <div class="underline"></div>
+
+  <div class="nav-buttons">
+    <button class="btn" onclick="prevPage()">Previous</button>
+    <button class="btn" onclick="nextPage()">Next</button>
+  </div>
+</div>
+
+<!-- Q4 -->
+<div class="ws-page" id="q4">
+  <div class="ws-instruction">(8) Point to m</div>
+
+  <div class="letters">i k n m h</div>
+
+  <div class="underline"></div>
+
+  <div class="nav-buttons">
+    <button class="btn" onclick="prevPage()">Previous</button>
+    <button class="btn" onclick="nextPage()">Next</button>
+  </div>
+</div>
+
+<!-- Q5 -->
+<div class="ws-page" id="q5">
+  <div class="ws-instruction">(9) Circle m, n and k</div>
+
+  <div class="letters">m i l k n h</div>
+
+  <div class="underline"></div>
+
+  <div class="nav-buttons">
+    <button class="btn" onclick="prevPage()">Previous</button>
+    <button class="btn" onclick="submitWorksheet()">Submit</button>
+  </div>
+</div>
+
+
+<!-- ===============================
+      JAVASCRIPT
+=============================== -->
+<script>
+let current = 1;
+const total = 5;
+
+function showPage(num) {
+  document.querySelectorAll(".ws-page").forEach(p => p.classList.remove("active"));
+  document.getElementById("q" + num).classList.add("active");
+
+  document.getElementById("pageTitle").innerText = `WS1 Q${num}`;
+}
+
+function nextPage() {
+  if (current < total) {
+    current++;
+    showPage(current);
+  }
+}
+
+function prevPage() {
+  if (current > 1) {
+    current--;
+    showPage(current);
+  }
+}
+
+function exitWorksheet() {
+  window.location.href = "worksheets.html"; // Or wherever you want
+}
+
+function submitWorksheet() {
+  alert("Worksheet Completed!");
+  window.location.href = "worksheets.html";
+}
+</script>
+
+</body>
+</html>
