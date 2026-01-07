@@ -4,6 +4,251 @@
   <meta charset="UTF-8" />
   <title>Manage Students | ThinkAble Admin</title>
   <link rel="stylesheet" href="admin.css">
+  <style>
+    nav a[href="manage-student.html"] {
+      background-color: #FFD97D !important;
+      color: #333 !important;
+    }
+    /* Container Width Override */
+    .container {
+      max-width: 1600px;
+    }
+
+    /* Student List Styles */
+    .student-list-container {
+      background-color: white;
+      padding: 2rem;
+      border-radius: 8px;
+      margin-top: 1rem;
+    }
+
+    .student-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      border-bottom: 2px solid #333;
+      padding-bottom: 1rem;
+    }
+
+    .student-header h1 {
+      margin: 0;
+      font-size: 1.8rem;
+    }
+
+    .delete-btn {
+      color: #F44336;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    /* Student Table */
+    .students-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1rem;
+    }
+
+    .students-table thead tr {
+      background-color: #FFEDC3;
+    }
+
+    .students-table th {
+      padding: 1rem;
+      text-align: left;
+      font-weight: 700;
+      border-bottom: 2px solid #333;
+      color: #000 !important;
+      background-color: #FFD97D !important;
+    }
+
+    .students-table td {
+      padding: 1rem;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .students-table tbody tr {
+      background-color: #FFEDC3;
+    }
+
+    .students-table tbody tr:hover {
+      background-color: #fdd9a0;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .column-btn {
+      background-color: #FFD97D;
+      color: #333;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.2s;
+    }
+
+    .column-btn:hover {
+      opacity: 0.8;
+    }
+
+    .edit-btn {
+      background-color: #FFD97D;
+      color: #333;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.2s;
+    }
+
+    .edit-btn:hover {
+      opacity: 0.8;
+    }
+
+    .create-new-btn {
+      background-color: #FFD97D;
+      color: #333;
+      padding: 0.6rem 1.2rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.2s;
+      margin-bottom: 1rem;
+    }
+
+    .create-new-btn:hover {
+      opacity: 0.8;
+    }
+
+    /* Form Section */
+    .form-section {
+      display: none;
+      background-color: white;
+      padding: 2rem;
+      border-radius: 8px;
+      margin-top: 2rem;
+    }
+
+    .form-section.active {
+      display: block;
+    }
+
+    .form-section h2 {
+      margin-top: 0;
+    }
+
+    .form-section form {
+      max-width: 600px;
+    }
+
+    .form-section label {
+      display: block;
+      font-weight: 600;
+      margin-top: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .form-section input,
+    .form-section select,
+    .form-section textarea {
+      width: 100%;
+      padding: 0.7rem;
+      border: 2px solid #ddd;
+      border-radius: 4px;
+      box-sizing: border-box;
+      font-size: 1rem;
+    }
+
+    .form-section input:focus,
+    .form-section select:focus,
+    .form-section textarea:focus {
+      outline: none;
+      border-color: #FFD97D;
+    }
+
+    .form-buttons {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .form-buttons button {
+      padding: 0.7rem 1.5rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.2s;
+    }
+
+    .form-buttons .save-btn {
+      background-color: #4A90E2;
+      color: white;
+    }
+
+    .form-buttons .save-btn:hover {
+      opacity: 0.8;
+    }
+
+    .form-buttons .cancel-btn {
+      background-color: #ccc;
+      color: #333;
+    }
+
+    .form-buttons .cancel-btn:hover {
+      opacity: 0.8;
+    }
+
+    .section {
+      display: none;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    /* Search Bar */
+    .search-container {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .search-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      border: 2px solid #333;
+      border-radius: 4px;
+      padding: 0.4rem 0.8rem;
+    }
+
+    .search-wrapper svg {
+      width: 20px;
+      height: 20px;
+      color: #333;
+    }
+
+    .search-bar {
+      padding: 0.4rem 0.5rem;
+      border: none;
+      border-radius: 0;
+      font-size: 1rem;
+      width: 220px;
+      box-sizing: border-box;
+    }
+
+    .search-bar:focus {
+      outline: none;
+    }
+  </style>
 </head>
 
 <body>
@@ -16,33 +261,89 @@
       <a href="home.html">Home</a>
       <a href="manage-student.html">Students</a>
       <a href="manage-worksheets.html">Worksheets</a>
+      <a href="subscription-status.html">Subscription</a>
       <a href="settings.html">Settings</a>      
       <a href="../logout.html">Logout</a>
     </nav>
   </header>
+
   <div class="container">
-    <h1>Manage Students</h1>
-
-    <!-- Student List Section -->
+    <!-- List Section -->
     <div id="listSection" class="section active">
-      <button class="btn btn-primary" onclick="showCreateForm()">+ Add Student</button>
+      <div class="student-list-container">
+        <div class="student-header">
+          <div class="search-container">
+            <h1>Student List</h1>
+            <div class="search-wrapper">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+              </svg>
+              <input type="text" class="search-bar" id="searchInput" placeholder="Search by name..." onkeyup="filterStudents()">
+            </div>
+          </div>
+          <a class="delete-btn" href="#delete">Delete</a>
+        </div>
 
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Age</th>
-            <th>School</th>
-            <th>Verbal</th>
-            <th class="action-col">Actions</th>
-          </tr>
-        </thead>
-        <tbody id="studentTable"></tbody>
-      </table>
+        <!-- Students Table -->
+        <table class="students-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Student</th>
+              <th>Gender</th>
+              <th>Age</th>
+              <th>Parent</th>
+              <th>Communication</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="studentTable">
+            <tr>
+              <td>1</td>
+              <td>John Naruto</td>
+              <td>Male</td>
+              <td>12</td>
+              <td>Roger Naruto</td>
+              <td>Verbal</td>
+              <td><button class="edit-btn">Edit</button></td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>Edward White</td>
+              <td>Male</td>
+              <td>20</td>
+              <td>Mary White</td>
+              <td>Verbal</td>
+              <td><button class="edit-btn">Edit</button></td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>Mary Gibson</td>
+              <td>Female</td>
+              <td>30</td>
+              <td>Eustace Gibson</td>
+              <td>Non-Verbal</td>
+              <td><button class="edit-btn">Edit</button></td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>Bala Grace</td>
+              <td>Female</td>
+              <td>16</td>
+              <td>Felicia Grace</td>
+              <td>Verbal</td>
+              <td><button class="edit-btn">Edit</button></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <button class="create-new-btn" onclick="showCreateForm()">+Create New</button>
+      </div>
     </div>
 
     <!-- Create/Update Form Section -->
-    <div id="formSection" class="section">
+    <div id="formSection" class="section form-section">
       <h2 id="formTitle">Add Student</h2>
 
       <form id="studentForm" onsubmit="saveStudent(event)">
@@ -51,20 +352,29 @@
         <label>Name</label>
         <input id="name" required>
 
+        <label>Gender</label>
+        <select id="gender">
+          <option>Male</option>
+          <option>Female</option>
+          <option>Other</option>
+        </select>
+
         <label>Age</label>
         <input id="age" type="number" required>
 
-        <label>School</label>
-        <input id="school" required>
+        <label>Parent</label>
+        <input id="parent" required>
 
-        <label>Verbal or Non-verbal</label>
-        <select id="verbal">
+        <label>Communication</label>
+        <select id="communication">
           <option value="Verbal">Verbal</option>
-          <option value="Non-verbal">Non-verbal</option>
+          <option value="Non-Verbal">Non-Verbal</option>
         </select>
 
-        <button class="btn btn-primary" type="submit">Save</button>
-        <button class="btn" onclick="showList()">Cancel</button>
+        <div class="form-buttons">
+          <button type="submit" class="save-btn">Save</button>
+          <button type="button" class="cancel-btn" onclick="showList()">Cancel</button>
+        </div>
       </form>
     </div>
 
@@ -77,6 +387,53 @@
     </div>
 
   </div>
+
+  <script>
+    // Show/Hide section helpers
+    function hideAll() {
+      document.querySelectorAll(".section").forEach(sec => sec.classList.remove("active"));
+    }
+
+    function showList() {
+      hideAll();
+      document.getElementById("listSection").classList.add("active");
+    }
+
+    function showCreateForm() {
+      hideAll();
+      document.getElementById("formTitle").innerText = "Add Student";
+      document.getElementById("studentForm").reset();
+      document.getElementById("studentId").value = "";
+      document.getElementById("formSection").classList.add("active");
+    }
+
+    async function showEditForm(id) {
+      hideAll();
+      document.getElementById("formTitle").innerText = "Edit Student";
+      document.getElementById("formSection").classList.add("active");
+    }
+
+    function saveStudent(event) {
+      event.preventDefault();
+      // Add save logic here
+      showList();
+    }
+
+    // Filter students by name
+    function filterStudents() {
+      const searchInput = document.getElementById("searchInput").value.toLowerCase();
+      const rows = document.querySelectorAll("#studentTable tr");
+      
+      rows.forEach(row => {
+        const studentName = row.querySelector("td:nth-child(2)").textContent.toLowerCase();
+        if (studentName.includes(searchInput)) {
+          row.style.display = "";
+        } else {
+          row.style.display = "none";
+        }
+      });
+    }
+  </script>
 
   <script src="manage-student.js"></script>
   <script src="script.js"></script>

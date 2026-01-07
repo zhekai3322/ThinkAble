@@ -4,26 +4,146 @@
   <meta charset="UTF-8">
   <title>ThinkAble | Settings</title>
   <link rel="stylesheet" href="admin.css">
+
   <style>
-    .toggle-row { margin: 1rem 0; }
-    .toggle-row label { font-size: 1rem; font-weight: 600; }
-    .toggle-btn { margin-left: 10px; }
+    /* ===============================
+       ACTIVE NAV HIGHLIGHT
+    =============================== */
+    nav a[href="settings.html"] {
+      background-color: var(--accent);
+      color: #333 !important;
+    }
+
+    /* ===============================
+       THEME VARIABLES
+    =============================== */
+    :root {
+      --bg: #f9fafb;
+      --card: #ffffff;
+      --text: #1f2933;
+      --muted: #6b7280;
+      --accent: #FFD97D;
+      --border: #e5e7eb;
+    }
+
+    body.dark {
+      --bg: #0f172a;
+      --card: #111827;
+      --text: #f9fafb;
+      --muted: #9ca3af;
+      --accent: #facc15;
+      --border: #1f2937;
+    }
+
+    /* ===============================
+       BASE STYLES
+    =============================== */
+    body {
+      background: var(--bg);
+      color: var(--text);
+      transition: background 0.25s ease, color 0.25s ease;
+      font-size: 16px;
+    }
+
+    main {
+      background: var(--card);
+      padding: 2rem;
+      border-radius: 20px;
+      max-width: 900px;
+      margin: 2rem auto;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 2rem 0;
+    }
+
+    /* ===============================
+       TOGGLES
+    =============================== */
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 1.2rem 0;
+    }
+
+    .toggle-row label {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .toggle-btn {
+      transform: scale(1.2);
+      cursor: pointer;
+    }
+
+    /* ===============================
+       LARGE TEXT MODE
+    =============================== */
+    body.largeText {
+      font-size: 118%;
+    }
+
+    body.largeText h1 { font-size: 2.4rem; }
+    body.largeText h2 { font-size: 1.9rem; }
+    body.largeText p,
+    body.largeText label,
+    body.largeText button,
+    body.largeText input {
+      font-size: 1.05rem;
+    }
+
+    /* ===============================
+       INPUTS & BUTTONS
+    =============================== */
+    input {
+      padding: 0.5rem 0.6rem;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+    }
+
+    .btn {
+      padding: 0.55rem 1rem;
+      border-radius: 10px;
+      border: none;
+      background: var(--accent);
+      font-weight: 600;
+      cursor: pointer;
+      margin-left: 0.5rem;
+    }
+
+    .btn.secondary {
+      background: transparent;
+      border: 1px solid var(--accent);
+      color: var(--text);
+    }
   </style>
 </head>
+
 <body>
 
 <header>
   <div class="header-left">
     <img src="../public/Logo.png" alt="ThinkAble Logo" class="logo">
-    <h1>Admin – Settings</h1>
-    </div>
+    <h1>ThinkAble Admin</h1>
+  </div>
   <nav>
     <a href="home.html">Home</a>
-    <a href="../login.html">Logout</a>
+    <a href="manage-student.html">Students</a>
+    <a href="manage-worksheets.html">Worksheets</a>
+    <a href="subscription-status.html">Subscription</a>
+    <a href="settings.html">Settings</a>
+    <a href="../logout.html">Logout</a>
   </nav>
 </header>
 
 <main>
+
   <h2>Accessibility & Preferences</h2>
 
   <!-- Dark Mode -->
@@ -42,14 +162,17 @@
 
   <h2>Parent Controls</h2>
 
-  <!-- Parent PIN -->
   <div class="toggle-row">
     <label>🔐 Set Parent PIN (4 digits)</label>
-    <input id="parentPIN" type="password" maxlength="4" placeholder="1234">
-    <button class="btn" onclick="saveParentPIN()">Save</button>
+    <div>
+      <input id="parentPIN" type="password" maxlength="4" placeholder="1234">
+      <button class="btn" onclick="saveParentPIN()">Save</button>
+    </div>
   </div>
 
-  <p style="font-size:0.85rem;">This PIN is required for parents to view student's progress.</p>
+  <p style="font-size:0.85rem;color:var(--muted);">
+    This PIN is required for parents to view student's progress.
+  </p>
 
   <hr>
 
@@ -59,72 +182,79 @@
     <strong id="subStatus"></strong>
   </p>
 
-  <button class="btn secondary" onclick="activateSubscription()">Activate Full Subscription</button>
+  <button class="btn secondary" onclick="activateSubscription()">
+    Activate Full Subscription
+  </button>
 
-  <p style="font-size:0.85rem;margin-top:1rem;">
+  <p style="font-size:0.85rem;margin-top:1rem;color:var(--muted);">
     Free trial allows 3 worksheets. Subscription unlocks everything.
   </p>
+
 </main>
 
-<script src="script.js"></script>
 <script>
-
-// ======================
-// DARK MODE
-// ======================
+/* ======================
+   DARK MODE
+====================== */
 function applyDarkMode(enabled) {
-  if (enabled) document.body.classList.add("dark");
-  else document.body.classList.remove("dark");
+  document.body.classList.toggle("dark", enabled);
   localStorage.setItem("darkMode", enabled);
 }
 
-document.getElementById("darkModeToggle").addEventListener("change", (e) => {
-  applyDarkMode(e.target.checked);
-});
+const darkToggle = document.getElementById("darkModeToggle");
 
-// Load dark mode state
-if (localStorage.getItem("darkMode") === "true") {
-  document.getElementById("darkModeToggle").checked = true;
-  applyDarkMode(true);
+/* Auto-detect system preference */
+if (localStorage.getItem("darkMode") === null) {
+  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  darkToggle.checked = prefersDark;
+  applyDarkMode(prefersDark);
+} else {
+  const enabled = localStorage.getItem("darkMode") === "true";
+  darkToggle.checked = enabled;
+  applyDarkMode(enabled);
 }
 
+darkToggle.addEventListener("change", e =>
+  applyDarkMode(e.target.checked)
+);
 
-// ======================
-// LARGE TEXT MODE
-// ======================
+/* ======================
+   LARGE TEXT MODE
+====================== */
 function applyLargeText(enabled) {
-  if (enabled) document.body.classList.add("largeText");
-  else document.body.classList.remove("largeText");
+  document.body.classList.toggle("largeText", enabled);
   localStorage.setItem("largeText", enabled);
 }
 
-document.getElementById("largeTextToggle").addEventListener("change", (e) => {
-  applyLargeText(e.target.checked);
-});
+const textToggle = document.getElementById("largeTextToggle");
 
-if (localStorage.getItem("largeText") === "true") {
-  document.getElementById("largeTextToggle").checked = true;
-  applyLargeText(true);
-}
+const largeTextEnabled = localStorage.getItem("largeText") === "true";
+textToggle.checked = largeTextEnabled;
+applyLargeText(largeTextEnabled);
 
+textToggle.addEventListener("change", e =>
+  applyLargeText(e.target.checked)
+);
 
-// ======================
-// PARENT PIN LOCK
-// ======================
+/* ======================
+   PARENT PIN
+====================== */
 function saveParentPIN() {
   const pin = document.getElementById("parentPIN").value;
-  if (pin.length !== 4) return alert("PIN must be 4 digits!");
+  if (!/^\d{4}$/.test(pin)) {
+    alert("PIN must be exactly 4 digits.");
+    return;
+  }
   localStorage.setItem("parentPIN", pin);
   alert("Parent PIN saved!");
 }
 
-
-// ======================
-// SUBSCRIPTION SYSTEM
-// ======================
+/* ======================
+   SUBSCRIPTION
+====================== */
 function activateSubscription() {
   localStorage.setItem("subscriptionActive", "true");
-  document.getElementById("subStatus").innerText = "FULL ACCESS";
+  updateSubStatus();
   alert("Subscription activated! All worksheets unlocked.");
 }
 
@@ -135,7 +265,6 @@ function updateSubStatus() {
 }
 
 updateSubStatus();
-
 </script>
 
 </body>

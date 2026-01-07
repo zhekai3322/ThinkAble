@@ -5,37 +5,312 @@
   <meta charset="UTF-8">
   <title>Send Invoice</title>
   <link rel="stylesheet" href="admin.css">
+  <style>
+    nav a[href="subscription-status.html"] {
+      background-color: #FFD97D !important;
+      color: #333 !important;
+    }
+
+    main {
+      background-color: #f5f5f5;
+      padding: 2rem;
+    }
+
+    .invoice-container {
+      display: flex;
+      gap: 2rem;
+      max-width: 1600px;
+      margin: 0 auto;
+    }
+
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      width: 150px;
+    }
+
+    .sidebar button {
+      background-color: #4A90E2;
+      color: white;
+      border: none;
+      padding: 0.8rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .sidebar button:hover {
+      opacity: 0.9;
+    }
+
+    .sidebar button.yellow {
+      background-color: #FFD97D;
+      color: #333;
+    }
+
+    .invoice-card {
+      background: white;
+      border: 3px solid #333;
+      border-radius: 12px;
+      padding: 2rem;
+      flex: 1;
+    }
+
+    .invoice-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .invoice-header h2 {
+      font-size: 1.5rem;
+      margin: 0 0 1rem 0;
+    }
+
+    .invoice-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 2rem;
+      align-items: start;
+      margin-bottom: 2rem;
+    }
+
+    .invoice-section {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .invoice-section h3 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin: 0 0 0.5rem 0;
+    }
+
+    .invoice-section input {
+      background-color: #e8e8e8;
+      border: none;
+      padding: 0.8rem;
+      border-radius: 4px;
+      font-size: 1rem;
+      font-family: inherit;
+    }
+
+    .logo-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .logo-container img {
+      height: 140px;
+      width: auto;
+    }
+
+    .product-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 2rem 0;
+      grid-column: 1 / -1;
+      border: 2px solid #333;
+    }
+
+    .product-table thead {
+      background-color: #ccc;
+    }
+
+    .product-table th {
+      padding: 1rem;
+      text-align: left;
+      font-weight: 600;
+      border: 1px solid #333;
+      font-size: 1rem;
+    }
+
+    .product-table td {
+      padding: 1rem;
+      border: 1px solid #333;
+      background-color: #f0f0f0;
+      font-size: 1rem;
+    }
+
+    .product-table input {
+      width: 100%;
+      padding: 0.5rem;
+      border: none;
+      background-color: white;
+      font-size: 1rem;
+      font-family: inherit;
+      box-sizing: border-box;
+    }
+
+    .product-table input:focus {
+      outline: 2px solid #FFD97D;
+    }
+
+    .payment-section {
+      grid-column: 1 / -1;
+      border-top: 2px solid #333;
+      padding-top: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .payment-section h3 {
+      margin: 0 0 1rem 0;
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    .payment-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      font-size: 0.95rem;
+    }
+
+    .payment-info div {
+      line-height: 1.5;
+    }
+  </style>
 </head>
 <body>
   <header>
     <div class="header-left">
-    <img src="../public/Logo.png" alt="ThinkAble Logo" class="logo">
-    <h1>Admin – Send Invoice</h1>
+      <img src="../public/Logo.png" alt="ThinkAble Logo" class="logo">
+      <h1>ThinkAble</h1>
     </div>
     <nav>
       <a href="home.html">Home</a>
-      <a href="subscription-status.html">Back to Subscriptions</a>
+      <a href="manage-worksheets.html">Worksheets</a>
+      <a href="manage-student.html">Student</a>
+      <a href="subscription-status.html">Subscription</a>
+      <a href="settings.html">Settings</a>
       <a href="../logout.html">Logout</a>
     </nav>
   </header>
+
   <main>
-    <h2>Invoice Form</h2>
-    <form>
-      <div>
-        <label for="inv_parent_email">Parent Email</label>
-        <input id="inv_parent_email" type="email" placeholder="parent@example.com" required>
+    <div class="invoice-container">
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <button onclick="returnToSubscription()">Return</button>
+        <button class="yellow" onclick="addProductRow()">+ Add Row</button>
       </div>
-      <div>
-        <label for="inv_amount">Amount</label>
-        <input id="inv_amount" type="number" placeholder="29.90" step="0.01" required>
+
+      <!-- Invoice Card -->
+      <div class="invoice-card">
+        <div class="invoice-header">
+          <h2>Invoice From:</h2>
+        </div>
+
+        <div class="invoice-body">
+          <!-- Invoice From Section -->
+          <div class="invoice-section">
+            <h3>Invoice From:</h3>
+            <input type="text" placeholder="Name">
+            <input type="email" placeholder="Email">
+          </div>
+
+          <!-- Logo Section -->
+          <div class="logo-container">
+            <img src="../public/Logo.png" alt="ThinkAble Logo">
+          </div>
+
+          <!-- Invoice To Section -->
+          <div class="invoice-section">
+            <h3>Invoice To:</h3>
+            <input type="text" placeholder="Name">
+            <input type="email" placeholder="Email">
+          </div>
+
+          <!-- Product Table -->
+          <table class="product-table" id="productTable">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Qty</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody id="productTableBody">
+              <tr>
+                <td><input type="text" value="Monthly Subscription" class="product-input"></td>
+                <td><input type="number" value="15" class="price-input" step="0.01"></td>
+                <td><input type="number" value="1" class="qty-input" min="1"></td>
+                <td>$<span class="total-value">15</span></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- Payment Info Section -->
+          <div class="payment-section">
+            <h3>Payment Info:</h3>
+            <div class="payment-info">
+              <div><strong>Account Number:</strong> 1234567890</div>
+              <div><strong>Account Name:</strong> John Doe</div>
+              <div><strong>Bank Details:</strong> Insert details</div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div>
-        <label for="inv_notes">Notes</label>
-        <textarea id="inv_notes" placeholder="Eg. November subscription fee."></textarea>
+
+      <!-- Right Sidebar Buttons -->
+      <div class="sidebar">
+        <button class="yellow">Preview</button>
+        <button class="yellow">Send Invoice</button>
       </div>
-      <button type="button" class="btn" onclick="alert('Mock send – integrate email/billing later');">Send Invoice</button>
-    </form>
+    </div>
   </main>
+
+  <script>
+    function addProductRow() {
+      const tableBody = document.getElementById('productTableBody');
+      const newRow = document.createElement('tr');
+      newRow.innerHTML = `
+        <td><input type="text" placeholder="Product name" class="product-input"></td>
+        <td><input type="number" placeholder="0.00" class="price-input" step="0.01" value="0"></td>
+        <td><input type="number" placeholder="1" class="qty-input" min="1" value="1"></td>
+        <td>$<span class="total-value">0</span></td>
+      `;
+      tableBody.appendChild(newRow);
+      
+      // Add event listeners to the new inputs
+      const priceInput = newRow.querySelector('.price-input');
+      const qtyInput = newRow.querySelector('.qty-input');
+      priceInput.addEventListener('input', () => updateRowTotal(newRow));
+      qtyInput.addEventListener('input', () => updateRowTotal(newRow));
+    }
+
+    function updateRowTotal(row) {
+      const priceInput = row.querySelector('.price-input');
+      const qtyInput = row.querySelector('.qty-input');
+      const totalSpan = row.querySelector('.total-value');
+      
+      const price = parseFloat(priceInput.value) || 0;
+      const qty = parseInt(qtyInput.value) || 1;
+      const total = (price * qty).toFixed(2);
+      
+      totalSpan.textContent = total;
+    }
+
+    function returnToSubscription() {
+      window.location.href = 'subscription-status.html';
+    }
+
+    // Add event listeners to initial row inputs
+    document.addEventListener('DOMContentLoaded', function() {
+      const initialRow = document.querySelector('#productTableBody tr');
+      if (initialRow) {
+        const priceInput = initialRow.querySelector('.price-input');
+        const qtyInput = initialRow.querySelector('.qty-input');
+        priceInput.addEventListener('input', () => updateRowTotal(initialRow));
+        qtyInput.addEventListener('input', () => updateRowTotal(initialRow));
+      }
+    });
+  </script>
+
   <script src="../script.js"></script>
 </body>
 </html>

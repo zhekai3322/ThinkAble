@@ -4,52 +4,208 @@
 <head>
   <meta charset="UTF-8">
   <title>Subscription Status</title>
-  <link rel="stylesheet" href="../style.css">
   <link rel="stylesheet" href="admin.css">
+  <style>
+    nav a[href="subscription-status.html"] {
+      background-color: #FFD97D !important;
+      color: #333 !important;
+    }
+
+    /* Container Width Override */
+    .container {
+      max-width: 1600px;
+    }
+
+    /* Invoice List Styles */
+    .invoice-list-container {
+      background-color: white;
+      padding: 2rem;
+      border-radius: 8px;
+      margin-top: 1rem;
+    }
+
+    .invoice-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      border-bottom: 2px solid #333;
+      padding-bottom: 1rem;
+    }
+
+    .invoice-header h1 {
+      margin: 0;
+      font-size: 1.8rem;
+    }
+
+    .send-invoice-btn {
+      background-color: #FFD97D;
+      color: #333;
+      padding: 0.6rem 1.2rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 600;
+      text-decoration: none;
+      transition: 0.2s;
+    }
+
+    .send-invoice-btn:hover {
+      opacity: 0.8;
+    }
+
+    /* Invoice Table */
+    .invoices-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1rem;
+    }
+
+    .invoices-table thead tr {
+      background-color: #2F4858 !important;
+    }
+
+    .invoices-table th {
+      padding: 1rem;
+      text-align: left;
+      font-weight: 700;
+      border-bottom: 2px solid #333;
+      color: white !important;
+      background-color: #2F4858 !important;
+    }
+
+    .invoices-table td {
+      padding: 1rem;
+      border-bottom: 2px solid #333;
+    }
+
+    .invoices-table tbody tr {
+      background-color: white;
+    }
+
+    .invoices-table tbody tr:hover {
+      background-color: #f5f5f5;
+    }
+
+    .status-paid {
+      color: #4CAF50;
+      font-weight: 600;
+    }
+
+    .status-pending {
+      color: #FFC107;
+      font-weight: 600;
+    }
+
+    .status-overdue {
+      color: #F44336;
+      font-weight: 600;
+    }
+
+    .section {
+      display: none;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    main {
+      background-color: #f5f5f5;
+      padding: 2rem;
+    }
+  </style>
 </head>
 <body>
   <header>
     <div class="header-left">
     <img src="../public/Logo.png" alt="ThinkAble Logo" class="logo">
-    <h1>Admin – Subscription Status</h1>
+    <h1>ThinkAble Admin</h1>
     </div>
     <nav>
       <a href="home.html">Home</a>
-      <a href="send-invoice.html">Send Invoice</a>
+      <a href="manage-student.html">Students</a>
+      <a href="manage-worksheets.html">Worksheets</a>
+      <a href="subscription-status.html">Subscription</a>
+      <a href="settings.html">Settings</a>
       <a href="../logout.html">Logout</a>
     </nav>
   </header>
+
   <main>
-    <h2>Subscriptions</h2>
-    <p>Static example data for your prototype.</p>
-    <table>
-      <thead>
-        <tr>
-          <th>Parent Name</th>
-          <th>Email</th>
-          <th>Plan</th>
-          <th>Status</th>
-          <th>Renewal Date</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Mrs Tan</td>
-          <td>tan.parent@example.com</td>
-          <td>Monthly</td>
-          <td><span class="pill">Active</span></td>
-          <td>2025-12-01</td>
-        </tr>
-        <tr>
-          <td>Mr Lee</td>
-          <td>lee.parent@example.com</td>
-          <td>Trial</td>
-          <td><span class="pill">Active</span></td>
-          <td>2026-10-15</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="container">
+      <!-- Invoice List Section -->
+      <div id="listSection" class="section active">
+        <div class="invoice-list-container">
+          <div class="invoice-header">
+            <h1>Invoice List</h1>
+            <a href="send-invoice.html" class="send-invoice-btn">Send Invoice</a>
+          </div>
+
+          <!-- Invoices Table -->
+          <table class="invoices-table">
+            <thead>
+              <tr>
+                <th>Invoice No.</th>
+                <th>Customer Name</th>
+                <th>Date Invoiced</th>
+                <th>Subscription</th>
+                <th>Amount</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>Roger Naruto</td>
+                <td>21/5/2025</td>
+                <td>Yearly</td>
+                <td>$150</td>
+                <td><span class="status-paid">Paid</span></td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>Mary White</td>
+                <td>14/8/2025</td>
+                <td>Yearly</td>
+                <td>$150</td>
+                <td><span class="status-pending">Pending</span></td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>Eustace Gibson</td>
+                <td>2/11/2025</td>
+                <td>Monthly</td>
+                <td>$15</td>
+                <td><span class="status-pending">Pending</span></td>
+              </tr>
+              <tr>
+                <td>4</td>
+                <td>Felicia Grace</td>
+                <td>10/11/2025</td>
+                <td>Monthly</td>
+                <td>$15</td>
+                <td><span class="status-overdue">Overdue</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   </main>
+
+  <script>
+    // Show/Hide section helpers
+    function hideAll() {
+      document.querySelectorAll(".section").forEach(sec => sec.classList.remove("active"));
+    }
+
+    function showList() {
+      hideAll();
+      document.getElementById("listSection").classList.add("active");
+    }
+  </script>
+
   <script src="../script.js"></script>
 </body>
 </html>

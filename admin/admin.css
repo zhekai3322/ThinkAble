@@ -19,10 +19,11 @@ body {
   background: var(--off-white);
   color: var(--deep-navy);
   font-family: "Poppins", system-ui, sans-serif;
+  font-size: 1.15rem;
 }
 
 .container {
-  max-width: 1100px;
+  max-width: 1400px;
   margin: 2rem auto;
   padding: 1.5rem;
 }
@@ -63,8 +64,8 @@ header .logo {
 /* NAV BUTTONS */
 nav a {
   text-decoration: none;
-  background: var(--primary-blue);
-  color: white !important;
+  background: white;
+  color: #333 !important;
   padding: 0.5rem 1rem;
   border-radius: 20px;
   margin-left: 1rem;
@@ -332,4 +333,268 @@ body.dark tbody tr:nth-child(odd) {
 body.dark .pill {
   background: var(--accent-yellow);
   color: black;
+}
+
+/* ==========================================================
+   HOME PAGE STYLES
+========================================================== */
+
+/* Main Section */
+main {
+  background-color: var(--off-white);
+  padding: 2rem;
+}
+
+/* Welcome Section */
+.welcome-section {
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.875rem;
+  border-radius: 0.25rem;
+}
+
+.welcome-section h2 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+/* Content Wrapper Grid */
+.content-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+/* Invoice Card */
+.invoice-card {
+  background: white;
+  padding: 1.25rem;
+  border-radius: 0.5rem;
+  box-shadow: var(--shadow);
+  border: 2px solid var(--deep-navy);
+}
+
+/* Invoice Table */
+.invoice-table {
+  width: 100%;
+  border-collapse: collapse;
+  cursor: pointer;
+}
+
+.invoice-table th {
+  background-color: var(--deep-navy);
+  color: white;
+  padding: 0.75rem;
+  text-align: left;
+  font-weight: 600;
+}
+
+.invoice-table td {
+  padding: 0.75rem;
+  border-bottom: 1px solid #ddd;
+}
+
+.invoice-table tbody tr:hover {
+  background-color: #f9f9f9;
+}
+
+/* Status Colors */
+.status-paid {
+  color: #4CAF50;
+  font-weight: 600;
+}
+
+.status-pending {
+  color: #FFC107;
+  font-weight: 600;
+}
+
+.status-overdue {
+  color: #F44336;
+  font-weight: 600;
+}
+
+/* Chart Card */
+.chart-card {
+  background: white;
+  padding: 1.25rem;
+  border-radius: 0.5rem;
+  box-shadow: var(--shadow);
+  border: 2px solid var(--deep-navy);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+/* Circular Chart */
+.circular-chart {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: conic-gradient(
+    #4CAF50 0deg 108deg,
+    #FFC107 108deg 216deg,
+    #F44336 216deg 360deg
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.9375rem;
+  position: relative;
+}
+
+/* Chart Center */
+.chart-center {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+/* Chart Title */
+.chart-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Chart Legend */
+.chart-legend {
+  display: flex;
+  gap: 1.25rem;
+  margin-top: 0.9375rem;
+  font-size: 0.9rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Legend Item */
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.3125rem;
+}
+
+/* Legend Dot */
+.legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+/* Worksheets Card */
+.worksheets-card {
+  background: white;
+  padding: 1.25rem;
+  border-radius: 0.5rem;
+  box-shadow: var(--shadow);
+  border: 2px solid var(--deep-navy);
+  grid-column: 1 / -1;
+}
+
+.worksheets-card h3 {
+  margin-top: 0;
+  margin-bottom: 0.9375rem;
+}
+
+/* Worksheets Container */
+.worksheets-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* Worksheet Card */
+.worksheet-card {
+  display: flex;
+  align-items: center;
+  gap: 0.9375rem;
+  background-color: var(--deep-navy);
+  padding: 0.9375rem 1.25rem;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  text-decoration: none;
+  color: white;
+}
+
+.worksheet-card:hover {
+  background-color: #1a2d3e;
+}
+
+/* Level Badge */
+.level-badge {
+  display: inline-block;
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.375rem;
+  font-weight: 600;
+  font-size: 0.85rem;
+  white-space: nowrap;
+  min-width: 60px;
+  text-align: center;
+}
+
+.level-badge.elementary {
+  background-color: #F4D03F;
+  color: #333;
+}
+
+.level-badge.intermediate {
+  background-color: #5DADE2;
+  color: white;
+}
+
+.level-badge.expert {
+  background-color: #F8B88B;
+  color: #333;
+}
+
+/* Worksheet Title */
+.worksheet-title {
+  color: white;
+  font-size: 1rem;
+}
+
+/* Dark Mode for Home Page */
+body.dark main {
+  background-color: #1d2730;
+}
+
+body.dark .welcome-section h2 {
+  color: var(--off-white);
+}
+
+body.dark .invoice-card,
+body.dark .chart-card,
+body.dark .worksheets-card {
+  background: #26303a;
+  border-color: #3a4957;
+  color: var(--off-white);
+}
+
+body.dark .invoice-table th {
+  background: var(--deep-navy);
+}
+
+body.dark .invoice-table td {
+  border-color: #33414f;
+}
+
+body.dark .chart-title {
+  color: var(--off-white);
+}
+
+body.dark .worksheets-card h3 {
+  color: var(--off-white);
+}
+
+body.dark .worksheet-title {
+  color: white;
 }
