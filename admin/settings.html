@@ -146,12 +146,6 @@
 
   <h2>Accessibility & Preferences</h2>
 
-  <!-- Dark Mode -->
-  <div class="toggle-row">
-    <label>🌙 Dark Mode</label>
-    <input type="checkbox" id="darkModeToggle" class="toggle-btn">
-  </div>
-
   <!-- Large Text -->
   <div class="toggle-row">
     <label>🔍 Large Text Mode</label>
@@ -193,30 +187,6 @@
 </main>
 
 <script>
-/* ======================
-   DARK MODE
-====================== */
-function applyDarkMode(enabled) {
-  document.body.classList.toggle("dark", enabled);
-  localStorage.setItem("darkMode", enabled);
-}
-
-const darkToggle = document.getElementById("darkModeToggle");
-
-/* Auto-detect system preference */
-if (localStorage.getItem("darkMode") === null) {
-  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-  darkToggle.checked = prefersDark;
-  applyDarkMode(prefersDark);
-} else {
-  const enabled = localStorage.getItem("darkMode") === "true";
-  darkToggle.checked = enabled;
-  applyDarkMode(enabled);
-}
-
-darkToggle.addEventListener("change", e =>
-  applyDarkMode(e.target.checked)
-);
 
 /* ======================
    LARGE TEXT MODE
