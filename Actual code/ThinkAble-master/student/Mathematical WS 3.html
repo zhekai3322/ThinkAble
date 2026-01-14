@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Maths WS3</title>
+
+
+</head>
+  <link rel="stylesheet" href="Stylesheet.css">
+
+<body>
+
+<!-- ================= TOP BAR ================= -->
+<div class="ws-top">
+  <div id="title">Literacy WS1 Q1</div>
+  <div class="exit" onclick="exitWorksheet()">Exit Worksheet</div>
+</div>
+
+<!-- ================= AUDIO ================= -->
+<audio id="correctSound" src="correct.mp3"></audio>
+<audio id="wrongSound" src="wrong.mp3"></audio>
+
+<!-- ================= Q1 ================= -->
+<div class="ws-page active" id="q1">
+  <div class="meta">MindCognition™</div>
+  <div class="meta">Intermediate</div>
+  <div class="meta">Mathematical Reasoning</div>
+
+  <div class="instruction">(1)</div>
+  <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; margin: 30px 0; max-width: 600px; margin-left: auto; margin-right: auto;">
+    <img src="bird.jpg" alt="bird" style="width: 70px; height: auto;">
+    <img src="bird.jpg" alt="bird" style="width: 70px; height: auto;">
+    <img src="bird.jpg" alt="bird" style="width: 70px; height: auto;">
+    <img src="bird.jpg" alt="bird" style="width: 70px; height: auto;">
+    <img src="bird.jpg" alt="bird" style="width: 70px; height: auto;">
+  </div>
+  
+  <div class="question-text">
+    <p>There are 5 birds on a tree.</p>
+    <p>2 birds fly away.</p>
+    <p>There are <input type="text" id="q1_answer" style="width: 100px; padding: 8px; border: none; border-bottom: 2px solid black; font-size: 18px;" data-correct="3"> birds left.</p>
+  </div>
+
+  <div class="underline"></div>
+
+  <div class="nav">
+    <button disabled id="nextBtn" onclick="next()">Next</button>
+  </div>
+</div>
+
+<!-- ================= Q2 ================= -->
+<div class="ws-page" id="q2">
+  <div class="instruction">(2)</div>
+  
+  <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; margin: 20px 0; max-width: 600px; margin-left: auto; margin-right: auto;">
+    <img src="crayon.png" alt="crayon" style="width: 70px; height: auto;">
+    <img src="crayon.png" alt="crayon" style="width: 70px; height: auto;">
+    <img src="crayon.png" alt="crayon" style="width: 70px; height: auto;">
+    <img src="crayon.png" alt="crayon" style="width: 70px; height: auto;">
+  </div>
+  
+  <div class="question-text">
+    <p>I have 4 crayons.</p>
+    <p>My teacher gives me 4 more crayons.</p>
+    <p>I now have <input type="text" id="q2_answer" style="width: 100px; padding: 8px; border: none; border-bottom: 2px solid black; font-size: 18px;" data-correct="8"> crayons.</p>
+  </div>
+
+  <div class="underline"></div>
+
+  <div class="nav">
+    <button onclick="prev()">Previous</button>
+    <button disabled id="nextBtn" onclick="next()">Next</button>
+  </div>
+</div>
+
+<!-- ================= Q3 ================= -->
+<div class="ws-page" id="q3">
+  <div class="instruction">(3)</div>
+  
+  <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; margin: 20px 0; max-width: 600px; margin-left: auto; margin-right: auto;">
+    <img src="banana.jpg" alt="banana" style="width: 70px; height: auto;">
+    <img src="banana.jpg" alt="banana" style="width: 70px; height: auto;">
+    <img src="banana.jpg" alt="banana" style="width: 70px; height: auto;">
+    <img src="banana.jpg" alt="banana" style="width: 70px; height: auto;">
+    <img src="banana.jpg" alt="banana" style="width: 70px; height: auto;">
+    <img src="banana.jpg" alt="banana" style="width: 70px; height: auto;">
+  </div>
+
+  <div class="question-text">
+    <p>There are 6 bananas on the table.</p>
+    <p>I eat 2 bananas.</p>
+    <p>There are <input type="text" id="q3_answer" style="width: 100px; padding: 8px; border: none; border-bottom: 2px solid black; font-size: 18px;" data-correct="4"> bananas left.</p>
+  </div>
+
+  <div class="underline"></div>
+
+  <div class="nav">
+    <button onclick="prev()">Previous</button>
+    <button disabled id="nextBtn" onclick="next()">Next</button>
+  </div>
+</div>
+
+<!-- ================= Q4 ================= -->
+<div class="ws-page" id="q4">
+  <div class="instruction">(4)</div>
+  
+  <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; margin: 20px 0; max-width: 600px; margin-left: auto; margin-right: auto;">
+    <img src="frog.jpg" alt="frog" style="width: 70px; height: auto;">
+    <img src="frog.jpg" alt="frog" style="width: 70px; height: auto;">
+  </div>
+
+  <div class="question-text">
+    <p>There are 2 frogs near the pond.</p>
+    <p>5 more frogs jump in.</p>
+    <p>There are now <input type="text" id="q4_answer" style="width: 100px; padding: 8px; border: none; border-bottom: 2px solid black; font-size: 18px;" data-correct="7"> frogs.</p>
+  </div>
+
+  <div class="underline"></div>
+
+  <div class="nav">
+    <button onclick="prev()">Previous</button>
+    <button disabled id="nextBtn" onclick="next()">Next</button>
+  </div>
+</div>
+
+<!-- ================= Q5 ================= -->
+<div class="ws-page" id="q5">
+  <div class="instruction">(5)</div>
+  
+  <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; margin: 20px 0; max-width: 600px; margin-left: auto; margin-right: auto;">
+    <img src="candy.jpg" alt="candy" style="width: 70px; height: auto;">
+    <img src="candy.jpg" alt="candy" style="width: 70px; height: auto;">
+    <img src="candy.jpg" alt="candy" style="width: 70px; height: auto;">
+    <img src="candy.jpg" alt="candy" style="width: 70px; height: auto;">
+    <img src="candy.jpg" alt="candy" style="width: 70px; height: auto;">
+    <img src="candy.jpg" alt="candy" style="width: 70px; height: auto;">
+    <img src="candy.jpg" alt="candy" style="width: 70px; height: auto;">
+    <img src="candy.jpg" alt="candy" style="width: 70px; height: auto;">
+  </div>
+
+  <div class="question-text">
+    <p>I have 8 sweets.</p>
+    <p>I give 5 sweets to my sister.</p>
+    <p>There are <input type="text" id="q5_answer" style="width: 100px; padding: 8px; border: none; border-bottom: 2px solid black; font-size: 18px;" data-correct="3"> sweets left.</p>
+  </div>
+
+  <div class="underline"></div>
+
+  <div class="nav">
+    <button onclick="prev()">Previous</button>
+    <button disabled id="nextBtn" onclick="submitWS()">Submit</button>
+  </div>
+</div>
+
+<!-- ================= SCRIPT ================= -->
+<script>
+  let current = 1;
+  const total = 5;
+  let score = 0;
+
+  const answeredQuestions = new Set();
+  const questionsWithWrongAnswers = new Set();
+
+  const correctSound = document.getElementById("correctSound");
+  const wrongSound = document.getElementById("wrongSound");
+
+  /* ------------------ PAGE HANDLING ------------------ */
+
+  function show(n) {
+    document.querySelectorAll(".ws-page").forEach(p => p.classList.remove("active"));
+    const page = document.getElementById("q" + n);
+    page.classList.add("active");
+
+    document.getElementById("title").innerText = "Literacy WS1 Q" + n;
+
+    // Reset letters
+    page.querySelectorAll(".letter").forEach(l => {
+      l.classList.remove("correct", "wrong", "disabled");
+    });
+
+    // Disable next button initially
+    const btn = page.querySelector("#nextBtn");
+    if (btn) btn.disabled = true;
+
+    // Setup text inputs
+    page.querySelectorAll("input[type='text']").forEach(input => {
+      input.value = "";
+      input.disabled = false;
+      input.style.borderBottomColor = "black";
+      input.style.backgroundColor = "transparent";
+
+      input.removeEventListener("input", checkInputAnswer);
+      input.addEventListener("input", checkInputAnswer);
+
+      // Keyboard support (Enter key)
+      input.addEventListener("keydown", e => {
+        if (e.key === "Enter" && !btn.disabled) {
+          next();
+        }
+      });
+    });
+  }
+
+  function next() {
+    if (current < total) {
+      current++;
+      show(current);
+    }
+  }
+
+  function prev() {
+    if (current > 1) {
+      current--;
+      show(current);
+    }
+  }
+
+  function submitWS() {
+    localStorage.setItem("ws1_score", score);
+    alert(`Worksheet completed!\nScore: ${score}/${total}`);
+    window.location.href = "LiteracyWorksheets.html";
+  }
+
+  function exitWorksheet() {
+    window.location.href = "LiteracyWorksheets.html";
+  }
+
+  /* ------------------ INPUT QUESTION (Q1) ------------------ */
+
+  function checkInputAnswer(e) {
+    const input = e.target;
+    const correctAnswer = input.dataset.correct.trim();
+    const userAnswer = input.value.trim();
+    const page = document.querySelector(".ws-page.active");
+    const btn = page.querySelector("#nextBtn");
+
+    if (answeredQuestions.has(current)) return;
+
+    if (userAnswer === correctAnswer) {
+      input.style.borderBottomColor = "#1E7F3C";
+      input.style.backgroundColor = "#B8F2C2";
+      input.disabled = true;
+
+      correctSound.currentTime = 0;
+      correctSound.play();
+
+      answeredQuestions.add(current);
+      score++;
+
+      btn.disabled = false;
+    } else {
+      input.style.borderBottomColor = "black";
+      input.style.backgroundColor = "transparent";
+      btn.disabled = true;
+    }
+  }
+
+  /* ------------------ SHAPE QUESTIONS ------------------ */
+
+  function isQuestionAnsweredCorrectly(page) {
+    const correctLetters = Array.from(page.querySelectorAll('.letter[data-correct="true"]'));
+    return correctLetters.every(l => l.classList.contains("correct"));
+  }
+
+  document.addEventListener("click", function (e) {
+    if (!e.target.classList.contains("letter")) return;
+
+    const page = document.querySelector(".ws-page.active");
+    const btn = page.querySelector(".nextBtn");
+
+    if (answeredQuestions.has(current)) return;
+
+    const correct = e.target.dataset.correct === "true";
+
+    if (!correct) {
+      e.target.classList.add("wrong");
+      wrongSound.currentTime = 0;
+      wrongSound.play();
+      questionsWithWrongAnswers.add(current);
+      btn.disabled = false;
+      return;
+    }
+
+    e.target.classList.add("correct");
+    correctSound.currentTime = 0;
+    correctSound.play();
+
+    if (isQuestionAnsweredCorrectly(page)) {
+      answeredQuestions.add(current);
+      score++;
+
+      // Lock letters
+      page.querySelectorAll(".letter").forEach(l => l.classList.add("disabled"));
+      btn.disabled = false;
+    }
+  });
+
+  /* ------------------ INIT ------------------ */
+
+  document.addEventListener("DOMContentLoaded", () => {
+    show(current);
+  });
+</script>
+
+
+</body>
+</html>
