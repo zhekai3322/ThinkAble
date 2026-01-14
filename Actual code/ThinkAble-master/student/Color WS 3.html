@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Color WS3</title>
+</head>
+
+<style>
+/* ===== DO NOT CHANGE STYLES ===== */
+body {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  background: #F5F7F2;
+  height: 100vh;
+  overflow: hidden;
+}
+/* ================= TOP BAR ================= */
+.ws-top {
+  background: #1e1e1e;
+  color: white;
+  padding: 14px 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 16px;
+}
+.exit {
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: underline;
+}
+/* ================= PAGE ================= */
+.ws-page {
+  display: none;
+  height: calc(100vh - 56px);
+  padding: 40px 60px;
+  background: white;
+  text-align: center;
+  flex-direction: column;
+  justify-content: center;
+}
+.ws-page.active {
+  display: flex;
+}
+/* ================= META ================= */
+.meta {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+/* ================= INSTRUCTION ================= */
+.instruction {
+  font-size: 22px;
+  margin: 30px 0;
+  font-weight: 500;
+  line-height: 1.6;
+}
+/* ================= COLORS ================= */
+.letters {
+  margin: 60px 0;
+}
+.letter {
+  width: 70px;
+  height: 70px;
+  display: inline-block;
+  margin: 0 30px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.correct { outline: 6px solid #1E7F3C; }
+.wrong { outline: 6px solid #9A1C1C; }
+/* ================= UNDERLINE ================= */
+.underline {
+  width: 85%;
+  margin: 50px auto 0;
+  border-top: 3px solid black;
+}
+/* ================= NAV ================= */
+.nav {
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+}
+button {
+  padding: 14px 32px;
+  font-size: 18px;
+  border-radius: 14px;
+  border: none;
+  background: #FFB36B;
+  font-weight: bold;
+  cursor: pointer;
+}
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+</style>
+
+<body>
+
+<!-- ================= TOP BAR ================= -->
+<div class="ws-top">
+  <div id="title">Color WS3 Q1</div>
+  <div class="exit" onclick="exitWorksheet()">Exit Worksheet</div>
+</div>
+
+<audio id="correctSound" src="correct.mp3"></audio>
+<audio id="wrongSound" src="wrong.mp3"></audio>
+
+<!-- ================= Q1 ================= -->
+<div class="ws-page active" id="q1">
+  <div class="meta">MindCognition™</div>
+  <div class="meta">Intermediate</div>
+  <div class="meta">Color Recognition 11–15</div>
+
+  <div class="instruction">
+    (1) Click the correct answers.<br><br>
+    Tom has 3 <span style="color:red;">red</span> balls and 4 <span style="color:blue;">blue</span> balls.<br>
+    Which color does Tom have more of?
+  </div>
+
+  <div class="letters">
+    <span class="letter" style="background:red;"></span>
+    <span class="letter" style="background:blue;" data-correct="true"></span>
+    <span class="letter" style="background:black;"></span>
+  </div>
+
+  <div class="underline"></div>
+  <div class="nav">
+    <button disabled id="nextBtn" onclick="next()">Next</button>
+  </div>
+</div>
+
+<!-- ================= Q2 ================= -->
+<div class="ws-page" id="q2">
+  <div class="instruction">
+    (2) Click the correct answers.<br><br>
+    Select all the colors you can see on a traffic light.
+  </div>
+
+  <div class="letters">
+    <span class="letter" style="background:#F2C94C;" data-correct="true"></span>
+    <span class="letter" style="background:red;" data-correct="true"></span>
+    <span class="letter" style="background:blue;"></span>
+    <span class="letter" style="background:black;"></span>
+    <span class="letter" style="background:green;" data-correct="true"></span>
+  </div>
+
+  <div class="underline"></div>
+  <div class="nav">
+    <button onclick="prev()">Previous</button>
+    <button disabled id="nextBtn" onclick="next()">Next</button>
+  </div>
+</div>
+
+<!-- ================= Q3 ================= -->
+<div class="ws-page" id="q3">
+  <div class="instruction">
+    (3) Click the correct answers.<br><br>
+    There are 5 crayons.<br>
+    3 are <span style="color:blue;">blue</span> and the rest are <span style="color:#F2C94C;">yellow</span>.<br>
+    What color are the other crayons?
+  </div>
+
+  <div class="letters">
+    <span class="letter" style="background:green;"></span>
+    <span class="letter" style="background:blue;"></span>
+    <span class="letter" style="background:#F2C94C;" data-correct="true"></span>
+  </div>
+
+  <div class="underline"></div>
+  <div class="nav">
+    <button onclick="prev()">Previous</button>
+    <button disabled id="nextBtn" onclick="next()">Next</button>
+  </div>
+</div>
+
+<!-- ================= Q4 ================= -->
+<div class="ws-page" id="q4">
+  <div class="instruction">
+    (4) Click the correct answers.<br><br>
+    Ali colors 8 shapes.<br>
+    4 are <span style="color:green;">green</span>, 2 are <span style="color:red;">red</span>, and the rest are <span style="color:blue;">blue</span>.<br>
+    What color the other shapes are?
+  </div>
+
+  <div class="letters">
+    <span class="letter" style="background:green;"></span>
+    <span class="letter" style="background:blue;" data-correct="true"></span>
+    <span class="letter" style="background:red;"></span>
+  </div>
+
+  <div class="underline"></div>
+  <div class="nav">
+    <button onclick="prev()">Previous</button>
+    <button disabled id="nextBtn" onclick="next()">Next</button>
+  </div>
+</div>
+
+<!-- ================= Q5 ================= -->
+<div class="ws-page" id="q5">
+  <div class="instruction">
+    (5) Click the correct answers.<br><br>
+    Look at the list of colours.<br>
+    Which colour is NOT a primary colour?
+  </div>
+
+  <div class="letters">
+    <span class="letter" style="background:#F2C94C;" data-correct="true"></span>
+    <span class="letter" style="background:blue;"></span>
+    <span class="letter" style="background:red;"></span>
+    <span class="letter" style="background:purple;" data-correct="true"></span>
+  </div>
+
+  <div class="underline"></div>
+  <div class="nav">
+    <button onclick="prev()">Previous</button>
+    <button disabled id="nextBtn" onclick="submitWS()">Submit</button>
+  </div>
+</div>
+
+<!-- ================= SCRIPT (UNCHANGED) ================= -->
+<script>
+let current = 1;
+const total = 5;
+let score = 0;
+const answeredQuestions = new Set();
+const questionsWithWrongAnswers = new Set();
+
+function show(n) {
+  document.querySelectorAll(".ws-page").forEach(p => p.classList.remove("active"));
+  const page = document.getElementById("q" + n);
+  page.classList.add("active");
+  document.getElementById("title").innerText = "Color WS3 Q" + n;
+
+  page.querySelectorAll(".letter").forEach(l => {
+    l.classList.remove("correct", "wrong");
+  });
+
+  const btn = page.querySelector("#nextBtn");
+  if (btn) btn.disabled = true;
+}
+
+function next() { if (current < total) show(++current); }
+function prev() { if (current > 1) show(--current); }
+
+function submitWS() {
+  alert("Worksheet completed!\nScore: " + score + "/" + total);
+  window.location.href = "ColorWorksheets.html";
+}
+
+function exitWorksheet() {
+  window.location.href = "ColorWorksheets.html";
+}
+
+function isQuestionAnsweredCorrectly(page) {
+  const correctLetters = Array.from(page.querySelectorAll('[data-correct="true"]'));
+  return correctLetters.every(l => l.classList.contains("correct"));
+}
+
+document.addEventListener("click", function (e) {
+  if (!e.target.classList.contains("letter")) return;
+
+  const page = document.querySelector(".ws-page.active");
+  const correct = e.target.dataset.correct === "true";
+
+  if (!correct) {
+    e.target.classList.add("wrong");
+    document.getElementById("wrongSound").play();
+    questionsWithWrongAnswers.add(current);
+    page.querySelector("#nextBtn")?.removeAttribute("disabled");
+    return;
+  }
+
+  e.target.classList.add("correct");
+  document.getElementById("correctSound").play();
+
+  if (isQuestionAnsweredCorrectly(page) && !answeredQuestions.has(current) && !questionsWithWrongAnswers.has(current)) {
+    answeredQuestions.add(current);
+    score++;
+  }
+
+  page.querySelector("#nextBtn")?.removeAttribute("disabled");
+});
+</script>
+
+</body>
+</html>

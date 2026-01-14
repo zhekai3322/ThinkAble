@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Literacy WS1 – a to f</title>
+
+
+</head>
+  <link rel="stylesheet" href="Stylesheet.css">
+
+<body>
+
+<!-- ================= TOP BAR ================= -->
+<div class="ws-top">
+  <div id="title">Literacy WS1 Q1</div>
+  <div class="exit" onclick="exitWorksheet()">Exit Worksheet</div>
+</div>
+
+<!-- ================= AUDIO ================= -->
+<audio id="correctSound" src="correct.mp3"></audio>
+<audio id="wrongSound" src="wrong.mp3"></audio>
+
+<!-- ================= Q1 ================= -->
+<div class="ws-page active" id="q1">
+  <div class="meta">MindCognition™</div>
+  <div class="meta">Basic</div>
+  <div class="meta">Literacy: Alphabets-lowercase<br>1 to 5</div>
+
+  <div class="instruction">(1) Point to 1</div>
+  <div class="letters">
+    <span class="letter" data-correct="true">1</span>
+  </div>
+
+  <div class="underline"></div>
+
+  <div class="nav">
+    <button disabled id="nextBtn" onclick="next()">Next</button>
+  </div>
+</div>
+
+<!-- ================= Q2 ================= -->
+<div class="ws-page" id="q2">
+  <div class="instruction">(2) Point to 1</div>
+  <div class="letters">
+    <span class="letter">2</span>
+    <span class="letter" data-correct="true">1</span>
+    <span class="letter">3</span>
+  </div>
+
+  <div class="underline"></div>
+
+  <div class="nav">
+    <button onclick="prev()">Previous</button>
+    <button disabled id="nextBtn" onclick="next()">Next</button>
+  </div>
+</div>
+
+<!-- ================= Q3 ================= -->
+<div class="ws-page" id="q3">
+  <div class="instruction">(3) Point to 2</div>
+  <div class="letters">
+    <span class="letter" data-correct="true">2</span>
+  </div>
+
+  <div class="underline"></div>
+
+  <div class="nav">
+    <button onclick="prev()">Previous</button>
+    <button disabled id="nextBtn" onclick="next()">Next</button>
+  </div>
+</div>
+
+<!-- ================= Q4 ================= -->
+<div class="ws-page" id="q4">
+  <div class="instruction">(4) Point to 2</div>
+  <div class="letters">
+    <span class="letter">5</span>
+    <span class="letter">1</span>
+    <span class="letter" data-correct="true" >2</span>
+  </div>
+
+  <div class="underline"></div>
+
+  <div class="nav">
+    <button onclick="prev()">Previous</button>
+    <button disabled id="nextBtn" onclick="next()">Next</button>
+  </div>
+</div>
+
+<!-- ================= Q5 ================= -->
+<div class="ws-page" id="q5">
+  <div class="instruction">(5) Point to 1 and 2</div>
+  <div class="letters">
+    <span class="letter">4</span>
+    <span class="letter" data-correct="true">1</span>
+    <span class="letter">3</span>
+    <span class="letter"data-correct="true" >2</span>
+  </div>
+
+  <div class="underline"></div>
+
+  <div class="nav">
+    <button onclick="prev()">Previous</button>
+    <button disabled id="nextBtn" onclick="submitWS()">Submit</button>
+  </div>
+</div>
+
+<!-- ================= SCRIPT ================= -->
+<script>
+  let current = 1;
+  const total = 5;
+  let score = 0;
+  const answeredQuestions = new Set();
+  const questionsWithWrongAnswers = new Set();
+
+  function show(n) {
+    document.querySelectorAll(".ws-page").forEach(p => p.classList.remove("active"));
+    const page = document.getElementById("q" + n);
+    page.classList.add("active");
+    document.getElementById("title").innerText = "Literacy WS1 Q" + n;
+
+    page.querySelectorAll(".letter").forEach(l => {
+      l.classList.remove("correct", "wrong");
+    });
+
+    const btn = page.querySelector("#nextBtn");
+    if (btn) btn.disabled = true;
+  }
+
+  function next() {
+    if (current < total) {
+      current++;
+      show(current);
+    }
+  }
+
+  function prev() {
+    if (current > 1) {
+      current--;
+      show(current);
+    }
+  }
+
+  function submitWS() {
+    localStorage.setItem("ws1_score", score);
+    alert("Worksheet completed!\nScore: " + score + "/" + total);
+    window.location.href = "LiteracyWorksheets.html";
+  }
+
+  function exitWorksheet() {
+    window.location.href = "LiteracyWorksheets.html";
+  }
+
+  function isQuestionAnsweredCorrectly(page) {
+    const correctLetters = Array.from(page.querySelectorAll('.letter[data-correct="true"]'));
+    return correctLetters.every(l => l.classList.contains("correct"));
+  }
+
+  document.addEventListener("click", function (e) {
+    if (!e.target.classList.contains("letter")) return;
+
+    const page = document.querySelector(".ws-page.active");
+    const correct = e.target.dataset.correct === "true";
+
+    if (!correct) {
+      e.target.classList.add("wrong");
+      document.getElementById("wrongSound").play();
+      questionsWithWrongAnswers.add(current);
+      page.querySelector("#nextBtn")?.removeAttribute("disabled");
+      return;
+    }
+
+    e.target.classList.add("correct");
+    document.getElementById("correctSound").play();
+
+    if (isQuestionAnsweredCorrectly(page) && !answeredQuestions.has(current) && !questionsWithWrongAnswers.has(current)) {
+      answeredQuestions.add(current);
+      score++;
+      page.querySelector("#nextBtn")?.removeAttribute("disabled");
+    } else if (answeredQuestions.has(current) || questionsWithWrongAnswers.has(current)) {
+      page.querySelector("#nextBtn")?.removeAttribute("disabled");
+    }
+  });
+</script>
+
+</body>
+</html>

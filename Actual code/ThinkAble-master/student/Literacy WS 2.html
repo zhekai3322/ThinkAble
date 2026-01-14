@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Literacy WS – h to n</title>
+
+<style>
+  body {
+    margin: 0;
+    background: #F5F7F2;
+    color: black;
+    font-family: "Poppins", sans-serif;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  /* ================= TOP BAR ================= */
+  .ws-top {
+    background: #2D3A32;
+    color: white;
+    padding: 14px 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 16px;
+  }
+
+  .exit-btn {
+    cursor: pointer;
+    font-size: 14px;
+       text-decoration: underline;
+  }
+
+  /* ================= PAGE ================= */
+  .ws-page {
+    display: none;
+    height: calc(100vh - 56px);
+    padding: 40px 60px;
+    background: white;
+    text-align: center;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .ws-page.active {
+    display: flex;
+  }
+
+  /* ================= META ================= */
+  .ws-title {
+    font-size: 22px;
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+
+  .ws-meta {
+    font-size: 18px;
+    margin-bottom: 6px;
+  }
+
+  /* ================= INSTRUCTION ================= */
+  .ws-instruction {
+    margin: 30px 0;
+    font-size: 24px;
+    font-weight: 500;
+  }
+
+  /* ================= LETTERS ================= */
+  .letters {
+    font-size: 80px;
+    letter-spacing: 45px;
+    color: #7A55D1;
+    margin: 60px 0;
+    line-height: 1.4;
+  }
+
+  .letter {
+    cursor: pointer;
+    padding: 10px 14px;
+    border-radius: 16px;
+    display: inline-block;
+    transition: 0.2s;
+  }
+
+  .letter:hover {
+    background: #EFE9FF;
+  }
+
+  .correct {
+    background: #B8F2C2;
+    color: #1E7F3C;
+  }
+
+  .wrong {
+    background: #FFD6D6;
+    color: #9A1C1C;
+  }
+
+  /* ================= UNDERLINE ================= */
+  .underline {
+    border-top: 3px solid black;
+    width: 85%;
+    margin: 50px auto 0 auto;
+  }
+
+  /* ================= NAV ================= */
+  .nav-buttons {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+  }
+
+  .btn {
+    padding: 14px 32px;
+    border-radius: 14px;
+    border: none;
+    cursor: pointer;
+    background: #FFB36B;
+    font-weight: bold;
+    font-size: 18px;
+  }
+
+  .btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  /* ================= RESPONSIVE ================= */
+  @media (max-width: 768px) {
+    .letters {
+      font-size: 60px;
+      letter-spacing: 30px;
+    }
+
+    .ws-instruction {
+      font-size: 20px;
+    }
+  }
+</style>
+</head>
+
+<body>
+
+<!-- ================= TOP BAR ================= -->
+<div class="ws-top">
+  <div id="pageTitle">Literacy WS2 Q1</div>
+  <div class="exit-btn" onclick="exitWorksheet()">Exit Worksheet</div>
+</div>
+
+<!-- ================= AUDIO ================= -->
+<audio id="correctSound" src="correct.mp3"></audio>
+<audio id="wrongSound" src="wrong.mp3"></audio>
+
+<!-- ================= Q1 ================= -->
+<div class="ws-page active" id="q1" data-answer-count="1">
+  <div class="ws-title">MindCognition™</div>
+  <div class="ws-meta">Advanced</div>
+  <div class="ws-meta">Literacy: Alphabets-lowercase<br>"h" to "n"</div>
+
+  <div class="ws-instruction">(1) Point to h</div>
+  <div class="letters">
+    <span class="letter" data-correct="true">h</span>
+  </div>
+
+  <div class="underline"></div>
+
+  <div class="nav-buttons">
+    <button class="btn" id="nextBtn" disabled onclick="nextPage()">Next</button>
+  </div>
+</div>
+
+<!-- ================= Q2 ================= -->
+<div class="ws-page" id="q2" data-answer-count="1">
+  <div class="ws-instruction">(2) Point to h</div>
+  <div class="letters">
+    <span class="letter">j</span>
+    <span class="letter">l</span>
+    <span class="letter" data-correct="true">h</span>
+  </div>
+
+  <div class="underline"></div>
+
+  <div class="nav-buttons">
+    <button class="btn" onclick="prevPage()">Previous</button>
+    <button class="btn" id="nextBtn" disabled onclick="nextPage()">Next</button>
+  </div>
+</div>
+
+<!-- ================= Q3 ================= -->
+<div class="ws-page" id="q3" data-answer-count="2">
+  <div class="ws-instruction">(3) Circle j and k</div>
+  <div class="letters">
+    <span class="letter" data-correct="true">k</span>
+    <span class="letter" data-correct="true">j</span>
+    <span class="letter">i</span><br>
+    <span class="letter">h</span>
+  </div>
+
+  <div class="underline"></div>
+
+  <div class="nav-buttons">
+    <button class="btn" onclick="prevPage()">Previous</button>
+    <button class="btn" id="nextBtn" disabled onclick="nextPage()">Next</button>
+  </div>
+</div>
+
+<!-- ================= Q4 ================= -->
+<div class="ws-page" id="q4" data-answer-count="1">
+  <div class="ws-instruction">(4) Point to m</div>
+  <div class="letters">
+    <span class="letter">i</span>
+    <span class="letter">k</span>
+    <span class="letter">n</span>
+    <span class="letter" data-correct="true">m</span>
+    <span class="letter">h</span>
+  </div>
+
+  <div class="underline"></div>
+
+  <div class="nav-buttons">
+    <button class="btn" onclick="prevPage()">Previous</button>
+    <button class="btn" id="nextBtn" disabled onclick="nextPage()">Next</button>
+  </div>
+</div>
+
+<!-- ================= Q5 ================= -->
+<div class="ws-page" id="q5" data-answer-count="3">
+  <div class="ws-instruction">(5) Circle m, n and k</div>
+  <div class="letters">
+    <span class="letter" data-correct="true">m</span>
+    <span class="letter">i</span>
+    <span class="letter">l</span>
+    <span class="letter" data-correct="true">k</span>
+    <span class="letter" data-correct="true">n</span>
+    <span class="letter">h</span>
+  </div>
+
+  <div class="underline"></div>
+
+  <div class="nav-buttons">
+    <button class="btn" onclick="prevPage()">Previous</button>
+    <button class="btn" id="nextBtn" disabled onclick="submitWorksheet()">Submit</button>
+  </div>
+</div>
+
+<!-- ================= SCRIPT ================= -->
+<script>
+let current = 1;
+const total = 5;
+let score = 0;
+let selectedCorrect = 0;
+
+function showPage(num) {
+  document.querySelectorAll(".ws-page").forEach(p => p.classList.remove("active"));
+  const page = document.getElementById("q" + num);
+  page.classList.add("active");
+
+  document.getElementById("pageTitle").innerText = `Literacy WS2 Q${num}`;
+
+  selectedCorrect = 0;
+  page.querySelectorAll(".letter").forEach(l => {
+    l.classList.remove("correct", "wrong");
+  });
+
+  page.querySelector("#nextBtn").disabled = true;
+}
+
+function nextPage() {
+  if (current < total) {
+    current++;
+    showPage(current);
+  }
+}
+
+function prevPage() {
+  if (current > 1) {
+    current--;
+    showPage(current);
+  }
+}
+
+function exitWorksheet() {
+  window.location.href = "LiteracyWorksheets.htmll";
+}
+
+function submitWorksheet() {
+  localStorage.setItem("ws2_score", score);
+  alert(`Worksheet Completed!\nScore: ${score}/${total}`);
+  window.location.href = "LiteracyWorksheets.html";
+}
+
+document.addEventListener("click", function (e) {
+  if (!e.target.classList.contains("letter")) return;
+
+  const page = document.querySelector(".ws-page.active");
+  const required = parseInt(page.dataset.answerCount);
+  const correct = e.target.dataset.correct === "true";
+
+  if (correct && !e.target.classList.contains("correct")) {
+    e.target.classList.add("correct");
+    document.getElementById("correctSound").play();
+    selectedCorrect++;
+  } else if (!correct) {
+    e.target.classList.add("wrong");
+    document.getElementById("wrongSound").play();
+  }
+
+  if (selectedCorrect === required) {
+    score++;
+    page.querySelector("#nextBtn").disabled = false;
+  }
+});
+</script>
+
+</body>
+</html>

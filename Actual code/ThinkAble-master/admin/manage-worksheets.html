@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Manage Worksheets | ThinkAble Admin</title>
+  <link rel="stylesheet" href="admin.css">
+  <style>
+    nav a[href="manage-worksheets.html"] {
+      background-color: #FFD97D !important;
+      color: #333 !important;
+    }
+    /* Container Width Override */
+    .container {
+      max-width: 1600px;
+    }
+
+    /* Worksheet List Styles */
+    .worksheet-list-container {
+      background-color: white;
+      padding: 2rem;
+      border-radius: 8px;
+      margin-top: 1rem;
+    }
+
+    .worksheet-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .worksheet-header h1 {
+      margin: 0;
+      font-size: 1.8rem;
+    }
+
+    .delete-btn {
+      color: #F44336;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    /* Category Tabs */
+    .category-tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      border-bottom: 2px solid #333;
+      padding-bottom: 0.5rem;
+    }
+
+    .category-tab {
+      padding: 0.6rem 1rem;
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      color: #666;
+      transition: all 0.3s;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -2px;
+    }
+
+    .category-tab:hover {
+      color: #333;
+    }
+
+    .category-tab.active {
+      background-color: #FFD97D;
+      color: #333;
+      border-bottom-color: #FFD97D;
+    }
+
+    .category-tab.add-btn {
+      background-color: #FFD97D;
+      color: #333;
+      border-bottom-color: #FFD97D;
+      padding: 0.6rem 1.2rem;
+      border-radius: 4px;
+      margin-left: auto;
+    }
+
+    .category-tab.add-btn:hover {
+      opacity: 0.9;
+    }
+
+    /* Worksheet Table */
+    .worksheets-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1rem;
+    }
+
+    .worksheets-table thead tr {
+      background-color: #FFD97D;
+    }
+
+    .worksheets-table th {
+      padding: 1rem;
+      text-align: left;
+      font-weight: 700;
+      border-bottom: 2px solid #333;
+      color: #000 !important;
+      background-color: #FFD97D !important;
+    }
+
+    .worksheets-table td {
+      padding: 1rem;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .worksheets-table tbody tr {
+      background-color: #FFEDC3;
+    }
+
+    .worksheets-table tbody tr:hover {
+      background-color: #f5f5f5;
+    }
+
+    .edit-btn {
+      background-color: #FFD97D;
+      color: #333;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.2s;
+    }
+
+    .edit-btn:hover {
+      opacity: 0.8;
+    }
+
+    .create-new-btn {
+      background-color: #FFD97D;
+      color: #333;
+      padding: 0.6rem 1.2rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.2s;
+      margin-bottom: 1rem;
+    }
+
+    .create-new-btn:hover {
+      opacity: 0.8;
+    }
+
+    /* Form Section */
+    .form-section {
+      display: none;
+      background-color: white;
+      padding: 2rem;
+      border-radius: 8px;
+      margin-top: 2rem;
+    }
+
+    .form-section.active {
+      display: block;
+    }
+
+    .form-section h2 {
+      margin-top: 0;
+    }
+
+    .form-section form {
+      max-width: 600px;
+    }
+
+    .form-section label {
+      display: block;
+      font-weight: 600;
+      margin-top: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .form-section input,
+    .form-section select,
+    .form-section textarea {
+      width: 100%;
+      padding: 0.7rem;
+      border: 2px solid #ddd;
+      border-radius: 4px;
+      box-sizing: border-box;
+      font-size: 1rem;
+    }
+
+    .form-section input:focus,
+    .form-section select:focus,
+    .form-section textarea:focus {
+      outline: none;
+      border-color: #FFD97D;
+    }
+
+    .form-buttons {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .form-buttons button {
+      padding: 0.7rem 1.5rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.2s;
+    }
+
+    .form-buttons .save-btn {
+      background-color:#FFD97D
+      ;
+      color: white;
+    }
+
+    .form-buttons .save-btn:hover {
+      opacity: 0.8;
+    }
+
+    .form-buttons .cancel-btn {
+      background-color: #ccc;
+      color: #333;
+    }
+
+    .form-buttons .cancel-btn:hover {
+      opacity: 0.8;
+    }
+
+    .section {
+      display: none;
+    }
+
+    .section.active {
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="header-left">
+    <img src="../public/Logo.png" alt="ThinkAble Logo" class="logo">
+    <h1>ThinkAble Admin</h1>
+    </div>
+    <nav>
+      <a href="home.html">Home</a>
+      <a href="manage-student.html">Students</a>
+      <a href="manage-worksheets.html">Worksheets</a>
+      <a href="subscription-status.html">Subscription</a>
+      <a href="settings.html">Settings</a>      
+      <a href="../logout.html">Logout</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <!-- List Section -->
+    <div id="listSection" class="section active">
+      <div class="worksheet-list-container">
+        <div class="worksheet-header">
+          <h1>Worksheet List</h1>
+          <a class="delete-btn" href="#delete">Delete</a>
+        </div>
+
+        <!-- Category Tabs -->
+        <div class="category-tabs">
+          <button class="category-tab active" onclick="filterByCategory('colours')">Colours</button>
+          <button class="category-tab" onclick="filterByCategory('shapes')">Shapes</button>
+          <button class="category-tab" onclick="filterByCategory('literacy')">Literacy</button>
+          <button class="category-tab" onclick="filterByCategory('read-and-write')">Read & Write</button>
+          <button class="category-tab" onclick="filterByCategory('numeracy')">Numeracy</button>
+          <button class="category-tab" onclick="filterByCategory('mathematical-reasoning')">Mathematical Reasoning</button>
+          <button class="category-tab add-btn" onclick="showCreateForm()">+</button>
+        </div>
+
+        <!-- Worksheets Table -->
+        <table class="worksheets-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Last Updated</th>
+              <th>No. of attempts by students</th>
+              <th>Passing Rate</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="worksheetTable">
+            <!-- Colours category -->
+            <tr data-category="colours">
+              <td>Blue</td>
+              <td>9/6/2025</td>
+              <td>4</td>
+              <td>90%</td>
+              <td><button class="edit-btn">Edit</button></td>
+            </tr>
+            <tr data-category="colours">
+              <td>Green</td>
+              <td>21/9/2025</td>
+              <td>4</td>
+              <td>90%</td>
+              <td><button class="edit-btn">Edit</button></td>
+            </tr>
+            <tr data-category="colours">
+              <td>Red</td>
+              <td>16/7/2025</td>
+              <td>4</td>
+              <td>90%</td>
+              <td><button class="edit-btn">Edit</button></td>
+            </tr>
+            <tr data-category="colours">
+              <td>Yellow</td>
+              <td>12/10/2025</td>
+              <td>4</td>
+              <td>90%</td>
+              <td><button class="edit-btn">Edit</button></td>
+            </tr>
+            <!-- Shapes category -->
+            <tr data-category="shapes" style="display: none;">
+              <td>Circle</td>
+              <td>9/6/2025</td>
+              <td>4</td>
+              <td>90%</td>
+              <td><button class="edit-btn">Edit</button></td>
+            </tr>
+            <tr data-category="shapes" style="display: none;">
+              <td>Rectangle</td>
+              <td>21/9/2025</td>
+              <td>4</td>
+              <td>90%</td>
+              <td><button class="edit-btn">Edit</button></td>
+            </tr>
+            <tr data-category="shapes" style="display: none;">
+              <td>Square</td>
+              <td>16/7/2025</td>
+              <td>4</td>
+              <td>90%</td>
+              <td><button class="edit-btn">Edit</button></td>
+            </tr>
+            <tr data-category="shapes" style="display: none;">
+              <td>Triangle</td>
+              <td>12/10/2025</td>
+              <td>4</td>
+              <td>90%</td>
+              <td><button class="edit-btn">Edit</button></td>
+            </tr>
+            <!-- Literacy category -->
+            <tr data-category="literacy" style="display: none;">
+              <td>Alphabets-lowercase "a"-"f"</td>
+              <td>9/6/2025</td>
+              <td>4</td>
+              <td>90%</td>
+              <td><button class="edit-btn">Edit</button></td>
+            </tr>
+            <tr data-category="literacy" style="display: none;">
+              <td>Alphabets-lowercase "g"-"l"</td>
+              <td>21/9/2025</td>
+              <td>4</td>
+              <td>90%</td>
+              <td><button class="edit-btn">Edit</button></td>
+            </tr>
+            <tr data-category="literacy" style="display: none;">
+              <td>Alphabets-lowercase "m"-"r"</td>
+              <td>16/7/2025</td>
+              <td>4</td>
+              <td>90%</td>
+              <td><button class="edit-btn">Edit</button></td>
+            </tr>
+            <tr data-category="literacy" style="display: none;">
+              <td>Alphabets-lowercase "s"-"z"</td>
+              <td>12/10/2025</td>
+              <td>4</td>
+              <td>90%</td>
+              <td><button class="edit-btn">Edit</button></td>
+            </tr>
+            <!-- Read & Write category -->
+            <tr data-category="read-and-write" style="display: none;">
+              <td>Level 1</td>
+              <td>9/6/2025</td>
+              <td>4</td>
+              <td>90%</td>
+              <td><button class="edit-btn">Edit</button></td>
+            </tr>
+            <tr data-category="read-and-write" style="display: none;">
+              <td>Level 2</td>
+              <td>21/9/2025</td>
+              <td>4</td>
+              <td>90%</td>
+              <td><button class="edit-btn">Edit</button></td>
+            </tr>
+            <tr data-category="read-and-write" style="display: none;">
+              <td>Level 3</td>
+              <td>16/7/2025</td>
+              <td>4</td>
+              <td>90%</td>
+              <td><button class="edit-btn">Edit</button></td>
+            </tr>
+            <tr data-category="read-and-write" style="display: none;">
+              <td>Level 4</td>
+              <td>12/10/2025</td>
+              <td>4</td>
+              <td>90%</td>
+              <td><button class="edit-btn">Edit</button></td>
+            </tr>
+            <!-- Numeracy category -->
+            <tr data-category="numeracy" style="display: none;">
+              <td>Counting 1-10</td>
+              <td>5/6/2025</td>
+              <td>6</td>
+              <td>92%</td>
+              <td><button class="edit-btn">Edit</button></td>
+            </tr>
+            <!-- Mathematical Reasoning category -->
+            <tr data-category="mathematical-reasoning" style="display: none;">
+              <td>Problem Solving</td>
+              <td>20/9/2025</td>
+              <td>3</td>
+              <td>80%</td>
+              <td><button class="edit-btn">Edit</button></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <button class="create-new-btn" onclick="showCreateForm()">+Create New</button>
+      </div>
+    </div>
+
+    <!-- Form Section -->
+    <div id="formSection" class="section form-section">
+      <h2 id="formTitle">Add Worksheet</h2>
+
+      <form id="worksheetForm" onsubmit="saveWorksheet(event)">
+        <input type="hidden" id="wsId">
+
+        <label>Title</label>
+        <input id="title" required>
+
+        <label>Topic</label>
+        <input id="topic" required>
+
+        <label>Level</label>
+        <select id="level">
+          <option>Elementary</option>
+          <option>Intermediate</option>
+          <option>Expert</option>
+        </select>
+
+        <label>Description</label>
+        <textarea id="description" rows="4"></textarea>
+
+        <label>Total Questions</label>
+        <input id="totalQuestions" type="number" min="1" required>
+
+        <div class="form-buttons">
+          <button type="submit" class="save-btn">Save</button>
+          <button type="button" class="cancel-btn" onclick="showList()">Cancel</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Delete Section -->
+    <div id="deleteSection" class="section">
+      <h2>Delete Worksheet</h2>
+      <p id="deleteText"></p>
+      <button class="btn btn-delete" id="confirmDeleteBtn">Delete</button>
+      <button class="btn" onclick="showList()">Cancel</button>
+    </div>
+
+  </div>
+
+  <script>
+    // Category filter function
+    function filterByCategory(category) {
+      const tabs = document.querySelectorAll('.category-tab:not(.add-btn)');
+      tabs.forEach(tab => tab.classList.remove('active'));
+      event.target.classList.add('active');
+      
+      // Hide all rows
+      const allRows = document.querySelectorAll('#worksheetTable tr');
+      allRows.forEach(row => row.style.display = 'none');
+      
+      // Show only rows matching the selected category
+      const categoryRows = document.querySelectorAll(`#worksheetTable tr[data-category="${category}"]`);
+      categoryRows.forEach(row => row.style.display = 'table-row');
+    }
+
+    // Show/Hide section helpers
+    function hideAll() {
+      document.querySelectorAll(".section").forEach(sec => sec.classList.remove("active"));
+    }
+
+    function showList() {
+      hideAll();
+      document.getElementById("listSection").classList.add("active");
+    }
+
+    function showCreateForm() {
+      hideAll();
+      document.getElementById("formTitle").innerText = "Add Worksheet";
+      document.getElementById("worksheetForm").reset();
+      document.getElementById("wsId").value = "";
+      document.getElementById("formSection").classList.add("active");
+    }
+
+    async function showEditForm(id) {
+      hideAll();
+      document.getElementById("formTitle").innerText = "Edit Worksheet";
+      document.getElementById("formSection").classList.add("active");
+    }
+
+    function saveWorksheet(event) {
+      event.preventDefault();
+      // Add save logic here
+      showList();
+    }
+  </script>
+
+  <script src="manage-worksheets.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

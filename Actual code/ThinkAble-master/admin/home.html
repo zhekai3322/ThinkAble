@@ -1,0 +1,133 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin | Home</title>
+  <link rel="stylesheet" href="admin.css">
+  <style>
+    nav a[href="home.html"] {
+      background-color: #FFD97D !important;
+      color: #333 !important;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-left">
+    <img src="../public/Logo.png" alt="ThinkAble Logo" class="logo">
+    <h1>ThinkAble Admin</h1>
+    </div>
+    <nav>
+      <a href="home.html">Home</a>
+      <a href="manage-student.html">Students</a>
+      <a href="manage-worksheets.html">Worksheets</a>
+      <a href="subscription-status.html">Subscription</a>
+      <a href="settings.html">Settings</a>      
+      <a href="../logout.html">Logout</a>
+    </nav>
+  </header>
+  <main>
+    <!-- Welcome Section -->
+    <div class="welcome-section">
+      <h2>Welcome Back, Admin</h2>
+    </div>
+    
+    <!-- Invoice Table and Chart Row -->
+    <div class="content-wrapper">
+      <!-- Invoice Table -->
+      <div class="invoice-card">
+        <table class="invoice-table" onclick="window.location.href='subscription-status.html';">
+          <thead>
+            <tr>
+              <th>Invoice No.</th>
+              <th>Customer Name</th>
+              <th>Date Invoiced</th>
+              <th>Subscription</th>
+              <th>Amount</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>Roger Naruto</td>
+              <td>21/5/2025</td>
+              <td>Yearly</td>
+              <td>$150</td>
+              <td><span class="status-paid">Paid</span></td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>Mary White</td>
+              <td>14/8/2025</td>
+              <td>Yearly</td>
+              <td>$150</td>
+              <td><span class="status-pending">Pending</span></td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>Eustace Gibson</td>
+              <td>2/11/2025</td>
+              <td>Monthly</td>
+              <td>$15</td>
+              <td><span class="status-pending">Pending</span></td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>Felicia Grace</td>
+              <td>10/11/2025</td>
+              <td>Monthly</td>
+              <td>$15</td>
+              <td><span class="status-overdue">Overdue</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+      <!-- Invoice Status Chart -->
+      <div class="chart-card" onclick="window.location.href='subscription-status.html';">
+        <div class="circular-chart">
+          <div class="chart-center">
+            <div class="chart-title">Invoice<br>Status</div>
+          </div>
+        </div>
+        <div class="chart-legend">
+          <div class="legend-item">
+            <div class="legend-dot" style="background-color: #4CAF50;"></div>
+            <span>Paid<br>$150</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-dot" style="background-color: #FFC107;"></div>
+            <span>Pending<br>$50</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-dot" style="background-color: #F44336;"></div>
+            <span>Overdue<br>$30</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Continue Editing Worksheet Section -->
+    <div class="worksheets-card">
+      <h3>Continue editing worksheets</h3>
+      <div class="worksheets-container">
+        <a href="manage-worksheets.html" class="worksheet-card">
+          <span class="level-badge elementary">Elem</span>
+          <span class="worksheet-title">Mathematical Reasoning</span>
+        </a>
+        <a href="manage-worksheets.html" class="worksheet-card">
+          <span class="level-badge intermediate">Inter</span>
+          <span class="worksheet-title">Literacy: Alphabets-lowercase "a" to "f"</span>
+        </a>
+        <a href="manage-worksheets.html" class="worksheet-card">
+          <span class="level-badge intermediate">Inter</span>
+          <span class="worksheet-title">Shapes: Circle</span>
+        </a>
+      </div>
+    </div>
+  </main>
+  <script src="../script.js"></script>
+</body>
+</html>

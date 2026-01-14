@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Student Worksheets</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<style>
+/* ===============================
+   WORKSHEETS PAGE – IMAGE MATCH
+=============================== */
+
+/* Override container width & spacing */
+.student-container {
+  max-width: 1150px;
+  margin: 1.8rem auto;
+  padding: 1.8rem;
+  background: var(--soft-green);
+  border-radius: 22px;
+}
+
+/* Main two-column layout */
+.student-layout {
+  display: grid;
+  grid-template-columns: 3fr 1.2fr;
+  gap: 28px;
+}
+
+/* Greeting */
+.student-title-big {
+  font-size: 2.1rem;
+  margin-bottom: 4px;
+}
+
+.student-subtitle {
+  color: #6b8f6f;
+  margin-bottom: 18px;
+}
+
+/* Section title bar */
+.student-section-title {
+  background: #b6d8a8;
+  padding: 18px 22px;
+  border-radius: 20px;
+  font-size: 1.7rem;
+  font-weight: 600;
+  margin-bottom: 22px;
+}
+
+/* Worksheet cards */
+.worksheet-card {
+  display: flex;
+  gap: 18px;
+  padding: 18px;
+  border-radius: 18px;
+  margin-bottom: 18px;
+  align-items: center;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.worksheet-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.12);
+}
+
+/* Card images */
+.worksheet-card img {
+  width: 110px;
+  height: 110px;
+  border-radius: 14px;
+}
+
+/* Card text */
+.card-info h3 {
+  font-size: 1.25rem;
+  margin-bottom: 4px;
+}
+
+.card-info p {
+  margin: 2px 0;
+  font-size: 0.95rem;
+}
+
+/* Progress bar (match screenshot thickness) */
+.progress-bar {
+  height: 18px;
+  background: #e9edf4;
+  border-radius: 999px;
+  overflow: hidden;
+  margin-top: 8px;
+  border: none;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #1f2a5c;
+  border-radius: 999px;
+}
+
+/* Right sidebar */
+.student-sidebar {
+  background: #a9cf9e;
+  padding: 18px;
+  border-radius: 22px;
+  height: fit-content;
+}
+
+/* Profile card */
+.profile-box {
+  background: #7fb47f;
+  padding: 14px;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.profile-img {
+  width: 68px;
+  height: 68px;
+}
+
+.profile-name {
+  font-size: 1.15rem;
+}
+
+.profile-role {
+  font-size: 0.85rem;
+  opacity: 0.9;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .student-layout {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+
+<body>
+
+<header>
+  <div class="header-left">
+    <img src="../public/Logo.png" alt="ThinkAble Logo" class="logo">
+    <h1>ThinkAble</h1>
+  </div>
+  <nav>
+    <a href="home.html">Home</a>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="worksheets.html" class="active">Worksheets</a>
+    <a href="parent.html">Parent</a>
+  </nav>
+</header>
+
+<main class="student-container">
+
+  <!-- TOP GREETING ROW -->
+  <div class="student-layout">
+
+    <!-- LEFT CONTENT -->
+    <section>
+      <h1 class="student-title-big">Hello John!</h1>
+      <p class="student-subtitle">Lets start some worksheets today!</p>
+
+      <!-- WORKSHEET CARD 1 -->
+      <a href="LiteracyWorksheets.html" style="text-decoration:none;">
+        <div class="worksheet-card" style="background: var(--accent-peach);">
+          <img src="../public/literacy.png" alt="Alphabet">
+
+          <div class="card-info">
+            <h3>Literacy</h3>
+
+          </div>
+        </div>
+      </a>
+
+      <!-- WORKSHEET CARD 2 -->
+      <a href="NumeracyWorksheets.html" style="text-decoration:none;">
+        <div class="worksheet-card" style="background: var(--primary-green);">
+          <img src="../public/numeracy.png" alt="Alphabet">
+
+          <div class="card-info">
+            <h3>Numeracy</h3>
+          </div>
+        </div>
+      </a>
+
+      <!-- WORKSHEET CARD 3 -->
+      <a href="MathematicalWorksheets.html" style="text-decoration:none;">
+        <div class="worksheet-card" style="background:#E2A38B;">
+          <img src="../public/math.png" alt="Alphabet">
+
+          <div class="card-info">
+            <h3>Mathematical</h3>
+          </div>
+        </div>
+      </a>
+
+      <!-- WORKSHEET CARD 4 -->
+      <a href="ShapeWorksheets.html" style="text-decoration:none;">
+        <div class="worksheet-card" style="background: var(--accent-peach);">
+          <img src="../public/shape.png" alt="Alphabet">
+
+          <div class="card-info">
+            <h3>Shapes</h3>
+          </div>
+        </div>
+      </a>
+
+      <!-- WORKSHEET CARD 5 -->
+      <a href="ColorWorksheets.html" style="text-decoration:none;">
+        <div class="worksheet-card" style="background: var(--primary-green);">
+          <img src="../public/color.png" alt="Alphabet">
+
+          <div class="card-info">
+            <h3>Colors</h3>
+          </div>
+        </div>
+      </a>
+
+    </section>
+
+    <!-- RIGHT SIDEBAR -->
+    <aside class="student-sidebar">
+      <div class="profile-box">
+        <img src="../public/user.png" class="profile-img" alt="Student">
+        <div>
+          <h3 class="profile-name">John Naruto</h3>
+          <p class="profile-role">Student</p>
+        </div>
+      </div>
+    </aside>
+
+  </div>
+</main>
+
+<script src="../script.js"></script>
+</body>
+</html>
