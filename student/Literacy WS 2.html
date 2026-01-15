@@ -248,7 +248,7 @@
 <script>
 let current = 1;
 const total = 5;
-let score = 0;
+let answered = new Set();
 let selectedCorrect = 0;
 
 function showPage(num) {
@@ -263,7 +263,7 @@ function showPage(num) {
     l.classList.remove("correct", "wrong");
   });
 
-  page.querySelector("#nextBtn").disabled = true;
+  page.querySelector("#nextBtn").disabled = !answered.has(num);
 }
 
 function nextPage() {
@@ -280,13 +280,19 @@ function prevPage() {
   }
 }
 
-function exitWorksheet() {
-  window.location.href = "LiteracyWorksheets.htmll";
+function saveProgress() {
+  const progress = Math.round((answered.size / total) * 100);
+  localStorage.setItem("literacy_ws2", progress);
 }
 
 function submitWorksheet() {
-  localStorage.setItem("ws2_score", score);
-  alert(`Worksheet Completed!\nScore: ${score}/${total}`);
+  saveProgress();
+  alert("Worksheet completed!\nProgress: " + localStorage.getItem("literacy_ws2") + "%");
+  window.location.href = "LiteracyWorksheets.html";
+}
+
+function exitWorksheet() {
+  saveProgress();
   window.location.href = "LiteracyWorksheets.html";
 }
 
@@ -307,11 +313,24 @@ document.addEventListener("click", function (e) {
   }
 
   if (selectedCorrect === required) {
-    score++;
+    answered.add(current);
+    saveProgress();
     page.querySelector("#nextBtn").disabled = false;
   }
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+  const saved = Number(localStorage.getItem("literacy_ws2")) || 0;
+  const answeredCount = Math.round((saved / 100) * total);
+
+  for (let i = 1; i <= answeredCount; i++) {
+    answered.add(i);
+  }
+
+  showPage(current);
+});
 </script>
+
 
 </body>
 </html>

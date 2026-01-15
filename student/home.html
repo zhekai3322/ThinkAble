@@ -16,7 +16,7 @@
   <nav class="main-nav">
     <a class="nav-btn active" href="home.html">Home</a>
     <a class="nav-btn" href="student_dashboard.html">Dashboard</a>
-    <a class="nav-btn" href="LiteracyWorksheets.html">Worksheets</a>
+    <a class="nav-btn" href="Worksheets.html">Worksheets</a>
     <a class="nav-btn" href="settings.html">Settings</a>
     <a class="nav-btn" href="../parent/home.html">Parent</a>
   </nav>
@@ -35,19 +35,23 @@
     <h2 class="section-title">Worksheets in progress</h2>
 
     <!-- CARD 1 -->
-    <div class="worksheet-card">
-      <img src="../public/literacy.png" class="card-img">
+<a href="LiteracyWorksheets.html" class="worksheet-link">
+  <div class="worksheet-card">
 
-      <div class="card-info">
-        <h3>Literacy: Alphabets-lowercase “a” to “f”</h3>
-        <p class="level">Basic</p>
-        <p class="completion">80% complete</p>
+    <img src="../public/literacy.png" class="card-img">
 
-        <div class="progress-bar">
-          <div class="progress-fill" style="width: 80%;"></div>
-        </div>
+    <div class="card-info">
+      <h3>Literacy Worksheets</h3>
+      <p class="level">Basic</p>
+      <p class="completion" id="literacy-text">0% complete</p>
+
+      <div class="progress-bar">
+        <div class="progress-fill" id="literacy-bar"></div>
       </div>
     </div>
+
+  </div>
+</a>
 
     <!-- CARD 2 -->
     <div class="worksheet-card">

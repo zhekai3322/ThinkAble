@@ -161,6 +161,12 @@ body.dark {
   object-fit: cover;
 }
 
+.worksheet-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
 .card-info h3 {
   margin: 0;
   font-size: 1.3rem;

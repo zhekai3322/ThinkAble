@@ -239,12 +239,14 @@
 <script>
   let current = 1;
   const total = 5;
-  let score = 0;
+
+  let answered = new Set(); // track answered questions
 
   function show(n) {
     document.querySelectorAll(".ws-page").forEach(p => p.classList.remove("active"));
     const page = document.getElementById("q" + n);
     page.classList.add("active");
+
     document.getElementById("title").innerText = "Literacy WS1 Q" + n;
 
     page.querySelectorAll(".letter").forEach(l => {
@@ -252,7 +254,7 @@
     });
 
     const btn = page.querySelector("#nextBtn");
-    if (btn) btn.disabled = true;
+    if (btn) btn.disabled = !answered.has(n);
   }
 
   function next() {
@@ -269,13 +271,19 @@
     }
   }
 
+  function saveProgress() {
+    const progress = Math.round((answered.size / total) * 100);
+    localStorage.setItem("literacy_ws1", progress);
+  }
+
   function submitWS() {
-    localStorage.setItem("ws1_score", score);
-    alert("Worksheet completed!\nScore: " + score + "/" + total);
+    saveProgress();
+    alert("Worksheet completed!\nProgress: " + localStorage.getItem("literacy_ws1") + "%");
     window.location.href = "LiteracyWorksheets.html";
   }
 
   function exitWorksheet() {
+    saveProgress();
     window.location.href = "LiteracyWorksheets.html";
   }
 
@@ -283,6 +291,7 @@
     if (!e.target.classList.contains("letter")) return;
 
     const page = document.querySelector(".ws-page.active");
+    const qNumber = current;
     const correct = e.target.dataset.correct === "true";
 
     page.querySelectorAll(".letter").forEach(l => {
@@ -292,14 +301,30 @@
     if (correct) {
       e.target.classList.add("correct");
       document.getElementById("correctSound").play();
-      score++;
+
+      answered.add(qNumber);   // mark question as answered
+      saveProgress();          // save progress immediately
+
       page.querySelector("#nextBtn")?.removeAttribute("disabled");
     } else {
       e.target.classList.add("wrong");
       document.getElementById("wrongSound").play();
     }
   });
+
+  // Restore progress if student returns
+  document.addEventListener("DOMContentLoaded", () => {
+    const saved = Number(localStorage.getItem("literacy_ws1")) || 0;
+    const answeredCount = Math.round((saved / 100) * total);
+
+    for (let i = 1; i <= answeredCount; i++) {
+      answered.add(i);
+    }
+
+    show(current);
+  });
 </script>
+
 
 </body>
 </html>

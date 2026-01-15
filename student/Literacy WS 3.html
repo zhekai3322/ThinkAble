@@ -253,13 +253,14 @@
 <script>
 let current = 1;
 const total = 5;
-let score = 0;
+let answered = new Set();
 let selectedCorrect = 0;
 
 function show(n) {
   document.querySelectorAll(".ws-page").forEach(p => p.classList.remove("active"));
   const page = document.getElementById("q" + n);
   page.classList.add("active");
+
   document.getElementById("title").innerText = "Literacy WS3 Q" + n;
 
   selectedCorrect = 0;
@@ -267,7 +268,7 @@ function show(n) {
     l.classList.remove("correct", "wrong");
   });
 
-  page.querySelector("#nextBtn").disabled = true;
+  page.querySelector("#nextBtn").disabled = !answered.has(n);
 }
 
 function next() {
@@ -284,13 +285,19 @@ function prev() {
   }
 }
 
+function saveProgress() {
+  const progress = Math.round((answered.size / total) * 100);
+  localStorage.setItem("literacy_ws3", progress);
+}
+
 function submitWS() {
-  localStorage.setItem("ws3_score", score);
-  alert(`Worksheet completed!\nScore: ${score}/${total}`);
+  saveProgress();
+  alert("Worksheet completed!\nProgress: " + localStorage.getItem("literacy_ws3") + "%");
   window.location.href = "LiteracyWorksheets.html";
 }
 
 function exitWorksheet() {
+  saveProgress();
   window.location.href = "LiteracyWorksheets.html";
 }
 
@@ -311,11 +318,24 @@ document.addEventListener("click", function (e) {
   }
 
   if (selectedCorrect === required) {
-    score++;
+    answered.add(current);
+    saveProgress();
     page.querySelector("#nextBtn").disabled = false;
   }
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+  const saved = Number(localStorage.getItem("literacy_ws3")) || 0;
+  const answeredCount = Math.round((saved / 100) * total);
+
+  for (let i = 1; i <= answeredCount; i++) {
+    answered.add(i);
+  }
+
+  show(current);
+});
 </script>
+
 
 </body>
 </html>
