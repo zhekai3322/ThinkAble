@@ -58,9 +58,45 @@
   </main>
 
   <script>
-    document.getElementById("signupForm").addEventListener("submit", function(e) {
+    document.getElementById("signupForm").addEventListener("submit", async function(e) {
       e.preventDefault();
-      window.location.href = "login.html";
+      
+      const email = document.getElementById("su_email").value.trim().toLowerCase();
+      const password = document.getElementById("su_password").value.trim();
+      
+      // Validation
+      if (!email || !password) {
+        alert("Please fill in all fields");
+        return;
+      }
+      
+      if (password.length < 6) {
+        alert("Password must be at least 6 characters");
+        return;
+      }
+      
+      try {
+        const response = await fetch("/api/auth/signup", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password, role: "student" }),
+        });
+        
+        const data = await response.json();
+        
+        if (!data.success) {
+          alert(data.message || "Signup failed");
+          return;
+        }
+        
+        alert("Account created successfully! Redirecting to login...");
+        window.location.href = "login.html";
+      } catch (error) {
+        console.error("Signup error:", error);
+        alert("Connection error. Please try again.");
+      }
     });
   </script>
 
