@@ -14,9 +14,8 @@
   </div>
 
   <nav class="main-nav">
-    <a class="nav-btn active" href="home.html">Home</a>
+    <a class="header nav a" href="home.html">Home</a>
     <a class="nav-btn" href="student_dashboard.html">Dashboard</a>
-    <a class="nav-btn" href="Worksheets.html">Worksheets</a>
     <a class="nav-btn" href="settings.html">Settings</a>
     <a class="nav-btn" href="../parent/home.html">Parent</a>
   </nav>
@@ -34,10 +33,9 @@
 
     <h2 class="section-title">Worksheets in progress</h2>
 
-    <!-- CARD 1 -->
+<!-- CARD 1: Literacy -->
 <a href="LiteracyWorksheets.html" class="worksheet-link">
   <div class="worksheet-card">
-
     <img src="../public/literacy.png" class="card-img">
 
     <div class="card-info">
@@ -49,40 +47,77 @@
         <div class="progress-fill" id="literacy-bar"></div>
       </div>
     </div>
-
   </div>
 </a>
 
-    <!-- CARD 2 -->
-    <div class="worksheet-card">
-      <img src="../public/math.png" class="card-img">
+<!-- CARD 2: Numeracy -->
+<a href="NumeracyWorksheets.html" class="worksheet-link">
+  <div class="worksheet-card">
+    <img src="../public/numeracy.png" class="card-img">
 
-      <div class="card-info">
-        <h3>Mathematical Reasoning</h3>
-        <p class="level">Basic</p>
-        <p class="completion">80% complete</p>
+    <div class="card-info">
+      <h3>Numeracy Worksheets</h3>
+      <p class="level">Basic</p>
+      <p class="completion" id="numeracy-text">0% complete</p>
 
-        <div class="progress-bar">
-          <div class="progress-fill" style="width: 80%;"></div>
-        </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="numeracy-bar"></div>
       </div>
     </div>
+  </div>
+</a>
 
+<!-- CARD 3: Mathematical -->
+<a href="MathematicalWorksheets.html" class="worksheet-link">
+  <div class="worksheet-card">
+    <img src="../public/math.png" class="card-img">
 
-    <!-- CARD 3 -->
-    <div class="worksheet-card">
-      <img src="../public/numeracy.png" class="card-img">
+    <div class="card-info">
+      <h3>Mathematical Worksheets</h3>
+      <p class="level">Basic</p>
+      <p class="completion" id="math-text">0% complete</p>
 
-      <div class="card-info">
-        <h3>Numeracy: Number Recognition 1-5</h3>
-        <p class="level">Basic</p>
-        <p class="completion">80% complete</p>
-
-        <div class="progress-bar">
-          <div class="progress-fill" style="width: 80%;"></div>
-        </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="math-bar"></div>
       </div>
     </div>
+  </div>
+</a>
+
+<!-- CARD 4: Shapes -->
+<a href="ShapeWorksheets.html" class="worksheet-link">
+  <div class="worksheet-card">
+    <img src="../public/shape.png" class="card-img">
+
+    <div class="card-info">
+      <h3>Shapes Worksheets</h3>
+      <p class="level">Basic</p>
+      <p class="completion" id="shapes-text">0% complete</p>
+
+      <div class="progress-bar">
+        <div class="progress-fill" id="shapes-bar"></div>
+      </div>
+    </div>
+  </div>
+</a>
+
+<!-- CARD 5: Colors -->
+<a href="ColorWorksheets.html" class="worksheet-link">
+  <div class="worksheet-card">
+    <img src="../public/color.png" class="card-img">
+
+    <div class="card-info">
+      <h3>Colors Worksheets</h3>
+      <p class="level">Basic</p>
+      <p class="completion" id="colors-text">0% complete</p>
+
+      <div class="progress-bar">
+        <div class="progress-fill" id="colors-bar"></div>
+      </div>
+    </div>
+  </div>
+</a>
+
 
   </section>
 
