@@ -23,27 +23,44 @@ function initLogin() {
   const form = document.getElementById("loginForm");
   if (!form) return;
 
-  form.addEventListener("submit", function (e) {
+  form.addEventListener("submit", async function (e) {
     e.preventDefault();
 
     const email = document.getElementById("email").value.trim().toLowerCase();
     const password = document.getElementById("password").value.trim();
 
-    const ADMIN_EMAIL = "admin@thinkable.com";
-    const ADMIN_PW = "admin123";
-    const PARENT_EMAIL = "parent@thinkable.com";
-    const PARENT_PW = "parent123";
-    const STUDENT_EMAIL = "student@thinkable.com";
-    const STUDENT_PW = "student123";
+    try {
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
 
-    if (email === ADMIN_EMAIL && password === ADMIN_PW) {
-      window.location.href = "admin/home.html";
-    } else if (email === PARENT_EMAIL && password === PARENT_PW) {
-      window.location.href = "parent/home.html";
-    } else if (email === STUDENT_EMAIL && password === STUDENT_PW) {
-      window.location.href = "student/home.html";
-    } else {
-      alert("Invalid login. Please check your email and password.");
+      const data = await response.json();
+
+      if (!data.success) {
+        alert(data.message || "Login failed");
+        return;
+      }
+
+      // Store user info in localStorage
+      localStorage.setItem("currentUser", JSON.stringify(data.user));
+      localStorage.setItem("userId", data.user.id);
+      localStorage.setItem("userRole", data.user.role);
+
+      // Redirect based on role
+      if (data.user.role === "admin") {
+        window.location.href = "admin/home.html";
+      } else if (data.user.role === "parent") {
+        window.location.href = "parent/home.html";
+      } else {
+        window.location.href = "student/home.html";
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      alert("Connection error. Please try again.");
     }
   });
 }
