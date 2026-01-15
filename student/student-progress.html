@@ -50,6 +50,7 @@
   <nav>
       <a href="home.html">Home</a>
       <a href="worksheets.html">Worksheets</a>
+      <a href="download-progress.html">Download Progress</a>
       <a href="../logout.html">Logout</a>
   </nav>
 </header>
@@ -58,58 +59,112 @@
 <main class="progress-container">
 
   <h2 class="progress-title">Worksheet Performance</h2>
-  <p class="progress-subtitle">Student: <strong id="studentName">John Tan</strong></p>
+  <p class="progress-subtitle">
+    Student: <strong id="studentName">John Tan</strong>
+  </p>
 
-  <canvas id="resultsChart" height="120"></canvas>
+  <div style="display:flex; gap:2rem; align-items:flex-start;">
+
+    <!-- CHART -->
+    <div style="flex:2;">
+      <canvas id="resultsChart" height="220"></canvas>
+    </div>
+
+    <!-- FEEDBACK -->
+    <div style="flex:1;">
+      <h3 style="margin-bottom:1rem; color:var(--dark-green);">
+        Feedback Summary
+      </h3>
+      <ul id="feedbackList" style="line-height:1.8;"></ul>
+    </div>
+
+  </div>
 
 </main>
+
 
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
 
-  // You can change name dynamically later (from login)
   document.getElementById("studentName").textContent = "John Tan";
 
-  // === Sample Worksheet Names ===
-  const worksheetNames = [
-    "Colour Matching",
-    "Shape Recognition",
-    "Basic Counting"
+  /* === DATA (can be replaced by DB later) === */
+  const labels = [
+    "Literacy",
+    "Numeracy",
+    "Mathematical",
+    "Color",
+    "Shape"
   ];
 
-  // === Sample Scores (out of 100) ===
-  const worksheetScores = [
-    85,  // Colour Matching
-    72,  // Shape Recognition
-    91   // Basic Counting
+  const scores = [
+    78,  // Literacy
+    82,  // Numeracy
+    55,  // Mathematical
+    48,  // Color
+    85   // Shape
   ];
 
-  const ctx = document.getElementById('resultsChart');
+  /* === FEEDBACK RULES === */
+  function getFeedback(score) {
+    if (score >= 80) return "✅ Strong performance";
+    if (score >= 60) return "⚠️ Fair, can improve";
+    return "❌ Needs more practice";
+  }
 
-  new Chart(ctx, {
-    type: 'bar',
+  /* === RENDER FEEDBACK LIST === */
+  const feedbackList = document.getElementById("feedbackList");
+  labels.forEach((label, index) => {
+    const li = document.createElement("li");
+    li.innerHTML = `<strong>${label}:</strong> ${getFeedback(scores[index])}`;
+    feedbackList.appendChild(li);
+  });
+
+  /* === CHART === */
+  const ctx = document.getElementById("resultsChart");
+
+  const chart = new Chart(ctx, {
+    type: "bar",
     data: {
-      labels: worksheetNames,
+      labels: labels,
       datasets: [{
         label: "Score (%)",
-        data: worksheetScores,
-        backgroundColor: ["#DCEFD8", "#6FAF78", "#FFB36B"]
+        data: scores,
+        backgroundColor: [
+          "#6FAF78",
+          "#000000",
+          "#FFB36B",
+          "#F28C8C",
+          "#7AAED6"
+        ]
       }]
     },
     options: {
+      indexAxis: "y",   // 🔥 Horizontal
       responsive: true,
       scales: {
-        y: { 
+        x: {
           beginAtZero: true,
-          max: 100 
+          max: 100
         }
+      },
+      plugins: {
+        legend: { display: false }
       }
     }
   });
 
+  /* === SAVE IMAGE FOR DOWNLOAD PAGE === */
+  setTimeout(() => {
+    const image = ctx.toDataURL("image/png");
+    localStorage.setItem("progressChartImage", image);
+  }, 500);
+
 });
 </script>
+
+
 
 </body>
 </html>

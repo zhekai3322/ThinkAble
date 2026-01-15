@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Download Progress | ThinkAble</title>
+
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../parent.css">
+
+  <style>
+    .download-box {
+      max-width: 600px;
+      margin: 3rem auto;
+      padding: 2rem;
+      text-align: center;
+      background: #f4f8f4;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+
+    .preview-img {
+      width: 100%;
+      margin: 1.5rem 0;
+      border-radius: 12px;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="header-left">
+    <img src="../public/Logo.png" class="logo">
+    <h1>Download Progress</h1>
+  </div>
+  <nav>
+    <a href="home.html">Home</a>
+    <a href="student-progress.html">Progress</a>
+    <a href="../logout.html">Logout</a>
+  </nav>
+</header>
+
+<main class="download-box">
+  <h2>Student Progress Report</h2>
+  <p>Preview of worksheet performance chart</p>
+
+  <img id="chartPreview" class="preview-img" alt="Progress Chart">
+
+  <button class="btn" onclick="downloadChart()">
+    ⬇ Download Progress Chart (PNG)
+  </button>
+</main>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const image = localStorage.getItem("progressChartImage");
+
+  if (image) {
+    document.getElementById("chartPreview").src = image;
+  } else {
+    alert("No chart found. Please visit Progress page first.");
+  }
+});
+
+function downloadChart() {
+  const image = localStorage.getItem("progressChartImage");
+
+  if (!image) {
+    alert("No chart available for download.");
+    return;
+  }
+
+  const link = document.createElement("a");
+  link.href = image;
+  link.download = "student-progress-chart.png";
+  link.click();
+}
+</script>
+
+</body>
+</html>
