@@ -1,4 +1,27 @@
 // =========================
+// Navbar Active State
+// =========================
+function highlightActiveNavLink() {
+  const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+  const navLinks = document.querySelectorAll('nav a');
+  
+  navLinks.forEach(link => {
+    const href = link.getAttribute('href');
+    const linkPage = href.split('/').pop();
+    
+    // Remove active class from all links
+    link.classList.remove('active');
+    
+    // Add active class to the current page link
+    if (currentPage === linkPage || 
+        (currentPage === '' && linkPage === 'index.html') ||
+        (currentPage.includes('home.html') && href.includes('home.html'))) {
+      link.classList.add('active');
+    }
+  });
+}
+
+// =========================
 // Helpers: generic storage
 // =========================
 function loadFromStorage(key) {
@@ -517,10 +540,10 @@ function deleteWorksheet(id) {
   window.location.reload();
 }
 
-// =========================
 // Auto Initialization
 // =========================
 document.addEventListener("DOMContentLoaded", function () {
+  highlightActiveNavLink();
   initLogin();
   initWorksheetCreate();
   initWorksheetList();

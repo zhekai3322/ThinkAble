@@ -97,11 +97,22 @@ body.dark {
   border-radius: 20px;
   font-weight: 600;
   cursor: pointer;
-  transition: 0.2s ease;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  color: inherit;
+  display: inline-block;
+}
+
+.nav-btn:hover {
+  filter: hue-rotate(20deg) brightness(0.9);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .nav-btn.active {
   background: var(--accent-peach);
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(255, 179, 107, 0.4);
 }
 
 .color-divider {

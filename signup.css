@@ -109,12 +109,17 @@
   font-weight: 700;
   width: 100%;
   color: white;
-  transition: 0.2s;
+  transition: all 0.3s ease;
 }
 
 .signup-btn:hover {
-  transform: translateY(-2px);
-  opacity: 0.9;
+  filter: hue-rotate(15deg) brightness(0.9);
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.signup-btn:active {
+  transform: translateY(-1px);
 }
 
 /* ===========================
