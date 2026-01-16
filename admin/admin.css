@@ -11,6 +11,10 @@
   --shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
+* {
+  box-sizing: border-box;
+  font-family: "Poppins", system-ui, sans-serif;
+}
 /* ==========================================================
    GLOBAL LAYOUT
 ========================================================== */
@@ -59,6 +63,12 @@ header {
 header .logo {
   height: 70px;
   border-radius: 8px;
+}
+
+header .brand-name {
+  font-size: 22px;
+  font-weight: 600;
+  color: white;
 }
 
 /* NAV BUTTONS */
