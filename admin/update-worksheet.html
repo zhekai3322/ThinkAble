@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Update Worksheet | ThinkAble Admin</title>
+  <link rel="stylesheet" href="admin.css">
+  <style>
+    nav a[href="manage-worksheets.html"] {
+      background-color: #FFD97D !important;
+      color: #333 !important;
+    }
+
+    /* Page Container */
+    body {
+      background-color: #f5f5f5;
+    }
+
+    main {
+      padding: 0;
+      display: block;
+      min-height: calc(100vh - 120px);
+      background-color: #f5f5f5;
+    }
+
+    .modal {
+      background-color: white;
+      border-radius: 0;
+      box-shadow: none;
+      width: 100%;
+      max-width: 100%;
+      max-height: 100%;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 2rem 4rem;
+      background-color: #f9f9f9;
+      flex-shrink: 0;
+    }
+
+    .modal-header-left {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      flex: 1;
+    }
+
+    .modal-header-right {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .header-back-btn {
+      background: none;
+      border: none;
+      font-size: 2rem;
+      cursor: pointer;
+      color: #333;
+      padding: 0;
+      width: auto;
+      transition: 0.2s;
+    }
+
+    .header-back-btn:hover {
+      color: #FFD97D;
+    }
+
+    .modal-title {
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: #333;
+      margin: 0;
+    }
+
+    .header-save-btn {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #333;
+      padding: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.2s;
+    }
+
+    .header-save-btn:hover {
+      color: #4CAF50;
+      transform: scale(1.1);
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #333;
+      padding: 0.5rem;
+      width: auto;
+      height: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.2s;
+    }
+
+    .modal-close:hover {
+      color: #f44336;
+      transform: scale(1.1);
+    }
+
+    .modal-body {
+      padding: 2rem 4rem;
+      overflow-y: auto;
+      flex: 1;
+      display: flex;
+      gap: 3rem;
+    }
+
+    .modal-left {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .modal-right {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .form-group label {
+      font-weight: 600;
+      font-size: 1rem;
+      color: #333;
+    }
+
+    .form-group-content {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .form-group input,
+    .form-group select {
+      flex: 1;
+      padding: 0.8rem 1rem;
+      background-color: #d3d3d3;
+      border: none;
+      border-radius: 3px;
+      font-size: 1rem;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      background-color: #e0e0e0;
+    }
+
+    .edit-icon {
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: #ff9800;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .edit-icon:hover {
+      color: #f57c00;
+    }
+
+    .difficulty-selection {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .difficulty-btn {
+      background-color: #d3d3d3;
+      border: 2px solid #d3d3d3;
+      padding: 0.6rem 1.2rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.2s;
+    }
+
+    .difficulty-btn.active {
+      background-color: #FFD97D;
+      border-color: #FFD97D;
+    }
+
+    .modal-buttons {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .edit-btn {
+      background-color: #FFD97D;
+      color: #333;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .edit-btn:hover {
+      background-color: #ffd064;
+    }
+
+    .delete-btn-worksheet {
+      background-color: #f44336;
+      color: white;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .delete-btn-worksheet:hover {
+      background-color: #da190b;
+    }
+
+    .preview-section h3 {
+      font-weight: 600;
+      margin: 0 0 1rem 0;
+      font-size: 1rem;
+      text-decoration: underline;
+    }
+
+    .preview-box {
+      border: 2px solid #333;
+      padding: 2rem;
+      background-color: #f9f9f9;
+      border-radius: 4px;
+      min-height: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      flex: 1;
+    }
+
+    .preview-content {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #333;
+    }
+
+    .yellow-bar {
+      height: 12px;
+      background-color: #FFD97D;
+      width: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="header-left">
+      <img src="../public/Logo.png" alt="ThinkAble Logo" class="logo">
+      <h1>ThinkAble Admin</h1>
+    </div>
+    <nav>
+      <a href="home.html">Home</a>
+      <a href="manage-student.html">Students</a>
+      <a href="manage-worksheets.html">Worksheets</a>
+      <a href="subscription-status.html">Subscription</a>
+      <a href="settings.html">Settings</a>      
+      <a href="../logout.html">Logout</a>
+    </nav>
+  </header>
+
+  <div class="yellow-bar"></div>
+
+  <main>
+    <div class="modal">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <div class="modal-header-left">
+          <button class="header-back-btn" onclick="goBack()" title="Back">←</button>
+          <h2 class="modal-title" id="worksheetTitle">Alphabets Lowercase "a"-"f"</h2>
+        </div>
+        <div class="modal-header-right">
+          <button type="submit" form="updateWorksheetForm" class="header-save-btn" title="Save">💾</button>
+          <button type="button" class="modal-close" onclick="goBack()" title="Close">✕</button>
+        </div>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="modal-body">
+        <!-- Left Column -->
+        <div class="modal-left">
+          <form id="updateWorksheetForm" onsubmit="handleSubmit(event)">
+            <div class="form-group">
+              <label>Worksheet Name</label>
+              <div class="form-group-content">
+                <input type="text" id="worksheetName" name="worksheetName" value="Alphabets-lowercase "a" to "f"" required>
+                <button type="button" class="edit-icon" title="Edit">✏️</button>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Topic</label>
+              <div class="form-group-content">
+                <input type="text" id="topic" name="topic" value="Literacy" required>
+                <button type="button" class="edit-icon" title="Edit">✏️</button>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Difficulty</label>
+              <div class="difficulty-selection">
+                <button type="button" class="difficulty-btn active" onclick="selectDifficulty('elementary', this)">Elementary</button>
+              </div>
+            </div>
+
+            <div class="modal-buttons">
+              <button type="button" class="edit-btn">Edit Worksheet</button>
+              <button type="button" class="delete-btn-worksheet">Delete Worksheet</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Right Column - Preview -->
+        <div class="modal-right">
+          <div class="preview-section">
+            <h3>Worksheet Preview</h3>
+            <div class="preview-box">
+              <div class="preview-content">
+                <p>MindCognition(TM)<br>Basic<br>Literacy : Alphabets-lowercase<br>"a" to "f"</p>
+                <br>
+                <p>(1)  Point to a</p>
+                <br>
+                <p style="font-size: 3rem; color: #6366f1;">a</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Worksheet data from manage-worksheets
+    const worksheetsData = {
+      'Blue': { name: 'Blue', topic: 'Colours', difficulty: 'Elementary', category: 'colours', attempts: 4, passingRate: '90%', lastUpdated: '9/6/2025' },
+      'Green': { name: 'Green', topic: 'Colours', difficulty: 'Elementary', category: 'colours', attempts: 4, passingRate: '90%', lastUpdated: '21/9/2025' },
+      'Red': { name: 'Red', topic: 'Colours', difficulty: 'Elementary', category: 'colours', attempts: 4, passingRate: '90%', lastUpdated: '16/7/2025' },
+      'Yellow': { name: 'Yellow', topic: 'Colours', difficulty: 'Elementary', category: 'colours', attempts: 4, passingRate: '90%', lastUpdated: '12/10/2025' },
+      'Circle': { name: 'Circle', topic: 'Shapes', difficulty: 'Elementary', category: 'shapes', attempts: 4, passingRate: '90%', lastUpdated: '9/6/2025' },
+      'Rectangle': { name: 'Rectangle', topic: 'Shapes', difficulty: 'Elementary', category: 'shapes', attempts: 4, passingRate: '90%', lastUpdated: '21/9/2025' },
+      'Square': { name: 'Square', topic: 'Shapes', difficulty: 'Elementary', category: 'shapes', attempts: 4, passingRate: '90%', lastUpdated: '16/7/2025' },
+      'Triangle': { name: 'Triangle', topic: 'Shapes', difficulty: 'Elementary', category: 'shapes', attempts: 4, passingRate: '90%', lastUpdated: '12/10/2025' },
+      'Alphabets-lowercase a-f': { name: 'Alphabets-lowercase "a"-"f"', topic: 'Literacy', difficulty: 'Elementary', category: 'literacy', attempts: 4, passingRate: '90%', lastUpdated: '9/6/2025' },
+      'Alphabets-lowercase g-l': { name: 'Alphabets-lowercase "g"-"l"', topic: 'Literacy', difficulty: 'Elementary', category: 'literacy', attempts: 4, passingRate: '90%', lastUpdated: '21/9/2025' },
+      'Alphabets-lowercase m-r': { name: 'Alphabets-lowercase "m"-"r"', topic: 'Literacy', difficulty: 'Elementary', category: 'literacy', attempts: 4, passingRate: '90%', lastUpdated: '16/7/2025' },
+      'Alphabets-lowercase s-z': { name: 'Alphabets-lowercase "s"-"z"', topic: 'Literacy', difficulty: 'Elementary', category: 'literacy', attempts: 4, passingRate: '90%', lastUpdated: '12/10/2025' },
+      'Level 1': { name: 'Level 1', topic: 'Read & Write', difficulty: 'Elementary', category: 'read-and-write', attempts: 4, passingRate: '90%', lastUpdated: '9/6/2025' },
+      'Level 2': { name: 'Level 2', topic: 'Read & Write', difficulty: 'Intermediate', category: 'read-and-write', attempts: 4, passingRate: '90%', lastUpdated: '21/9/2025' },
+      'Level 3': { name: 'Level 3', topic: 'Read & Write', difficulty: 'Advanced', category: 'read-and-write', attempts: 4, passingRate: '90%', lastUpdated: '16/7/2025' },
+      'Level 4': { name: 'Level 4', topic: 'Read & Write', difficulty: 'Expert', category: 'read-and-write', attempts: 4, passingRate: '90%', lastUpdated: '12/10/2025' },
+      'Counting 1-10': { name: 'Counting 1-10', topic: 'Numeracy', difficulty: 'Elementary', category: 'numeracy', attempts: 6, passingRate: '92%', lastUpdated: '5/6/2025' },
+      'Problem Solving': { name: 'Problem Solving', topic: 'Mathematical Reasoning', difficulty: 'Advanced', category: 'mathematical-reasoning', attempts: 3, passingRate: '80%', lastUpdated: '20/9/2025' }
+    };
+
+    function getQueryParameter(name) {
+      const url = new URL(window.location);
+      return decodeURIComponent(url.searchParams.get(name));
+    }
+
+    function populateForm() {
+      const worksheetName = getQueryParameter('name');
+      const worksheet = worksheetsData[worksheetName];
+      
+      if (worksheet) {
+        document.getElementById('worksheetName').value = worksheet.name;
+        document.getElementById('topic').value = worksheet.topic;
+        document.getElementById('worksheetTitle').textContent = worksheet.name;
+        
+        // Set the difficulty button as active
+        const difficultyButtons = document.querySelectorAll('.difficulty-btn');
+        difficultyButtons.forEach(btn => {
+          btn.classList.remove('active');
+          if (btn.textContent === worksheet.difficulty) {
+            btn.classList.add('active');
+          }
+        });
+      }
+    }
+
+    // Load data when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      populateForm();
+    });
+
+    function handleSubmit(event) {
+      event.preventDefault();
+      
+      // Collect form data
+      const worksheetData = {
+        name: document.getElementById('worksheetName').value,
+        topic: document.getElementById('topic').value
+      };
+
+      console.log('Worksheet data to update:', worksheetData);
+      alert('Worksheet updated successfully!');
+      
+      // Redirect back to manage worksheets
+      window.location.href = 'manage-worksheets.html';
+    }
+
+    function goBack() {
+      window.location.href = 'manage-worksheets.html';
+    }
+
+    function selectDifficulty(difficulty, button) {
+      event.preventDefault();
+      
+      // Remove active class from all buttons
+      document.querySelectorAll('.difficulty-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      
+      // Add active class to clicked button
+      button.classList.add('active');
+    }
+  </script>
+
+  <script src="manage-worksheet.js"></script>
+  <script src="../script.js"></script>
+</body>
+</html>

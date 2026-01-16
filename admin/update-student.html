@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Update Student | ThinkAble Admin</title>
+  <link rel="stylesheet" href="admin.css">
+  <style>
+    nav a[href="manage-student.html"] {
+      background-color: #FFD97D !important;
+      color: #333 !important;
+    }
+
+    body {
+      background-color: #f5f5f5;
+    }
+
+    main {
+      padding: 0;
+      display: block;
+      min-height: calc(100vh - 120px);
+      background-color: #f5f5f5;
+    }
+
+    .modal {
+      background-color: white;
+      border-radius: 0;
+      box-shadow: none;
+      width: 100%;
+      max-width: 100%;
+      max-height: 100%;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 2rem;
+      border-bottom: 2px solid #FFD97D;
+      background-color: #f9f9f9;
+      flex-shrink: 0;
+    }
+
+    .modal-header-left {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      flex: 1;
+    }
+
+    .modal-header-right {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .header-save-btn {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #333;
+      padding: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.2s;
+    }
+
+    .header-save-btn:hover {
+      color: #4CAF50;
+      transform: scale(1.1);
+    }
+
+    .modal-header-btn {
+      background: none;
+      border: none;
+      font-size: 2rem;
+      cursor: pointer;
+      color: #333;
+    }
+
+    .modal-title {
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: #333;
+      margin: 0;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #333;
+      padding: 0.5rem;
+      width: auto;
+      height: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.2s;
+    }
+
+    .modal-close:hover {
+      color: #f44336;
+      transform: scale(1.1);
+    }
+
+    .modal-body {
+      padding: 2rem 4rem;
+      overflow-y: auto;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 1rem;
+      max-width: 100%;
+      width: 100%;
+    }
+
+    .form-column {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .form-field {
+      display: flex;
+      align-items: flex-end;
+      gap: 0.8rem;
+    }
+
+    .form-field-content {
+      flex: 1;
+    }
+
+    .form-field label {
+      display: block;
+      margin-bottom: 0.3rem;
+      font-weight: 600;
+      color: #333;
+      font-size: 0.95rem;
+      white-space: nowrap;
+    }
+
+    .form-field input,
+    .form-field select {
+      width: 100%;
+      padding: 0.7rem 1rem;
+      border: none;
+      background-color: #d3d3d3;
+      border-radius: 3px;
+      font-size: 1rem;
+      transition: 0.2s;
+    }
+
+    .form-field input:focus,
+    .form-field select:focus {
+      outline: none;
+      background-color: #e0e0e0;
+    }
+
+    .edit-icon {
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: #ff9800;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .edit-icon:hover {
+      color: #f57c00;
+    }
+
+    /* Two-field rows */
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      width: 100%;
+    }
+
+    .form-row .form-field {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .form-row .form-field label {
+      margin-bottom: 0.5rem;
+    }
+
+    .form-row .form-field-content {
+      display: flex;
+      align-items: flex-end;
+      gap: 0.8rem;
+    }
+
+    .form-row .form-field-content input,
+    .form-row .form-field-content select {
+      flex: 1;
+    }
+
+    .add-column-container {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 1rem;
+      width: 100%;
+      max-width: 1100px;
+    }
+
+    .add-column-btn {
+      background-color: #FFD97D;
+      color: #333;
+      border: none;
+      padding: 0.7rem 1.8rem;
+      border-radius: 4px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: 0.2s;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .add-column-btn:hover {
+      background-color: #ffd064;
+    }
+
+    .form-field:hover .delete-column-btn {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .delete-column-btn {
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: #f44336;
+      padding: 0.5rem;
+      opacity: 0;
+      visibility: hidden;
+      transition: 0.2s ease;
+    }
+
+    .delete-column-btn:hover {
+      transform: scale(1.15);
+      color: #da190b;
+    }
+
+    /* Add Column Modal */
+    .add-column-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .add-column-modal.active {
+      display: flex;
+    }
+
+    .add-column-modal-content {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+      padding: 2rem;
+      max-width: 500px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    .add-column-modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+    }
+
+    .add-column-modal-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #333;
+      margin: 0;
+    }
+
+    .add-column-modal-subtitle {
+      font-size: 0.9rem;
+      color: #666;
+      margin: 0;
+    }
+
+    .add-column-modal-close {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #333;
+      padding: 0;
+    }
+
+    .add-column-options {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .add-column-option {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .add-column-option input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+    }
+
+    .add-column-option label {
+      cursor: pointer;
+      flex: 1;
+      font-size: 1rem;
+      color: #333;
+      margin: 0;
+    }
+
+    .add-column-custom-input {
+      width: 100%;
+      padding: 0.8rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 0.95rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .add-column-modal-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: space-between;
+    }
+
+    .add-column-custom-btn {
+      background-color: #FFD97D;
+      color: #333;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 4px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .add-column-custom-btn:hover {
+      background-color: #ffd064;
+    }
+
+    .add-column-confirm-btn {
+      background-color: #FFD97D;
+      color: #333;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 4px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .add-column-confirm-btn:hover {
+      background-color: #ffd064;
+    }
+
+    .modal-footer {
+      display: flex;
+      gap: 1.5rem;
+      padding: 1.5rem;
+      border-top: 2px solid #f0f0f0;
+      background-color: #f9f9f9;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .modal-footer button {
+      padding: 1rem 2rem;
+      border: none;
+      border-radius: 4px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+      min-width: 120px;
+    }
+
+    .cancel-btn {
+      background-color: #f44336;
+      color: white;
+    }
+
+    .cancel-btn:hover {
+      background-color: #da190b;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="header-left">
+      <img src="../public/Logo.png" alt="ThinkAble Logo" class="logo">
+      <h1>ThinkAble Admin</h1>
+    </div>
+    <nav>
+      <a href="home.html">Home</a>
+      <a href="manage-student.html">Students</a>
+      <a href="manage-worksheets.html">Worksheets</a>
+      <a href="subscription-status.html">Subscription</a>
+      <a href="settings.html">Settings</a>      
+      <a href="../logout.html">Logout</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="modal">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <div class="modal-header-left">
+          <button class="modal-header-btn" onclick="goBack()" title="Back">←</button>
+          <h2 class="modal-title">Update Student</h2>
+          <button type="button" class="add-column-btn" style="margin-left: auto;">Add Column</button>
+        </div>
+        <div class="modal-header-right">
+          <button type="submit" form="updateStudentForm" class="header-save-btn" title="Save">💾</button>
+          <button type="button" class="modal-close" onclick="goBack()" title="Close">✕</button>
+        </div>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="modal-body">
+        <form id="updateStudentForm" onsubmit="handleSubmit(event)">
+          <div class="form-grid">
+            <!-- Left Column -->
+            <div class="form-column">
+              <div class="form-field">
+                <div class="form-field-content">
+                  <label for="fullName">Full Name</label>
+                  <input type="text" id="fullName" name="fullName" required>
+                </div>
+                <button type="button" class="edit-icon" title="Edit">✏️</button>
+              </div>
+
+              <div class="form-field">
+                <div class="form-field-content">
+                  <label for="gender">Gender</label>
+                  <select id="gender" name="gender" required>
+                    <option value="">Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+                <button type="button" class="edit-icon" title="Edit">✏️</button>
+              </div>
+
+              <div class="form-row">
+                <div class="form-field">
+                  <label for="dob">Date of Birth</label>
+                  <div class="form-field-content">
+                    <input type="text" id="dob" name="dob" placeholder="DD/MM/YYYY">
+                    <button type="button" class="edit-icon" title="Edit">✏️</button>
+                  </div>
+                </div>
+                <div class="form-field">
+                  <label for="age">Age</label>
+                  <div class="form-field-content">
+                    <input type="number" id="age" name="age">
+                    <button type="button" class="edit-icon" title="Edit">✏️</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-field">
+                <div class="form-field-content">
+                  <label for="email">Email</label>
+                  <input type="email" id="email" name="email">
+                </div>
+                <button type="button" class="edit-icon" title="Edit">✏️</button>
+              </div>
+
+              <div class="form-field">
+                <div class="form-field-content">
+                  <label for="school">School</label>
+                  <input type="text" id="school" name="school">
+                </div>
+                <button type="button" class="edit-icon" title="Edit">✏️</button>
+              </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="form-column">
+              <div class="form-field">
+                <div class="form-field-content">
+                  <label for="parentName">Parent Full Name</label>
+                  <input type="text" id="parentName" name="parentName" required>
+                </div>
+                <button type="button" class="edit-icon" title="Edit">✏️</button>
+              </div>
+
+              <div class="form-field">
+                <div class="form-field-content">
+                  <label for="parentEmail">Parent Email</label>
+                  <input type="email" id="parentEmail" name="parentEmail">
+                </div>
+                <button type="button" class="edit-icon" title="Edit">✏️</button>
+              </div>
+
+              <div class="form-row">
+                <div class="form-field">
+                  <label for="parentPhone">Parent Phone Number</label>
+                  <div class="form-field-content">
+                    <input type="tel" id="parentPhone" name="parentPhone">
+                    <button type="button" class="edit-icon" title="Edit">✏️</button>
+                  </div>
+                </div>
+                <div class="form-field">
+                  <label for="relation">Relation to Student</label>
+                  <div class="form-field-content">
+                    <input type="text" id="relation" name="relation">
+                    <button type="button" class="edit-icon" title="Edit">✏️</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-field">
+                <div class="form-field-content">
+                  <label for="communication">Communication type</label>
+                  <select id="communication" name="communication" required>
+                    <option value="">Select Communication Type</option>
+                    <option value="Verbal">Verbal</option>
+                    <option value="Non-Verbal">Non-Verbal</option>
+                  </select>
+                </div>
+                <button type="button" class="edit-icon" title="Edit">✏️</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Added Columns Container -->
+          <div id="addedColumnsContainer" style="display: none; margin-top: 2rem;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; width: 100%;">
+              <div id="addedColumnsLeft" style="display: flex; flex-direction: column; gap: 0.8rem;"></div>
+              <div id="addedColumnsRight" style="display: flex; flex-direction: column; gap: 0.8rem;"></div>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <!-- Add Column Modal -->
+  <div class="add-column-modal" id="addColumnModal">
+    <div class="add-column-modal-content">
+      <div class="add-column-modal-header">
+        <div>
+          <h2 class="add-column-modal-title">Add Column</h2>
+          <p class="add-column-modal-subtitle">Select one or more</p>
+        </div>
+        <button type="button" class="add-column-modal-close" onclick="closeAddColumnModal()">✕</button>
+      </div>
+
+      <div class="add-column-options" id="columnOptions">
+        <div class="add-column-option">
+          <input type="checkbox" id="favColour" value="Favourite Colour">
+          <label for="favColour">Favourite Colour</label>
+        </div>
+        <div class="add-column-option">
+          <input type="checkbox" id="commonStim" value="Common Stim">
+          <label for="commonStim">Common Stim</label>
+        </div>
+        <div class="add-column-option">
+          <input type="checkbox" id="sensoryPref" value="Sensory Preferences">
+          <label for="sensoryPref">Sensory Preferences</label>
+        </div>
+        <div class="add-column-option">
+          <input type="checkbox" id="sensoryAver" value="Sensory Aversions">
+          <label for="sensoryAver">Sensory Aversions</label>
+        </div>
+        <div class="add-column-option">
+          <input type="checkbox" id="specialInt" value="Special Interest">
+          <label for="specialInt">Special Interest</label>
+        </div>
+      </div>
+
+      <input type="text" class="add-column-custom-input" id="customColumnName" placeholder="Enter column name">
+
+      <div class="add-column-modal-buttons">
+        <button type="button" class="add-column-custom-btn" onclick="addCustomColumn()">Add</button>
+        <button type="button" class="add-column-confirm-btn" onclick="confirmAddColumns()">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function handleSubmit(event) {
+      event.preventDefault();
+      
+      // Collect form data
+      const studentData = {
+        fullName: document.getElementById('fullName').value,
+        gender: document.getElementById('gender').value,
+        dob: document.getElementById('dob').value,
+        age: document.getElementById('age').value,
+        email: document.getElementById('email').value,
+        school: document.getElementById('school').value,
+        parentName: document.getElementById('parentName').value,
+        parentEmail: document.getElementById('parentEmail').value,
+        parentPhone: document.getElementById('parentPhone').value,
+        relation: document.getElementById('relation').value,
+        communication: document.getElementById('communication').value
+      };
+
+      // Log data (you can later send this to a backend)
+      console.log('Student data to update:', studentData);
+
+      // Show confirmation message
+      alert('Student updated successfully!');
+
+      // Redirect back to manage students
+      window.location.href = 'manage-student.html';
+    }
+
+    function goBack() {
+      window.location.href = 'manage-student.html';
+    }
+
+    // Add Column Modal Functions
+    function openAddColumnModal() {
+      document.getElementById('addColumnModal').classList.add('active');
+    }
+
+    function closeAddColumnModal() {
+      document.getElementById('addColumnModal').classList.remove('active');
+    }
+
+    function addCustomColumn() {
+      const customName = document.getElementById('customColumnName').value;
+      if (customName.trim()) {
+        const optionsDiv = document.getElementById('columnOptions');
+        const newOption = document.createElement('div');
+        newOption.className = 'add-column-option';
+        newOption.innerHTML = `
+          <input type="checkbox" id="${customName.replace(/\s+/g, '_')}" value="${customName}" checked>
+          <label for="${customName.replace(/\s+/g, '_')}">${customName}</label>
+        `;
+        optionsDiv.appendChild(newOption);
+        document.getElementById('customColumnName').value = '';
+      }
+    }
+
+    function confirmAddColumns() {
+      const checkboxes = document.querySelectorAll('#addColumnModal .add-column-option input[type="checkbox"]:checked');
+      const selectedColumns = Array.from(checkboxes).map(cb => cb.value);
+      
+      if (selectedColumns.length === 0) {
+        alert('Please select at least one column');
+        return;
+      }
+
+      // Add selected columns to the form and remove them from modal
+      selectedColumns.forEach(column => {
+        addColumnToForm(column);
+        // Remove the option from the modal
+        removeColumnFromModal(column);
+      });
+
+      closeAddColumnModal();
+    }
+
+    function removeColumnFromModal(columnName) {
+      const optionsDiv = document.getElementById('columnOptions');
+      const options = optionsDiv.querySelectorAll('.add-column-option');
+      options.forEach(option => {
+        const checkbox = option.querySelector('input[type="checkbox"]');
+        if (checkbox.value === columnName) {
+          option.remove();
+        }
+      });
+    }
+
+    function addColumnToForm(columnName) {
+      // Show the added columns container
+      const container = document.getElementById('addedColumnsContainer');
+      container.style.display = 'block';
+      
+      // Alternate between left and right columns
+      const leftCol = document.getElementById('addedColumnsLeft');
+      const rightCol = document.getElementById('addedColumnsRight');
+      const targetCol = leftCol.children.length <= rightCol.children.length ? leftCol : rightCol;
+      
+      // Create new field
+      const newField = document.createElement('div');
+      newField.className = 'form-field';
+      newField.innerHTML = `
+        <div class="form-field-content">
+          <label for="${columnName.replace(/\s+/g, '_')}">${columnName}</label>
+          <input type="text" id="${columnName.replace(/\s+/g, '_')}" name="${columnName.replace(/\s+/g, '_')}">
+        </div>
+        <button type="button" class="delete-column-btn" title="Delete">✕</button>
+      `;
+      
+      // Add delete functionality
+      const deleteBtn = newField.querySelector('.delete-column-btn');
+      deleteBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        // Re-add the column option to the modal
+        readdColumnToModal(columnName);
+        // Remove the field
+        newField.remove();
+        // Hide container if no columns left
+        if (leftCol.children.length === 0 && rightCol.children.length === 0) {
+          container.style.display = 'none';
+        }
+      });
+      
+      targetCol.appendChild(newField);
+    }
+
+    function readdColumnToModal(columnName) {
+      const optionsDiv = document.getElementById('columnOptions');
+      const newOption = document.createElement('div');
+      newOption.className = 'add-column-option';
+      newOption.innerHTML = `
+        <input type="checkbox" id="${columnName.replace(/\s+/g, '_')}" value="${columnName}">
+        <label for="${columnName.replace(/\s+/g, '_')}">${columnName}</label>
+      `;
+      optionsDiv.appendChild(newOption);
+    }
+
+    // Attach click handler to Add Column button
+    document.addEventListener('DOMContentLoaded', function() {
+      const addColumnBtn = document.querySelector('.add-column-btn');
+      if (addColumnBtn) {
+        addColumnBtn.onclick = function(e) {
+          e.preventDefault();
+          openAddColumnModal();
+        };
+      }
+    });
+  </script>
+
+  <script src="../script.js"></script>
+</body>
+</html>

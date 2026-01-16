@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Delete Student | ThinkAble Admin</title>
+  <link rel="stylesheet" href="admin.css">
+  <style>
+    nav a[href="manage-student.html"] {
+      background-color: #FFD97D !important;
+      color: #333 !important;
+    }
+
+    body {
+      background-color: #f5f5f5;
+    }
+
+    .container {
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .delete-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      border-bottom: 2px solid #f44336;
+      padding-bottom: 1rem;
+    }
+
+    .delete-header h1 {
+      margin: 0;
+      font-size: 1.8rem;
+    }
+
+    .delete-subtitle {
+      color: #f44336;
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin: 0.5rem 0 0 0;
+    }
+
+    .done-btn {
+      background-color: #FFD97D;
+      color: #333;
+      border: none;
+      padding: 0.7rem 1.5rem;
+      border-radius: 4px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .done-btn:hover {
+      background-color: #ffd064;
+    }
+
+    .delete-table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .delete-table thead tr {
+      background-color: #FFD97D !important;
+    }
+
+    .delete-table th {
+      padding: 1.2rem;
+      text-align: left;
+      font-weight: 700;
+      color: #333 !important;
+      border-bottom: 2px solid #333;
+      background-color: #FFD97D !important;
+    }
+
+    .delete-table td {
+      padding: 1.2rem;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .delete-table tbody tr {
+      background-color: #FFEDC3;
+      transition: 0.2s;
+    }
+
+    .delete-table tbody tr:hover {
+      background-color: #fdd9a0;
+    }
+
+    .delete-btn-col {
+      text-align: right;
+    }
+
+    .delete-btn {
+      background-color: #f44336;
+      color: white;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .delete-btn:hover {
+      background-color: #da190b;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(244, 67, 54, 0.3);
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 1rem;
+      color: #2F4858;
+      text-decoration: none;
+      font-weight: 600;
+      transition: 0.2s;
+    }
+
+    .back-link:hover {
+      color: #FFD97D;
+    }
+
+    /* Search Bar */
+    .search-container {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .search-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      border: 2px solid #333;
+      border-radius: 4px;
+      padding: 0.4rem 0.8rem;
+    }
+
+    .search-wrapper svg {
+      width: 20px;
+      height: 20px;
+      color: #333;
+    }
+
+    .search-bar {
+      padding: 0.4rem 0.5rem;
+      border: none;
+      border-radius: 0;
+      font-size: 1rem;
+      width: 220px;
+      box-sizing: border-box;
+    }
+
+    .search-bar:focus {
+      outline: none;
+    }
+
+    /* Delete Confirmation Modal */
+    .delete-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .delete-modal.active {
+      display: flex;
+    }
+
+    .delete-modal-content {
+      background-color: white;
+      border-radius: 8px;
+      padding: 2rem;
+      max-width: 500px;
+      width: 90%;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+      text-align: center;
+    }
+
+    .delete-modal-close {
+      background: none;
+      border: none;
+      font-size: 1.8rem;
+      cursor: pointer;
+      color: #333;
+      padding: 0;
+      float: right;
+      transition: 0.2s;
+    }
+
+    .delete-modal-close:hover {
+      color: #f44336;
+    }
+
+    .delete-modal-text {
+      font-size: 1.1rem;
+      color: #333;
+      margin: 1.5rem 0;
+      clear: both;
+    }
+
+    .delete-modal-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+
+    .delete-modal-btn {
+      border: none;
+      padding: 0.8rem 2rem;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .delete-modal-yes {
+      background-color: #FFD97D;
+      color: #333;
+    }
+
+    .delete-modal-yes:hover {
+      background-color: #ffd064;
+    }
+
+    .delete-modal-no {
+      background-color: #f44336;
+      color: white;
+    }
+
+    .delete-modal-no:hover {
+      background-color: #da190b;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="header-left">
+      <img src="../public/Logo.png" alt="ThinkAble Logo" class="logo">
+      <h1>ThinkAble Admin</h1>
+    </div>
+    <nav>
+      <a href="home.html">Home</a>
+      <a href="manage-student.html">Students</a>
+      <a href="manage-worksheets.html">Worksheets</a>
+      <a href="subscription-status.html">Subscription</a>
+      <a href="settings.html">Settings</a>      
+      <a href="../logout.html">Logout</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <a href="manage-student.html" class="back-link">← Back</a>
+
+    <div class="delete-header">
+      <div class="search-container">
+        <h1>Student List</h1>
+        <div class="search-wrapper">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+          <input type="text" class="search-bar" id="searchInput" placeholder="Search by name..." onkeyup="filterStudents()">
+        </div>
+      </div>
+      <button class="done-btn" onclick="handleDelete()">Done</button>
+    </div>
+
+    <!-- Delete Table -->
+    <table class="delete-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Student</th>
+          <th>Gender</th>
+          <th>Age</th>
+          <th>Parent</th>
+          <th>Communication</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="deleteStudentTable">
+        <tr>
+          <td>1</td>
+          <td>John Naruto</td>
+          <td>Male</td>
+          <td>12</td>
+          <td>Roger Naruto</td>
+          <td>Verbal</td>
+          <td class="delete-btn-col"><button class="delete-btn" onclick="deleteStudent(this, 1)">Delete</button></td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Edward White</td>
+          <td>Male</td>
+          <td>20</td>
+          <td>Mary White</td>
+          <td>Verbal</td>
+          <td class="delete-btn-col"><button class="delete-btn" onclick="deleteStudent(this, 2)">Delete</button></td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>Mary Gibson</td>
+          <td>Female</td>
+          <td>30</td>
+          <td>Eustace Gibson</td>
+          <td>Non-Verbal</td>
+          <td class="delete-btn-col"><button class="delete-btn" onclick="deleteStudent(this, 3)">Delete</button></td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>Bala Grace</td>
+          <td>Female</td>
+          <td>16</td>
+          <td>Felicia Grace</td>
+          <td>Verbal</td>
+          <td class="delete-btn-col"><button class="delete-btn" onclick="deleteStudent(this, 4)">Delete</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Delete Confirmation Modal -->
+  <div class="delete-modal" id="deleteConfirmModal">
+    <div class="delete-modal-content">
+      <button type="button" class="delete-modal-close" onclick="closeDeleteModal()">✕</button>
+      <div class="delete-modal-text">Would you like to delete <strong id="studentNameToDelete"></strong> from the student list?</div>
+      <div class="delete-modal-buttons">
+        <button class="delete-modal-btn delete-modal-yes" onclick="confirmDeleteStudent()">Yes</button>
+        <button class="delete-modal-btn delete-modal-no" onclick="closeDeleteModal()">No</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const selectedForDeletion = new Set();
+    let currentDeleteRow = null;
+    let currentDeleteStudentId = null;
+    let currentDeleteStudentName = null;
+
+    function deleteStudent(button, studentId) {
+      const row = button.closest('tr');
+      const studentName = row.querySelector("td:nth-child(2)").textContent;
+      
+      currentDeleteRow = row;
+      currentDeleteStudentId = studentId;
+      currentDeleteStudentName = studentName;
+      
+      document.getElementById('studentNameToDelete').textContent = studentName;
+      document.getElementById('deleteConfirmModal').classList.add('active');
+    }
+
+    function closeDeleteModal() {
+      document.getElementById('deleteConfirmModal').classList.remove('active');
+      currentDeleteRow = null;
+      currentDeleteStudentId = null;
+      currentDeleteStudentName = null;
+    }
+
+    function confirmDeleteStudent() {
+      if (currentDeleteStudentId !== null) {
+        if (selectedForDeletion.has(currentDeleteStudentId)) {
+          // Remove from selection
+          selectedForDeletion.delete(currentDeleteStudentId);
+          currentDeleteRow.style.backgroundColor = '';
+          const btn = currentDeleteRow.querySelector('.delete-btn');
+          btn.textContent = 'Delete';
+          btn.style.backgroundColor = '#f44336';
+          btn.style.color = 'white';
+        } else {
+          // Add to selection
+          selectedForDeletion.add(currentDeleteStudentId);
+          currentDeleteRow.style.backgroundColor = '#ffebee';
+          const btn = currentDeleteRow.querySelector('.delete-btn');
+          btn.textContent = 'Undo';
+          btn.style.backgroundColor = '#FFD97D';
+          btn.style.color = '#333';
+        }
+      }
+      closeDeleteModal();
+    }
+
+    function handleDelete() {
+      window.location.href = 'manage-student.html';
+    }
+
+    function filterStudents() {
+      const searchInput = document.getElementById("searchInput").value.toLowerCase();
+      const rows = document.querySelectorAll("#deleteStudentTable tr");
+      
+      rows.forEach(row => {
+        const studentName = row.querySelector("td:nth-child(2)").textContent.toLowerCase();
+        if (studentName.includes(searchInput)) {
+          row.style.display = "";
+        } else {
+          row.style.display = "none";
+        }
+      });
+    }
+  </script>
+
+  <script src="../script.js"></script>
+</body>
+</html>

@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Create Worksheet | ThinkAble Admin</title>
+  <link rel="stylesheet" href="admin.css">
+  <style>
+    nav a[href="manage-worksheets.html"] {
+      background-color: #FFD97D !important;
+      color: #333 !important;
+    }
+
+    main {
+      background-color: #f5f5f5;
+      padding: 2rem;
+    }
+
+    .worksheet-editor-container {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 2rem;
+      max-width: 1600px;
+      margin: 0 auto;
+    }
+
+    /* Left Sidebar */
+    .editor-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .sidebar-section {
+      background-color: white;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .section-header {
+      background-color: #2F4858;
+      color: white;
+      padding: 1rem;
+      font-weight: 600;
+      font-size: 1rem;
+      text-align: center;
+    }
+
+    .section-content {
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .question-item {
+      background-color: white;
+      color: #333;
+      padding: 0.8rem 1rem;
+      border-radius: 4px;
+      text-align: center;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+      border: 2px solid #2F4858;
+    }
+
+    .question-item:hover {
+      background-color: #f5f5f5;
+    }
+
+    .question-item.active {
+      background-color: #4A90E2;
+      color: white;
+      border-color: #4A90E2;
+    }
+
+    .add-question-btn {
+      background-color: white;
+      color: #2F4858;
+      padding: 0.8rem 1rem;
+      border: 2px solid #2F4858;
+      border-radius: 4px;
+      text-align: center;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .add-question-btn:hover {
+      background-color: #f5f5f5;
+    }
+
+    .question-type-btn {
+      background-color: white;
+      color: #333;
+      padding: 0.8rem 1rem;
+      border: 2px solid #2F4858;
+      border-radius: 4px;
+      text-align: center;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .question-type-btn:hover {
+      background-color: #f5f5f5;
+    }
+
+    .question-type-btn.active {
+      background-color: #4A90E2;
+      color: white;
+      border-color: #4A90E2;
+    }
+
+    .question-type-btn.active:hover::after {
+      content: ' +';
+      font-weight: bold;
+    }
+
+    .answer-box {
+      border: 2px dashed #999;
+      padding: 0.8rem 0.6rem;
+      text-align: center;
+      min-height: 130px;
+      width: 45%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      transition: 0.2s;
+      position: relative;
+    }
+
+    .answer-box:hover .delete-btn {
+      display: block;
+    }
+
+    .delete-btn {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      width: 24px;
+      height: 24px;
+      background-color: #F44336;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      font-size: 16px;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      transition: 0.2s;
+    }
+
+    .delete-btn:hover {
+      background-color: #d32f2f;
+    }
+
+    /* Right Editor Area */
+    .editor-area {
+      background-color: white;
+      border: 3px solid #333;
+      border-radius: 20px;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      min-height: calc(100vh - 200px);
+    }
+
+    .editor-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid #333;
+    }
+
+    .editor-header-buttons {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .editor-header-btn {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #333;
+      padding: 0.25rem 0.5rem;
+    }
+
+    .editor-title {
+      text-align: center;
+      flex: 1;
+      margin: 0 2rem;
+    }
+
+    .editor-title h2 {
+      margin: 0;
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    .editor-subtitle {
+      font-size: 0.95rem;
+      color: #666;
+      margin: 0;
+    }
+
+    .drop-zone {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border: 2px dashed #ddd;
+      border-radius: 8px;
+      pointer-events: none;
+      display: none;
+    }
+
+    .drop-zone.active {
+      display: block;
+      border-color: #4A90E2;
+      background-color: rgba(74, 144, 226, 0.05);
+    }
+
+    .editor-content {
+      flex: 1;
+      position: relative;
+      display: none;
+      flex-direction: column;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+      min-height: 300px;
+    }
+
+    .edit-text-area {
+      border: 2px dashed #999;
+      padding: 0.5rem 1.5rem;
+      text-align: center;
+      color: #999;
+      border-radius: 4px;
+      min-height: 60px;
+      width: 100%;
+      max-width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.2s;
+      font-size: 0.9rem;
+      box-sizing: border-box;
+    }
+
+    .edit-text-area:hover {
+      border-color: #666;
+      color: #666;
+    }
+
+    .answer-options {
+      display: flex;
+      gap: 1.5rem;
+      flex-direction: row;
+      justify-content: center;
+    }
+
+    .answer-box {
+      border: 2px dashed #999;
+      padding: 0.8rem 0.6rem;
+      text-align: center;
+      min-height: 130px;
+      width: 45%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      transition: 0.2s;
+    }
+
+    .answer-box:hover {
+      border-color: #333;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .answer-box.correct {
+      border-color: #4CAF50;
+      color: #4CAF50;
+    }
+
+    .answer-box.incorrect {
+      border-color: #F44336;
+      color: #F44336;
+    }
+
+    .answer-box-content {
+      font-size: 0.8rem;
+      line-height: 1.3;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      white-space: normal;
+    }
+
+    .answer-box[contenteditable="true"],
+    .edit-text-area[contenteditable="true"] {
+      font-size: 1.1rem !important;
+      line-height: 1.4 !important;
+      color: black !important;
+    }
+
+    .editor-footer {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 0.6rem 1.5rem;
+      background-color: #2F4858;
+      border-radius: 4px;
+      margin-top: auto;
+    }
+
+    .footer-icon {
+      width: 32px;
+      height: 32px;
+      background-color: transparent;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.1rem;
+      font-weight: 600;
+      transition: 0.2s;
+    }
+
+    .footer-icon:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+    }
+
+    .boxes-hidden .edit-text-area,
+    .boxes-hidden .answer-box {
+      border: none;
+      background-color: transparent;
+    }
+
+    .boxes-hidden .edit-text-area:hover,
+    .boxes-hidden .answer-box:hover {
+      box-shadow: none;
+      border-color: transparent;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="header-left">
+      <img src="../public/Logo.png" alt="ThinkAble Logo" class="logo">
+      <h1>ThinkAble Admin</h1>
+    </div>
+    <nav>
+      <a href="home.html">Home</a>
+      <a href="manage-student.html">Students</a>
+      <a href="manage-worksheets.html">Worksheets</a>
+      <a href="subscription-status.html">Subscription</a>
+      <a href="settings.html">Settings</a>      
+      <a href="../logout.html">Logout</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="worksheet-editor-container">
+      <!-- Left Sidebar -->
+      <div class="editor-sidebar">
+        <!-- Question List -->
+        <div class="sidebar-section">
+          <div class="section-header">Question List</div>
+          <div class="section-content">
+            <div class="question-item active">Q1</div>
+            <div class="question-item">Q2</div>
+            <div class="question-item">Q3</div>
+            <button class="add-question-btn">+ Question</button>
+          </div>
+        </div>
+
+        <!-- Question Types -->
+        <div class="sidebar-section">
+          <div class="section-header">Question Types</div>
+          <div class="section-content">
+            <button class="question-type-btn">Drag and Drop</button>
+            <button class="question-type-btn active">Point/Click</button>
+            <button class="question-type-btn">Circle</button>
+            <button class="question-type-btn">Trace/Write</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Editor Area -->
+      <div class="editor-area">
+        <!-- Editor Header -->
+        <div class="editor-header">
+          <button class="editor-header-btn" onclick="goBack()" title="Back">
+            ←
+          </button>
+          <div class="editor-title">
+            <h2>MindCognition(TM)</h2>
+            <p class="editor-subtitle">Basic</p>
+            <p class="editor-subtitle">Literacy : Alphabets-lowercase "a" to "f"</p>
+          </div>
+          <div class="editor-header-buttons">
+            <button class="editor-header-btn" title="Save">
+              💾
+            </button>
+            <button class="editor-header-btn" onclick="goBack()" title="Close">
+              ✕
+            </button>
+          </div>
+        </div>
+
+        <!-- Editor Content -->
+        <div class="editor-content" id="editorContent">
+          <div class="drop-zone" id="dropZone"></div>
+          <!-- Edit Text Area -->
+          <div class="edit-text-area" data-type="text">
+            Edit Text
+          </div>
+
+          <!-- Answer Options -->
+          <div class="answer-options" id="answerOptions">
+          </div>
+        </div>
+
+        <!-- Editor Footer -->
+        <div class="editor-footer">
+          <button class="footer-icon" title="Text">T</button>
+          <button class="footer-icon" title="Image">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+              <circle cx="8.5" cy="8.5" r="1.5"></circle>
+              <polyline points="21 15 16 10 5 21"></polyline>
+            </svg>
+          </button>
+          <button class="footer-icon" id="toggleBoxesBtn" title="Hide/Show Boxes">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+              <circle cx="12" cy="12" r="3"></circle>
+              <line x1="1" y1="1" x2="23" y2="23" stroke="currentColor" stroke-width="2"></line>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Function to clear editor content
+    function clearEditorContent() {
+      const editTextArea = document.querySelector('.edit-text-area');
+      const answerOptions = document.getElementById('answerOptions');
+      
+      // Hide the editor content area
+      const editorContent = document.getElementById('editorContent');
+      editorContent.style.display = 'none';
+      
+      // Reset edit text area
+      editTextArea.textContent = 'Edit Text';
+      editTextArea.style.color = '';
+      
+      // Clear all answer boxes except the initial two
+      const allAnswerBoxes = answerOptions.querySelectorAll('.answer-box');
+      allAnswerBoxes.forEach((box, index) => {
+        if (index > 1) {
+          box.remove();
+        } else {
+          // Reset the first two boxes
+          if (index === 0) {
+            box.className = 'answer-box correct';
+            box.textContent = 'Click to edit - Double click to set answer to wrong';
+            box.style.color = '';
+          } else {
+            box.className = 'answer-box incorrect';
+            box.textContent = 'Click to edit - Double click to set answer to correct';
+            box.style.color = '';
+          }
+        }
+      });
+    }
+
+    // Handle question item clicks
+    const questionItems = document.querySelectorAll('.question-item');
+    questionItems.forEach(item => {
+      item.addEventListener('click', (e) => {
+        // Remove active class from all items
+        questionItems.forEach(q => q.classList.remove('active'));
+        
+        // Add active class to clicked item
+        item.classList.add('active');
+        
+        // Clear editor content
+        clearEditorContent();
+      });
+    });
+
+    // Function to setup box with delete button
+    function setupBox(box, boxData) {
+      // Add delete button if not already present
+      if (!box.querySelector('.delete-btn')) {
+        const deleteBtn = document.createElement('button');
+        deleteBtn.className = 'delete-btn';
+        deleteBtn.innerHTML = '×';
+        deleteBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          box.remove();
+        });
+        box.appendChild(deleteBtn);
+      }
+
+      // Function to get correct placeholder text based on class
+      function getPlaceholderText() {
+        if (box.classList.contains('correct')) {
+          return 'Click to edit - Double click to set answer to wrong';
+        } else if (box.classList.contains('incorrect')) {
+          return 'Click to edit - Double click to set answer to correct';
+        }
+        return 'Click to edit';
+      }
+
+      // Handle double-click to toggle between correct and incorrect
+      box.addEventListener('dblclick', (e) => {
+        e.stopPropagation();
+        
+        if (box.classList.contains('correct')) {
+          // Change from green to red
+          box.classList.remove('correct');
+          box.classList.add('incorrect');
+          if (!boxData.get(box).userText) {
+            box.textContent = getPlaceholderText();
+          }
+        } else if (box.classList.contains('incorrect')) {
+          // Change from red to green
+          box.classList.remove('incorrect');
+          box.classList.add('correct');
+          if (!boxData.get(box).userText) {
+            box.textContent = getPlaceholderText();
+          }
+        }
+      });
+
+      box.addEventListener('click', (e) => {
+        // Don't edit if clicking delete button
+        if (e.target.classList.contains('delete-btn')) {
+          return;
+        }
+
+        // Check if already editing
+        if (box.contentEditable === 'true') {
+          return;
+        }
+
+        // Show editor content when clicking a box
+        const editorContent = document.getElementById('editorContent');
+        editorContent.style.display = 'flex';
+
+        const data = boxData.get(box);
+        if (!data) return; // Safety check
+        
+        // Make editable
+        box.contentEditable = 'true';
+        box.style.outline = '2px solid #4A90E2';
+        box.style.cursor = 'text';
+
+        // If no user text yet, clear the placeholder
+        if (data.userText === null) {
+          box.textContent = '';
+        } else {
+          // Restore user's previous text
+          box.textContent = data.userText;
+        }
+
+        box.focus();
+
+        // Handle blur to save changes
+        const handleBlur = () => {
+          // Save user's input
+          const currentText = box.textContent;
+          
+          if (currentText.trim()) {
+            data.userText = currentText;
+            box.textContent = data.userText;
+            box.style.color = 'black';
+          } else {
+            data.userText = null;
+            box.textContent = getPlaceholderText();
+            box.style.color = box.classList.contains('correct') ? '#4CAF50' : '#F44336';
+          }
+
+          box.contentEditable = 'false';
+          box.style.outline = 'none';
+          box.style.cursor = 'pointer';
+          
+          // Re-add delete button
+          if (!box.querySelector('.delete-btn')) {
+            const deleteBtn = document.createElement('button');
+            deleteBtn.className = 'delete-btn';
+            deleteBtn.innerHTML = '×';
+            deleteBtn.addEventListener('click', (e) => {
+              e.stopPropagation();
+              box.remove();
+            });
+            box.appendChild(deleteBtn);
+          }
+
+          box.removeEventListener('blur', handleBlur);
+        };
+
+        box.addEventListener('blur', handleBlur);
+
+        // Handle Enter key to exit editing
+        const handleKeyDown = (e) => {
+          if (e.key === 'Enter' && e.ctrlKey) {
+            box.blur();
+            box.removeEventListener('keydown', handleKeyDown);
+          }
+        };
+
+        box.addEventListener('keydown', handleKeyDown);
+      });
+    }
+
+    // Toggle boxes visibility
+    const toggleBtn = document.getElementById('toggleBoxesBtn');
+    const editorContent = document.getElementById('editorContent');
+
+    // Initialize boxData for edit text area
+    const editTextArea = document.querySelector('.edit-text-area');
+    const boxData = new Map(); // Store original and user content
+    
+    boxData.set(editTextArea, {
+      originalText: editTextArea.textContent,
+      userText: null
+    });
+
+    setupBox(editTextArea, boxData);
+
+    toggleBtn.addEventListener('click', () => {
+      editorContent.classList.toggle('boxes-hidden');
+      toggleBtn.style.opacity = editorContent.classList.contains('boxes-hidden') ? '1' : '0.6';
+    });
+
+    // Handle Point/Click button to add new red box
+    const pointClickBtn = document.querySelector('.question-type-btn.active');
+    pointClickBtn.addEventListener('click', () => {
+      // Show editor content
+      const editorContent = document.getElementById('editorContent');
+      editorContent.style.display = 'flex';
+      
+      // Check if we have the initial boxes
+      const answerOptions = document.getElementById('answerOptions');
+      const existingBoxes = answerOptions.querySelectorAll('.answer-box');
+      
+      // If no boxes exist, create the initial ones
+      if (existingBoxes.length === 0) {
+        // Show the text area only on first click
+        const editTextArea = document.querySelector('.edit-text-area');
+        editTextArea.style.display = 'flex';
+        
+        const correctBox = document.createElement('div');
+        correctBox.className = 'answer-box correct';
+        correctBox.textContent = 'Click to edit - Double click to set answer to wrong';
+        answerOptions.appendChild(correctBox);
+        
+        const incorrectBox = document.createElement('div');
+        incorrectBox.className = 'answer-box incorrect';
+        incorrectBox.textContent = 'Click to edit - Double click to set answer to correct';
+        answerOptions.appendChild(incorrectBox);
+
+        // Setup both boxes with functionality
+        boxData.set(correctBox, { originalText: 'Click to edit - Double click to set answer to wrong', userText: null });
+        boxData.set(incorrectBox, { originalText: 'Click to edit - Double click to set answer to correct', userText: null });
+        
+        setupBox(correctBox, boxData);
+        setupBox(incorrectBox, boxData);
+      } else {
+        // If boxes already exist, add another red box
+        const newBox = document.createElement('div');
+        newBox.className = 'answer-box incorrect';
+        newBox.textContent = 'Click to edit - Double click to set answer to correct';
+        answerOptions.appendChild(newBox);
+
+        // Setup box data
+        boxData.set(newBox, {
+          originalText: 'Click to edit - Double click to set answer to correct',
+          userText: null
+        });
+
+        setupBox(newBox, boxData);
+      }
+    });
+
+    function goBack() {
+      window.location.href = 'manage-worksheets.html';
+    }
+  </script>
+
+  <script src="../script.js"></script>
+</body>
+</html>
+

@@ -9,225 +9,178 @@
       background-color: #FFD97D !important;
       color: #333 !important;
     }
-    /* Container Width Override */
-    .container {
-      max-width: 1600px;
-    }
 
-    /* Worksheet List Styles */
-    .worksheet-list-container {
+    /* Create Worksheet Page */
+    .create-worksheet-container {
       background-color: white;
       padding: 2rem;
       border-radius: 8px;
       margin-top: 1rem;
     }
 
-    .worksheet-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1.5rem;
+    .modal-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      width: 100%;
     }
 
-    .worksheet-header h1 {
+    .modal-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      grid-column: 1 / -1;
+      margin-bottom: 2rem;
+      position: relative;
+    }
+
+    .modal-header button {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #333;
+      padding: 0;
+      width: auto;
+    }
+
+    .modal-header h2 {
       margin: 0;
+      flex: 1;
       font-size: 1.8rem;
     }
 
-    .delete-btn {
-      color: #F44336;
-      font-weight: 600;
+    .modal-close-btn {
+      position: absolute;
+      right: 0;
+      top: 0;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
       cursor: pointer;
-      text-decoration: none;
+      color: #333;
+      padding: 0;
+      width: auto;
     }
 
-    /* Category Tabs */
-    .category-tabs {
-      display: flex;
-      gap: 0.5rem;
+    .modal-left {
+      grid-column: 1;
+    }
+
+    .modal-right {
+      grid-column: 2;
+      grid-row: 2;
+    }
+
+    .form-group {
       margin-bottom: 1.5rem;
-      flex-wrap: wrap;
-      border-bottom: 2px solid #333;
-      padding-bottom: 0.5rem;
     }
 
-    .category-tab {
-      padding: 0.6rem 1rem;
-      background-color: transparent;
-      border: none;
-      cursor: pointer;
-      font-weight: 600;
-      color: #666;
-      transition: all 0.3s;
-      border-bottom: 3px solid transparent;
-      margin-bottom: -2px;
-    }
-
-    .category-tab:hover {
-      color: #333;
-    }
-
-    .category-tab.active {
-      background-color: #FFD97D;
-      color: #333;
-      border-bottom-color: #FFD97D;
-    }
-
-    .category-tab.add-btn {
-      background-color: #FFD97D;
-      color: #333;
-      border-bottom-color: #FFD97D;
-      padding: 0.6rem 1.2rem;
-      border-radius: 4px;
-      margin-left: auto;
-    }
-
-    .category-tab.add-btn:hover {
-      opacity: 0.9;
-    }
-
-    /* Worksheet Table */
-    .worksheets-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-bottom: 1rem;
-    }
-
-    .worksheets-table thead tr {
-      background-color: #FFD97D;
-    }
-
-    .worksheets-table th {
-      padding: 1rem;
-      text-align: left;
-      font-weight: 700;
-      border-bottom: 2px solid #333;
-      color: #000 !important;
-      background-color: #FFD97D !important;
-    }
-
-    .worksheets-table td {
-      padding: 1rem;
-      border-bottom: 1px solid #ddd;
-    }
-
-    .worksheets-table tbody tr {
-      background-color: #FFEDC3;
-    }
-
-    .worksheets-table tbody tr:hover {
-      background-color: #f5f5f5;
-    }
-
-    .edit-btn {
-      background-color: #FFD97D;
-      color: #333;
-      padding: 0.5rem 1rem;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: 0.2s;
-    }
-
-    .edit-btn:hover {
-      opacity: 0.8;
-    }
-
-    .create-new-btn {
-      background-color: #FFD97D;
-      color: #333;
-      padding: 0.6rem 1.2rem;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: 0.2s;
-      margin-bottom: 1rem;
-    }
-
-    .create-new-btn:hover {
-      opacity: 0.8;
-    }
-
-    /* Form Section */
-    .form-section {
-      display: none;
-      background-color: white;
-      padding: 2rem;
-      border-radius: 8px;
-      margin-top: 2rem;
-    }
-
-    .form-section.active {
-      display: block;
-    }
-
-    .form-section h2 {
-      margin-top: 0;
-    }
-
-    .form-section form {
-      max-width: 600px;
-    }
-
-    .form-section label {
+    .form-group label {
       display: block;
       font-weight: 600;
-      margin-top: 1rem;
       margin-bottom: 0.5rem;
-    }
-
-    .form-section input,
-    .form-section select,
-    .form-section textarea {
-      width: 100%;
-      padding: 0.7rem;
-      border: 2px solid #ddd;
-      border-radius: 4px;
-      box-sizing: border-box;
       font-size: 1rem;
     }
 
-    .form-section input:focus,
-    .form-section select:focus,
-    .form-section textarea:focus {
-      outline: none;
-      border-color: #FFD97D;
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 0.8rem;
+      border: none;
+      background-color: #e8e8e8;
+      border-radius: 4px;
+      font-size: 1rem;
+      font-family: inherit;
+      box-sizing: border-box;
     }
 
-    .form-buttons {
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: 2px solid #FFD97D;
+    }
+
+    .input-with-icon {
+      position: relative;
+    }
+
+    .input-with-icon svg {
+      position: absolute;
+      right: 0.8rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      opacity: 0.6;
+    }
+
+    .input-with-icon input {
+      padding-right: 2.5rem;
+    }
+
+    .modal-buttons {
       display: flex;
       gap: 1rem;
-      margin-top: 1.5rem;
+      grid-column: 1;
+      margin-top: 1rem;
     }
 
-    .form-buttons button {
-      padding: 0.7rem 1.5rem;
+    .modal-buttons button {
+      flex: 1;
+      padding: 0.8rem 1.5rem;
       border: none;
       border-radius: 4px;
       cursor: pointer;
       font-weight: 600;
+      font-size: 1rem;
       transition: 0.2s;
     }
 
-    .form-buttons .save-btn {
-      background-color:#FFD97D
-      ;
-      color: white;
-    }
-
-    .form-buttons .save-btn:hover {
-      opacity: 0.8;
-    }
-
-    .form-buttons .cancel-btn {
-      background-color: #ccc;
+    .upload-btn {
+      background-color: #FFD97D;
       color: #333;
     }
 
-    .form-buttons .cancel-btn:hover {
-      opacity: 0.8;
+    .upload-btn:hover {
+      opacity: 0.9;
+    }
+
+    .template-btn {
+      background-color: #FFD97D;
+      color: #333;
+    }
+
+    .template-btn:hover {
+      opacity: 0.9;
+    }
+
+    .worksheet-preview {
+      grid-column: 2;
+      grid-row: 2;
+    }
+
+    .preview-header {
+      font-weight: 600;
+      margin-bottom: 1rem;
+      font-size: 1rem;
+    }
+
+    .preview-box {
+      border: 2px solid #333;
+      padding: 2rem;
+      text-align: center;
+      min-height: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #f9f9f9;
+      border-radius: 4px;
+    }
+
+    .preview-content {
+      font-size: 1rem;
+      line-height: 1.6;
     }
 
     .section {
@@ -236,6 +189,45 @@
 
     .section.active {
       display: block;
+    }
+
+    .difficulty-tabs {
+      display: flex;
+      gap: 0.8rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.8rem;
+      border-bottom: 2px solid #333;
+    }
+
+    .difficulty-tab {
+      padding: 0.6rem 1.2rem;
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #333;
+      transition: all 0.3s ease;
+    }
+
+    .difficulty-tab.active {
+      background-color: #FFD97D;
+      color: #333;
+      border-radius: 3px;
+    }
+
+    .difficulty-tab:hover {
+      opacity: 0.8;
+    }
+
+    .difficulty-tab:disabled {
+      cursor: not-allowed;
+      background-color: #d3d3d3;
+      color: #333;
+    }
+
+    .difficulty-tab:disabled:hover {
+      opacity: 1;
     }
   </style>
 </head>
@@ -262,7 +254,16 @@
       <div class="worksheet-list-container">
         <div class="worksheet-header">
           <h1>Worksheet List</h1>
-          <a class="delete-btn" href="#delete">Delete</a>
+          <a class="delete-btn" href="delete-worksheets.html">Delete</a>
+        </div>
+
+        <!-- Difficulty Tabs -->
+        <div class="difficulty-tabs">
+          <button class="difficulty-tab active" onclick="filterByDifficulty('all')">All</button>
+          <button class="difficulty-tab" onclick="filterByDifficulty('elementary')">Elementary</button>
+          <button class="difficulty-tab" disabled onclick="filterByDifficulty('intermediate')">Intermediate</button>
+          <button class="difficulty-tab" disabled onclick="filterByDifficulty('advanced')">Advanced</button>
+          <button class="difficulty-tab" disabled onclick="filterByDifficulty('expert')">Expert</button>
         </div>
 
         <!-- Category Tabs -->
@@ -289,136 +290,136 @@
           </thead>
           <tbody id="worksheetTable">
             <!-- Colours category -->
-            <tr data-category="colours">
+            <tr data-category="colours" data-difficulty="elementary">
               <td>Blue</td>
               <td>9/6/2025</td>
               <td>4</td>
               <td>90%</td>
-              <td><button class="edit-btn">Edit</button></td>
+              <td><button class="edit-btn" onclick="editWorksheet('Blue')">Edit</button></td>
             </tr>
-            <tr data-category="colours">
+            <tr data-category="colours" data-difficulty="elementary">
               <td>Green</td>
               <td>21/9/2025</td>
               <td>4</td>
               <td>90%</td>
-              <td><button class="edit-btn">Edit</button></td>
+              <td><button class="edit-btn" onclick="editWorksheet('Green')">Edit</button></td>
             </tr>
-            <tr data-category="colours">
+            <tr data-category="colours" data-difficulty="elementary">
               <td>Red</td>
               <td>16/7/2025</td>
               <td>4</td>
               <td>90%</td>
-              <td><button class="edit-btn">Edit</button></td>
+              <td><button class="edit-btn" onclick="editWorksheet('Red')">Edit</button></td>
             </tr>
-            <tr data-category="colours">
+            <tr data-category="colours" data-difficulty="elementary">
               <td>Yellow</td>
               <td>12/10/2025</td>
               <td>4</td>
               <td>90%</td>
-              <td><button class="edit-btn">Edit</button></td>
+              <td><button class="edit-btn" onclick="editWorksheet('Yellow')">Edit</button></td>
             </tr>
             <!-- Shapes category -->
-            <tr data-category="shapes" style="display: none;">
+            <tr data-category="shapes" data-difficulty="elementary" style="display: none;">
               <td>Circle</td>
               <td>9/6/2025</td>
               <td>4</td>
               <td>90%</td>
-              <td><button class="edit-btn">Edit</button></td>
+              <td><button class="edit-btn" onclick="editWorksheet('Circle')">Edit</button></td>
             </tr>
-            <tr data-category="shapes" style="display: none;">
+            <tr data-category="shapes" data-difficulty="elementary" style="display: none;">
               <td>Rectangle</td>
               <td>21/9/2025</td>
               <td>4</td>
               <td>90%</td>
-              <td><button class="edit-btn">Edit</button></td>
+              <td><button class="edit-btn" onclick="editWorksheet('Rectangle')">Edit</button></td>
             </tr>
-            <tr data-category="shapes" style="display: none;">
+            <tr data-category="shapes" data-difficulty="elementary" style="display: none;">
               <td>Square</td>
               <td>16/7/2025</td>
               <td>4</td>
               <td>90%</td>
-              <td><button class="edit-btn">Edit</button></td>
+              <td><button class="edit-btn" onclick="editWorksheet('Square')">Edit</button></td>
             </tr>
-            <tr data-category="shapes" style="display: none;">
+            <tr data-category="shapes" data-difficulty="elementary" style="display: none;">
               <td>Triangle</td>
               <td>12/10/2025</td>
               <td>4</td>
               <td>90%</td>
-              <td><button class="edit-btn">Edit</button></td>
+              <td><button class="edit-btn" onclick="editWorksheet('Triangle')">Edit</button></td>
             </tr>
             <!-- Literacy category -->
-            <tr data-category="literacy" style="display: none;">
+            <tr data-category="literacy" data-difficulty="elementary" style="display: none;">
               <td>Alphabets-lowercase "a"-"f"</td>
               <td>9/6/2025</td>
               <td>4</td>
               <td>90%</td>
-              <td><button class="edit-btn">Edit</button></td>
+              <td><button class="edit-btn" onclick="editWorksheet('Alphabets-lowercase a-f')">Edit</button></td>
             </tr>
-            <tr data-category="literacy" style="display: none;">
+            <tr data-category="literacy" data-difficulty="elementary" style="display: none;">
               <td>Alphabets-lowercase "g"-"l"</td>
               <td>21/9/2025</td>
               <td>4</td>
               <td>90%</td>
-              <td><button class="edit-btn">Edit</button></td>
+              <td><button class="edit-btn" onclick="editWorksheet('Alphabets-lowercase g-l')">Edit</button></td>
             </tr>
-            <tr data-category="literacy" style="display: none;">
+            <tr data-category="literacy" data-difficulty="elementary" style="display: none;">
               <td>Alphabets-lowercase "m"-"r"</td>
               <td>16/7/2025</td>
               <td>4</td>
               <td>90%</td>
-              <td><button class="edit-btn">Edit</button></td>
+              <td><button class="edit-btn" onclick="editWorksheet('Alphabets-lowercase m-r')">Edit</button></td>
             </tr>
-            <tr data-category="literacy" style="display: none;">
+            <tr data-category="literacy" data-difficulty="elementary" style="display: none;">
               <td>Alphabets-lowercase "s"-"z"</td>
               <td>12/10/2025</td>
               <td>4</td>
               <td>90%</td>
-              <td><button class="edit-btn">Edit</button></td>
+              <td><button class="edit-btn" onclick="editWorksheet('Alphabets-lowercase s-z')">Edit</button></td>
             </tr>
             <!-- Read & Write category -->
-            <tr data-category="read-and-write" style="display: none;">
+            <tr data-category="read-and-write" data-difficulty="elementary" style="display: none;">
               <td>Level 1</td>
               <td>9/6/2025</td>
               <td>4</td>
               <td>90%</td>
-              <td><button class="edit-btn">Edit</button></td>
+              <td><button class="edit-btn" onclick="editWorksheet('Level 1')">Edit</button></td>
             </tr>
-            <tr data-category="read-and-write" style="display: none;">
+            <tr data-category="read-and-write" data-difficulty="intermediate" style="display: none;">
               <td>Level 2</td>
               <td>21/9/2025</td>
               <td>4</td>
               <td>90%</td>
-              <td><button class="edit-btn">Edit</button></td>
+              <td><button class="edit-btn" onclick="editWorksheet('Level 2')">Edit</button></td>
             </tr>
-            <tr data-category="read-and-write" style="display: none;">
+            <tr data-category="read-and-write" data-difficulty="advanced" style="display: none;">
               <td>Level 3</td>
               <td>16/7/2025</td>
               <td>4</td>
               <td>90%</td>
-              <td><button class="edit-btn">Edit</button></td>
+              <td><button class="edit-btn" onclick="editWorksheet('Level 3')">Edit</button></td>
             </tr>
-            <tr data-category="read-and-write" style="display: none;">
+            <tr data-category="read-and-write" data-difficulty="expert" style="display: none;">
               <td>Level 4</td>
               <td>12/10/2025</td>
               <td>4</td>
               <td>90%</td>
-              <td><button class="edit-btn">Edit</button></td>
+              <td><button class="edit-btn" onclick="editWorksheet('Level 4')">Edit</button></td>
             </tr>
             <!-- Numeracy category -->
-            <tr data-category="numeracy" style="display: none;">
+            <tr data-category="numeracy" data-difficulty="elementary" style="display: none;">
               <td>Counting 1-10</td>
               <td>5/6/2025</td>
               <td>6</td>
               <td>92%</td>
-              <td><button class="edit-btn">Edit</button></td>
+              <td><button class="edit-btn" onclick="editWorksheet('Counting 1-10')">Edit</button></td>
             </tr>
             <!-- Mathematical Reasoning category -->
-            <tr data-category="mathematical-reasoning" style="display: none;">
+            <tr data-category="mathematical-reasoning" data-difficulty="advanced" style="display: none;">
               <td>Problem Solving</td>
               <td>20/9/2025</td>
               <td>3</td>
               <td>80%</td>
-              <td><button class="edit-btn">Edit</button></td>
+              <td><button class="edit-btn" onclick="editWorksheet('Problem Solving')">Edit</button></td>
             </tr>
           </tbody>
         </table>
@@ -427,37 +428,76 @@
       </div>
     </div>
 
-    <!-- Form Section -->
-    <div id="formSection" class="section form-section">
-      <h2 id="formTitle">Add Worksheet</h2>
+    <!-- Form Section - Page -->
+    <div id="formSection" class="section">
+      <div class="create-worksheet-container">
+        <div class="modal-content">
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <button onclick="showList()" title="Back">
+              ←
+            </button>
+            <h2 id="formTitle">Create New Worksheet</h2>
+            <button class="modal-close-btn" onclick="showList()" title="Close">
+              ✕
+            </button>
+          </div>
 
-      <form id="worksheetForm" onsubmit="saveWorksheet(event)">
-        <input type="hidden" id="wsId">
+          <!-- Left Side - Form -->
+          <div class="modal-left">
+            <form id="worksheetForm" onsubmit="saveWorksheet(event)">
+              <input type="hidden" id="wsId">
 
-        <label>Title</label>
-        <input id="title" required>
+              <div class="form-group">
+                <label>Worksheet Name</label>
+                <div class="input-with-icon">
+                  <input id="title" type="text" placeholder="Enter worksheet name" required>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                  </svg>
+                </div>
+              </div>
 
-        <label>Topic</label>
-        <input id="topic" required>
+              <div class="form-group">
+                <label>Topic</label>
+                <div class="input-with-icon">
+                  <input id="topic" type="text" placeholder="Enter topic" required>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                  </svg>
+                </div>
+              </div>
 
-        <label>Level</label>
-        <select id="level">
-          <option>Elementary</option>
-          <option>Intermediate</option>
-          <option>Expert</option>
-        </select>
+              <div class="form-group">
+                <label>Difficulty</label>
+                <select id="level">
+                  <option>Elementary</option>
+                  <option>Intermediate</option>
+                  <option>Expert</option>
+                </select>
+              </div>
 
-        <label>Description</label>
-        <textarea id="description" rows="4"></textarea>
+              <div class="modal-buttons">
+                <button type="button" class="upload-btn" onclick="alert('Upload worksheet functionality')">Upload Worksheet</button>
+                <button type="button" class="template-btn" onclick="window.location.href='create-worksheet.html'">Blank Template</button>
+              </div>
+            </form>
+          </div>
 
-        <label>Total Questions</label>
-        <input id="totalQuestions" type="number" min="1" required>
-
-        <div class="form-buttons">
-          <button type="submit" class="save-btn">Save</button>
-          <button type="button" class="cancel-btn" onclick="showList()">Cancel</button>
+          <!-- Right Side - Preview -->
+          <div class="worksheet-preview">
+            <div class="preview-header">Worksheet Preview</div>
+            <div class="preview-box">
+              <div class="preview-content">
+                <div id="previewName">MindCognition(TM)</div>
+                <div id="previewLevel">Elementary</div>
+              </div>
+            </div>
+          </div>
         </div>
-      </form>
+      </div>
     </div>
 
     <!-- Delete Section -->
@@ -489,6 +529,7 @@
     // Show/Hide section helpers
     function hideAll() {
       document.querySelectorAll(".section").forEach(sec => sec.classList.remove("active"));
+      document.getElementById("formSection").classList.remove("active");
     }
 
     function showList() {
@@ -498,10 +539,14 @@
 
     function showCreateForm() {
       hideAll();
-      document.getElementById("formTitle").innerText = "Add Worksheet";
+      document.getElementById("formTitle").innerText = "Create New Worksheet";
       document.getElementById("worksheetForm").reset();
       document.getElementById("wsId").value = "";
       document.getElementById("formSection").classList.add("active");
+      
+      // Update preview
+      document.getElementById("previewName").innerText = "MindCognition(TM)";
+      document.getElementById("previewLevel").innerText = "Elementary";
     }
 
     async function showEditForm(id) {
@@ -515,6 +560,24 @@
       // Add save logic here
       showList();
     }
+
+    // Update preview when title changes
+    document.addEventListener('DOMContentLoaded', function() {
+      const titleInput = document.getElementById('title');
+      const levelSelect = document.getElementById('level');
+      
+      if (titleInput) {
+        titleInput.addEventListener('input', function() {
+          document.getElementById('previewName').innerText = this.value || 'MindCognition(TM)';
+        });
+      }
+      
+      if (levelSelect) {
+        levelSelect.addEventListener('change', function() {
+          document.getElementById('previewLevel').innerText = this.value;
+        });
+      }
+    });
   </script>
 
   <script src="manage-worksheets.js"></script>

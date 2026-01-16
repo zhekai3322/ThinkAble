@@ -16,7 +16,7 @@
 
     /* Student List Styles */
     .student-list-container {
-      background-color: white;
+      background-color: transparent;
       padding: 2rem;
       border-radius: 8px;
       margin-top: 1rem;
@@ -282,7 +282,7 @@
               <input type="text" class="search-bar" id="searchInput" placeholder="Search by name..." onkeyup="filterStudents()">
             </div>
           </div>
-          <a class="delete-btn" href="#delete">Delete</a>
+          <a class="delete-btn" href="delete-student.html">Delete</a>
         </div>
 
         <!-- Students Table -->
@@ -306,7 +306,7 @@
               <td>12</td>
               <td>Roger Naruto</td>
               <td>Verbal</td>
-              <td><button class="edit-btn">Edit</button></td>
+              <td><button class="edit-btn" onclick="editStudent(1)">Edit</button></td>
             </tr>
             <tr>
               <td>2</td>
@@ -315,7 +315,7 @@
               <td>20</td>
               <td>Mary White</td>
               <td>Verbal</td>
-              <td><button class="edit-btn">Edit</button></td>
+              <td><button class="edit-btn" onclick="editStudent(2)">Edit</button></td>
             </tr>
             <tr>
               <td>3</td>
@@ -324,7 +324,7 @@
               <td>30</td>
               <td>Eustace Gibson</td>
               <td>Non-Verbal</td>
-              <td><button class="edit-btn">Edit</button></td>
+              <td><button class="edit-btn" onclick="editStudent(3)">Edit</button></td>
             </tr>
             <tr>
               <td>4</td>
@@ -333,12 +333,12 @@
               <td>16</td>
               <td>Felicia Grace</td>
               <td>Verbal</td>
-              <td><button class="edit-btn">Edit</button></td>
+              <td><button class="edit-btn" onclick="editStudent(4)">Edit</button></td>
             </tr>
           </tbody>
         </table>
 
-        <button class="create-new-btn" onclick="showCreateForm()">+Create New</button>
+        <button class="create-new-btn" onclick="window.location.href='create-student.html'">+Create New</button>
       </div>
     </div>
 
@@ -411,6 +411,10 @@
       hideAll();
       document.getElementById("formTitle").innerText = "Edit Student";
       document.getElementById("formSection").classList.add("active");
+    }
+
+    function editStudent(id) {
+      window.location.href = 'update-student.html?id=' + id;
     }
 
     function saveStudent(event) {
