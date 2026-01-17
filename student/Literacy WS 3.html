@@ -125,6 +125,26 @@
     cursor: not-allowed;
   }
 
+  /* ================= MESSAGE ================= */
+  .error-message {
+    color: #9A1C1C;
+    font-size: 24px;
+    font-weight: bold;
+    margin: 20px 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    height: 40px;
+  }
+
+  .error-message.show {
+    opacity: 1;
+  }
+
+  .error-message.correct-show {
+    opacity: 1;
+    color: #1E7F3C;
+  }
+
   /* ================= RESPONSIVE ================= */
   @media (max-width: 768px) {
     .letters {
@@ -163,6 +183,7 @@
 
   <div class="instruction">(1) Point to q</div>
   <div class="single-letter letter" data-correct="true">q</div>
+  <div class="error-message">Oh no you have picked the wrong answer! please try again!</div>
 
   <div class="underline"></div>
 
@@ -179,6 +200,7 @@
     <span class="letter">v</span>
     <span class="letter" data-correct="true">s</span>
   </div>
+  <div class="error-message">Oh no you have picked the wrong answer! please try again!</div>
 
   <div class="underline"></div>
 
@@ -198,6 +220,7 @@
     <span class="letter" data-correct="true">t</span>
     <span class="letter" data-correct="true">q</span>
   </div>
+  <div class="error-message">Oh no you have picked the wrong answer! please try again!</div>
 
   <div class="underline"></div>
 
@@ -217,6 +240,7 @@
     <span class="letter" data-correct="true">r</span>
     <span class="letter">q</span>
   </div>
+  <div class="error-message">Oh no you have picked the wrong answer! please try again!</div>
 
   <div class="underline"></div>
 
@@ -240,6 +264,7 @@
     <span class="letter">u</span>
     <span class="letter">r</span>
   </div>
+  <div class="error-message">Oh no you have picked the wrong answer! please try again!</div>
 
   <div class="underline"></div>
 
@@ -267,6 +292,12 @@ function show(n) {
   page.querySelectorAll(".letter").forEach(l => {
     l.classList.remove("correct", "wrong");
   });
+
+  const errorMsg = page.querySelector(".error-message");
+  if (errorMsg) {
+    errorMsg.textContent = "Oh no you have picked the wrong answer! please try again!";
+    errorMsg.classList.remove("show", "correct-show");
+  }
 
   page.querySelector("#nextBtn").disabled = !answered.has(n);
 }
@@ -312,9 +343,22 @@ document.addEventListener("click", function (e) {
     e.target.classList.add("correct");
     document.getElementById("correctSound").play();
     selectedCorrect++;
+
+    const errorMsg = page.querySelector(".error-message");
+    if (errorMsg) {
+      errorMsg.textContent = "Correct, you have picked the correct answer!";
+      errorMsg.classList.remove("show");
+      errorMsg.classList.add("correct-show");
+    }
   } else if (!correct) {
     e.target.classList.add("wrong");
     document.getElementById("wrongSound").play();
+    const errorMsg = page.querySelector(".error-message");
+    if (errorMsg) {
+      errorMsg.textContent = "Oh no you have picked the wrong answer! please try again!";
+      errorMsg.classList.remove("correct-show");
+      errorMsg.classList.add("show");
+    }
   }
 
   if (selectedCorrect === required) {
