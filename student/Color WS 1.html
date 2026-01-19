@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Color WS1</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <style>
@@ -14,6 +15,7 @@ body {
   height: 100vh;
   overflow: hidden;
 }
+
 /* ================= TOP BAR ================= */
 .ws-top {
   background: #1e1e1e;
@@ -24,11 +26,13 @@ body {
   align-items: center;
   font-size: 16px;
 }
+
 .exit {
   font-size: 14px;
   cursor: pointer;
   text-decoration: underline;
 }
+
 /* ================= PAGE ================= */
 .ws-page {
   display: none;
@@ -39,24 +43,29 @@ body {
   flex-direction: column;
   justify-content: center;
 }
+
 .ws-page.active {
   display: flex;
 }
+
 /* ================= META ================= */
 .meta {
   font-size: 18px;
   margin-bottom: 8px;
 }
+
 /* ================= INSTRUCTION ================= */
 .instruction {
   font-size: 22px;
   margin: 30px 0;
   font-weight: 500;
 }
+
 /* ================= COLORS ================= */
 .letters {
   margin: 60px 0;
 }
+
 .letter {
   width: 70px;
   height: 70px;
@@ -65,43 +74,19 @@ body {
   border-radius: 8px;
   cursor: pointer;
 }
+
 .correct {
   outline: 6px solid #1E7F3C;
 }
+
 .wrong {
   outline: 6px solid #9A1C1C;
-}
-/* ================= UNDERLINE ================= */
-.underline {
-  width: 85%;
-  margin: 50px auto 0;
-  border-top: 3px solid black;
-}
-/* ================= NAV ================= */
-.nav {
-  margin-top: 50px;
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-}
-button {
-  padding: 14px 32px;
-  font-size: 18px;
-  border-radius: 14px;
-  border: none;
-  background: #FFB36B;
-  font-weight: bold;
-  cursor: pointer;
-}
-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
 }
 
 /* ================= MESSAGE ================= */
 .error-message {
   color: #9A1C1C;
-  font-size: 24px;
+  font-size: 22px;
   font-weight: bold;
   margin: 20px 0;
   opacity: 0;
@@ -116,6 +101,100 @@ button:disabled {
 .error-message.correct-show {
   opacity: 1;
   color: #1E7F3C;
+}
+
+/* ================= UNDERLINE ================= */
+.underline {
+  width: 85%;
+  margin: 50px auto 0;
+  border-top: 3px solid black;
+}
+
+/* ================= NAV ================= */
+.nav {
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+}
+
+button {
+  padding: 14px 32px;
+  font-size: 18px;
+  border-radius: 14px;
+  border: none;
+  background: #FFB36B;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ================= RESULTS PAGE ================= */
+.results-page {
+  display: none;
+  min-height: 100vh;
+  padding: 40px 60px;
+  background: white;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+}
+
+.results-page.active {
+  display: flex;
+}
+
+.chart-container {
+  width: 320px;
+  height: 320px;
+  position: relative;
+}
+
+.score-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.score-percentage {
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.score-feedback {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1E7F3C;
+}
+
+.results-buttons {
+  display: flex;
+  gap: 30px;
+}
+
+.results-btn {
+  padding: 12px 28px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.review-btn {
+  background: white;
+  border: 2px solid #1e1e1e;
+}
+
+.home-btn {
+  background: #FFB36B;
 }
 </style>
 
@@ -143,7 +222,8 @@ button:disabled {
     <span class="letter" style="background:blue;"></span>
     <span class="letter" style="background:green;"></span>
   </div>
-  <div class="error-message">Oh no you have picked the wrong answer! please try again!</div>
+
+  <div class="error-message">Oh no you picked the wrong answer! Try again.</div>
 
   <div class="underline"></div>
   <div class="nav">
@@ -160,7 +240,8 @@ button:disabled {
     <span class="letter" style="background:purple;"></span>
     <span class="letter" style="background:brown;"></span>
   </div>
-  <div class="error-message">Oh no you have picked the wrong answer! please try again!</div>
+
+  <div class="error-message">Oh no you picked the wrong answer! Try again.</div>
 
   <div class="underline"></div>
   <div class="nav">
@@ -178,7 +259,8 @@ button:disabled {
     <span class="letter" style="background:blue;"></span>
     <span class="letter" style="background:green;" data-correct="true"></span>
   </div>
-  <div class="error-message">Oh no you have picked the wrong answer! please try again!</div>
+
+  <div class="error-message">Oh no you picked the wrong answer! Try again.</div>
 
   <div class="underline"></div>
   <div class="nav">
@@ -196,7 +278,8 @@ button:disabled {
     <span class="letter" style="background:blue;" data-correct="true"></span>
     <span class="letter" style="background:black;"></span>
   </div>
-  <div class="error-message">Oh no you have picked the wrong answer! please try again!</div>
+
+  <div class="error-message">Oh no you picked the wrong answer! Try again.</div>
 
   <div class="underline"></div>
   <div class="nav">
@@ -214,7 +297,8 @@ button:disabled {
     <span class="letter" style="background:#F2C94C;" data-correct="true"></span>
     <span class="letter" style="background:gray;"></span>
   </div>
-  <div class="error-message">Oh no you have picked the wrong answer! please try again!</div>
+
+  <div class="error-message">Oh no you picked the wrong answer! Try again.</div>
 
   <div class="underline"></div>
   <div class="nav">
@@ -223,78 +307,98 @@ button:disabled {
   </div>
 </div>
 
-<!-- ================= SCRIPT (UNCHANGED) ================= -->
+<!-- ================= RESULTS ================= -->
+<div class="results-page" id="results">
+  <div class="chart-container">
+    <canvas id="scoreChart"></canvas>
+    <div class="score-overlay">
+      <div class="score-percentage" id="scoreText"></div>
+      <div class="score-feedback" id="scoreFeedback"></div>
+    </div>
+  </div>
+
+  <div class="results-buttons">
+    <button class="results-btn review-btn" onclick="location.reload()">Review</button>
+    <button class="results-btn home-btn" onclick="exitWorksheet()">Home</button>
+  </div>
+</div>
+
 <script>
 let current = 1;
 const total = 5;
 let score = 0;
-const answeredQuestions = new Set();
-const questionsWithWrongAnswers = new Set();
+const answered = new Set();
+const wrongBeforeCorrect = new Set();
 
 function show(n) {
   document.querySelectorAll(".ws-page").forEach(p => p.classList.remove("active"));
-  const page = document.getElementById("q" + n);
-  page.classList.add("active");
+  document.getElementById("q" + n).classList.add("active");
   document.getElementById("title").innerText = "Color WS1 Q" + n;
-
-  page.querySelectorAll(".letter").forEach(l => {
-    l.classList.remove("correct", "wrong");
-  });
-
-  const errorMsg = page.querySelector(".error-message");
-  if (errorMsg) {
-    errorMsg.textContent = "Oh no you have picked the wrong answer! please try again!";
-    errorMsg.classList.remove("show", "correct-show");
-  }
-
-  const btn = page.querySelector("#nextBtn");
-  if (btn) btn.disabled = true;
 }
+
 function next() { if (current < total) show(++current); }
 function prev() { if (current > 1) show(--current); }
+
 function submitWS() {
-  alert("Worksheet completed!\nScore: " + score + "/" + total);
-  window.location.href = "ColorWorksheets.html";
+  document.querySelectorAll(".ws-page").forEach(p => p.classList.remove("active"));
+  document.getElementById("results").classList.add("active");
+
+  const percent = Math.round((score / total) * 100);
+  document.getElementById("scoreText").textContent = percent + "%";
+
+  document.getElementById("scoreFeedback").textContent =
+    percent >= 80 ? "Great job!" :
+    percent >= 60 ? "Good effort!" : "Keep practicing!";
+
+  new Chart(document.getElementById("scoreChart"), {
+    type: "doughnut",
+    data: {
+      datasets: [{
+        data: [score, total - score],
+        backgroundColor: ["#8BC88B", "#E5E5E5"],
+        borderWidth: 0
+      }]
+    },
+    options: {
+      plugins: { legend: { display: false } }
+    }
+  });
 }
+
 function exitWorksheet() {
   window.location.href = "ColorWorksheets.html";
 }
-function isQuestionAnsweredCorrectly(page) {
-  const correctLetters = Array.from(page.querySelectorAll('[data-correct="true"]'));
-  return correctLetters.every(l => l.classList.contains("correct"));
-}
-document.addEventListener("click", function (e) {
-  if (!e.target.classList.contains("letter")) return;
-  const page = document.querySelector(".ws-page.active");
-  const correct = e.target.dataset.correct === "true";
 
-  if (!correct) {
+document.addEventListener("click", e => {
+  if (!e.target.classList.contains("letter")) return;
+
+  const page = document.querySelector(".ws-page.active");
+  const qid = page.id;
+  const msg = page.querySelector(".error-message");
+  const btn = page.querySelector("#nextBtn");
+
+  if (answered.has(qid)) return;
+
+  if (e.target.dataset.correct === "true") {
+    e.target.classList.add("correct");
+    document.getElementById("correctSound").play();
+
+    msg.textContent = "Correct! Well done!";
+    msg.classList.add("correct-show");
+    msg.classList.remove("show");
+
+    if (!wrongBeforeCorrect.has(qid)) score++;
+    answered.add(qid);
+    btn.disabled = false;
+  } else {
     e.target.classList.add("wrong");
     document.getElementById("wrongSound").play();
-    questionsWithWrongAnswers.add(current);
-    const errorMsg = page.querySelector(".error-message");
-    if (errorMsg) {
-      errorMsg.textContent = "Oh no you have picked the wrong answer! please try again!";
-      errorMsg.classList.add("show");
-      errorMsg.classList.remove("correct-show");
-    }
-    page.querySelector("#nextBtn")?.removeAttribute("disabled");
-    return;
-  }
-  e.target.classList.add("correct");
-  document.getElementById("correctSound").play();
-  const errorMsg = page.querySelector(".error-message");
-  if (errorMsg) {
-    errorMsg.textContent = "Correct, you have picked the correct answer!";
-    errorMsg.classList.add("correct-show");
-    errorMsg.classList.remove("show");
-  }
+    wrongBeforeCorrect.add(qid);
 
-  if (isQuestionAnsweredCorrectly(page) && !answeredQuestions.has(current) && !questionsWithWrongAnswers.has(current)) {
-    answeredQuestions.add(current);
-    score++;
+    msg.textContent = "Oh no you picked the wrong answer! Try again.";
+    msg.classList.add("show");
+    msg.classList.remove("correct-show");
   }
-  page.querySelector("#nextBtn")?.removeAttribute("disabled");
 });
 </script>
 

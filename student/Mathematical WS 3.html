@@ -3,38 +3,83 @@
 <head>
 <meta charset="UTF-8">
 <title>Mathematical Reasoning: Intermediate</title>
-
-
-</head>
-  <link rel="stylesheet" href="Stylesheet.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link rel="stylesheet" href="Stylesheet.css">
 
 <style>
-/* ================= MESSAGE ================= */
 .error-message {
   color: #9A1C1C;
   font-size: 24px;
   font-weight: bold;
   margin: 20px 0;
   opacity: 0;
-  transition: opacity 0.3s ease;
   height: 40px;
+  transition: opacity 0.3s ease;
 }
+.error-message.show { opacity: 1; }
+.error-message.correct-show { opacity: 1; color: #1E7F3C; }
 
-.error-message.show {
-  opacity: 1;
+/* ================= RESULTS ================= */
+.results-page {
+  display: none;
+  min-height: 100vh;
+  padding: 40px 60px;
+  background: white;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
 }
+.results-page.active { display: flex; }
 
-.error-message.correct-show {
-  opacity: 1;
+.chart-container {
+  width: 320px;
+  height: 320px;
+  position: relative;
+}
+.score-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.score-percentage {
+  font-size: 28px;
+  font-weight: 600;
+}
+.score-feedback {
+  font-size: 32px;
+  font-weight: 700;
   color: #1E7F3C;
 }
+.results-buttons {
+  display: flex;
+  gap: 30px;
+}
+.results-btn {
+  padding: 12px 28px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+}
+.review-btn {
+  background: white;
+  border: 2px solid #1e1e1e;
+}
+.home-btn {
+  background: #FFB36B;
+}
 </style>
+</head>
 
 <body>
 
 <!-- ================= TOP BAR ================= -->
 <div class="ws-top">
-  <div id="title">Mathematical Reasoning WS3 </div>
+  <div id="title">Mathematical Reasoning WS3 Q1</div>
   <div class="exit" onclick="exitWorksheet()">Exit Worksheet</div>
 </div>
 
@@ -42,316 +87,176 @@
 <audio id="correctSound" src="correct.mp3"></audio>
 <audio id="wrongSound" src="wrong.mp3"></audio>
 
-<!-- ================= Q1 ================= -->
+<!-- ================= QUESTIONS ================= -->
+
 <div class="ws-page active" id="q1">
   <div class="meta">MindCognition™</div>
   <div class="meta">Intermediate</div>
   <div class="meta">Mathematical Reasoning</div>
 
   <div class="instruction">(1)</div>
-  <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; margin: 30px 0; max-width: 600px; margin-left: auto; margin-right: auto;">
-    <img src="../public/Bird.jpg" alt="bird" style="width: 70px; height: auto;">
-    <img src="../public/Bird.jpg" alt="bird" style="width: 70px; height: auto;">
-    <img src="../public/Bird.jpg" alt="bird" style="width: 70px; height: auto;">
-    <img src="../public/Bird.jpg" alt="bird" style="width: 70px; height: auto;">
-    <img src="../public/Bird.jpg" alt="bird" style="width: 70px; height: auto;">
-  </div>
-  
-  <div class="question-text">
-    <p>There are 5 birds on a tree.</p>
-    <p>2 birds fly away.</p>
-    <p>There are <input type="text" id="q1_answer" style="width: 100px; padding: 8px; border: none; border-bottom: 2px solid black; font-size: 18px;" data-correct="3"> birds left.</p>
-  </div>
-  <div class="error-message">Oh no you have picked the wrong answer! please try again!</div>
+  <p>There are 5 birds on a tree.</p>
+  <p>2 birds fly away.</p>
+  <p>There are <input class="answer-input" data-correct="3"> birds left.</p>
 
+  <div class="error-message">Try again</div>
   <div class="underline"></div>
-
   <div class="nav">
-    <button disabled id="nextBtn" onclick="next()">Next</button>
+    <button id="nextBtn" disabled onclick="next()">Next</button>
   </div>
 </div>
 
-<!-- ================= Q2 ================= -->
 <div class="ws-page" id="q2">
   <div class="instruction">(2)</div>
-  
-  <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; margin: 20px 0; max-width: 600px; margin-left: auto; margin-right: auto;">
-    <img src="../public/crayon.png" alt="crayon" style="width: 70px; height: auto;">
-    <img src="../public/crayon.png" alt="crayon" style="width: 70px; height: auto;">
-    <img src="../public/crayon.png" alt="crayon" style="width: 70px; height: auto;">
-    <img src="../public/crayon.png" alt="crayon" style="width: 70px; height: auto;">
-  </div>
-  
-  <div class="question-text">
-    <p>I have 4 crayons.</p>
-    <p>My teacher gives me 4 more crayons.</p>
-    <p>I now have <input type="text" id="q2_answer" style="width: 100px; padding: 8px; border: none; border-bottom: 2px solid black; font-size: 18px;" data-correct="8"> crayons.</p>
-  </div>
-  <div class="error-message">Oh no you have picked the wrong answer! please try again!</div>
+  <p>I have 4 crayons.</p>
+  <p>My teacher gives me 4 more crayons.</p>
+  <p>I now have <input class="answer-input" data-correct="8"> crayons.</p>
 
+  <div class="error-message">Try again</div>
   <div class="underline"></div>
-
   <div class="nav">
     <button onclick="prev()">Previous</button>
-    <button disabled id="nextBtn" onclick="next()">Next</button>
+    <button id="nextBtn" disabled onclick="next()">Next</button>
   </div>
 </div>
 
-<!-- ================= Q3 ================= -->
 <div class="ws-page" id="q3">
   <div class="instruction">(3)</div>
-  
-  <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; margin: 20px 0; max-width: 600px; margin-left: auto; margin-right: auto;">
-    <img src="../public/Banana.jpg" alt="banana" style="width: 70px; height: auto;">
-    <img src="../public/Banana.jpg" alt="banana" style="width: 70px; height: auto;">
-    <img src="../public/Banana.jpg" alt="banana" style="width: 70px; height: auto;">
-    <img src="../public/Banana.jpg" alt="banana" style="width: 70px; height: auto;">
-    <img src="../public/Banana.jpg" alt="banana" style="width: 70px; height: auto;">
-    <img src="../public/Banana.jpg" alt="banana" style="width: 70px; height: auto;">
-  </div>
+  <p>There are 6 bananas.</p>
+  <p>I eat 2 bananas.</p>
+  <p>There are <input class="answer-input" data-correct="4"> bananas left.</p>
 
-  <div class="question-text">
-    <p>There are 6 bananas on the table.</p>
-    <p>I eat 2 bananas.</p>
-    <p>There are <input type="text" id="q3_answer" style="width: 100px; padding: 8px; border: none; border-bottom: 2px solid black; font-size: 18px;" data-correct="4"> bananas left.</p>
-  </div>
-  <div class="error-message">Oh no you have picked the wrong answer! please try again!</div>
-
+  <div class="error-message">Try again</div>
   <div class="underline"></div>
-
   <div class="nav">
     <button onclick="prev()">Previous</button>
-    <button disabled id="nextBtn" onclick="next()">Next</button>
+    <button id="nextBtn" disabled onclick="next()">Next</button>
   </div>
 </div>
 
-<!-- ================= Q4 ================= -->
 <div class="ws-page" id="q4">
   <div class="instruction">(4)</div>
-  
-  <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; margin: 20px 0; max-width: 600px; margin-left: auto; margin-right: auto;">
-    <img src="../public/frog.jpg" alt="frog" style="width: 70px; height: auto;">
-    <img src="../public/frog.jpg" alt="frog" style="width: 70px; height: auto;">
-  </div>
+  <p>There are 2 frogs.</p>
+  <p>5 more frogs jump in.</p>
+  <p>There are now <input class="answer-input" data-correct="7"> frogs.</p>
 
-  <div class="question-text">
-    <p>There are 2 frogs near the pond.</p>
-    <p>5 more frogs jump in.</p>
-    <p>There are now <input type="text" id="q4_answer" style="width: 100px; padding: 8px; border: none; border-bottom: 2px solid black; font-size: 18px;" data-correct="7"> frogs.</p>
-  </div>
-  <div class="error-message">Oh no you have picked the wrong answer! please try again!</div>
-
+  <div class="error-message">Try again</div>
   <div class="underline"></div>
-
   <div class="nav">
     <button onclick="prev()">Previous</button>
-    <button disabled id="nextBtn" onclick="next()">Next</button>
+    <button id="nextBtn" disabled onclick="next()">Next</button>
   </div>
 </div>
 
-<!-- ================= Q5 ================= -->
 <div class="ws-page" id="q5">
   <div class="instruction">(5)</div>
-  
-  <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; margin: 20px 0; max-width: 600px; margin-left: auto; margin-right: auto;">
-    <img src="../public/candy.jpg" alt="candy" style="width: 70px; height: auto;">
-    <img src="../public/candy.jpg" alt="candy" style="width: 70px; height: auto;">
-    <img src="../public/candy.jpg" alt="candy" style="width: 70px; height: auto;">
-    <img src="../public/candy.jpg" alt="candy" style="width: 70px; height: auto;">
-    <img src="../public/candy.jpg" alt="candy" style="width: 70px; height: auto;">
-    <img src="../public/candy.jpg" alt="candy" style="width: 70px; height: auto;">
-    <img src="../public/candy.jpg" alt="candy" style="width: 70px; height: auto;">
-    <img src="../public/candy.jpg" alt="candy" style="width: 70px; height: auto;">
-  </div>
+  <p>I have 8 sweets.</p>
+  <p>I give 5 sweets to my sister.</p>
+  <p>There are <input class="answer-input" data-correct="3"> sweets left.</p>
 
-  <div class="question-text">
-    <p>I have 8 sweets.</p>
-    <p>I give 5 sweets to my sister.</p>
-    <p>There are <input type="text" id="q5_answer" style="width: 100px; padding: 8px; border: none; border-bottom: 2px solid black; font-size: 18px;" data-correct="3"> sweets left.</p>
-  </div>
-  <div class="error-message">Oh no you have picked the wrong answer! please try again!</div>
-
+  <div class="error-message">Try again</div>
   <div class="underline"></div>
-
   <div class="nav">
     <button onclick="prev()">Previous</button>
-    <button disabled id="nextBtn" onclick="submitWS()">Submit</button>
+    <button id="nextBtn" disabled onclick="submitWS()">Submit</button>
   </div>
 </div>
 
-<!-- ================= SCRIPT ================= -->
+<!-- ================= RESULTS ================= -->
+<div class="results-page" id="results">
+  <div class="chart-container">
+    <canvas id="scoreChart"></canvas>
+    <div class="score-overlay">
+      <div class="score-percentage" id="scoreText"></div>
+      <div class="score-feedback" id="scoreFeedback"></div>
+    </div>
+  </div>
+
+  <div class="results-buttons">
+    <button class="results-btn review-btn" onclick="location.reload()">Review</button>
+    <button class="results-btn home-btn" onclick="exitWorksheet()">Home</button>
+  </div>
+</div>
+
 <script>
-  let current = 1;
-  const total = 5;
-  let score = 0;
+let current = 1;
+const total = 5;
+let score = 0;
+const answered = new Set();
 
-  const answeredQuestions = new Set();
-  const questionsWithWrongAnswers = new Set();
+function show(n) {
+  document.querySelectorAll(".ws-page").forEach(p => p.classList.remove("active"));
+  const page = document.getElementById("q" + n);
+  page.classList.add("active");
+  document.getElementById("title").innerText = "Mathematical Reasoning WS3 Q" + n;
 
-  const correctSound = document.getElementById("correctSound");
-  const wrongSound = document.getElementById("wrongSound");
+  page.querySelectorAll(".answer-input").forEach(i => {
+    i.value = "";
+    i.disabled = false;
+    i.style.borderBottom = "2px solid black";
+    i.style.background = "transparent";
+  });
 
-  /* ------------------ PAGE HANDLING ------------------ */
+  page.querySelector(".error-message").classList.remove("show","correct-show");
+  page.querySelector("#nextBtn").disabled = true;
+}
 
-  function show(n) {
-    document.querySelectorAll(".ws-page").forEach(p => p.classList.remove("active"));
-    const page = document.getElementById("q" + n);
-    page.classList.add("active");
+function next(){ if(current<total) show(++current); }
+function prev(){ if(current>1) show(--current); }
 
-    document.getElementById("title").innerText = "Literacy WS1 Q" + n;
+function submitWS(){
+  document.querySelectorAll(".ws-page").forEach(p=>p.classList.remove("active"));
+  document.getElementById("results").classList.add("active");
 
-    // Reset letters
-    page.querySelectorAll(".letter").forEach(l => {
-      l.classList.remove("correct", "wrong", "disabled");
-    });
+  const percent = Math.round((score/total)*100);
+  scoreText.textContent = percent+"%";
+  scoreFeedback.textContent =
+    percent>=80?"Excellent!":
+    percent>=60?"Good effort!":"Keep practicing!";
 
-    // Disable next button initially
-    const btn = page.querySelector("#nextBtn");
-    if (btn) btn.disabled = true;
+  new Chart(scoreChart,{
+    type:"doughnut",
+    data:{datasets:[{data:[score,total-score],backgroundColor:["#8BC88B","#E5E5E5"],borderWidth:0}]},
+    options:{plugins:{legend:{display:false}}}
+  });
+}
 
-    // Setup text inputs
-    page.querySelectorAll("input[type='text']").forEach(input => {
-      input.value = "";
-      input.disabled = false;
-      input.style.borderBottomColor = "black";
-      input.style.backgroundColor = "transparent";
+function exitWorksheet(){
+  window.location.href="MathematicalWorksheets.html";
+}
 
-      input.removeEventListener("input", checkInputAnswer);
-      input.addEventListener("input", checkInputAnswer);
+document.addEventListener("input",e=>{
+  if(!e.target.classList.contains("answer-input"))return;
 
-      // Keyboard support (Enter key)
-      input.addEventListener("keydown", e => {
-        if (e.key === "Enter" && !btn.disabled) {
-          next();
-        }
-      });
-    });
-  }
+  const page=document.querySelector(".ws-page.active");
+  const msg=page.querySelector(".error-message");
+  const btn=page.querySelector("#nextBtn");
+  const correct=e.target.dataset.correct;
 
-  function next() {
-    if (current < total) {
-      current++;
-      show(current);
-    }
-  }
+  if(answered.has(current))return;
 
-  function prev() {
-    if (current > 1) {
-      current--;
-      show(current);
-    }
-  }
+  if(e.target.value.trim()===correct){
+    e.target.style.borderBottom="2px solid #1E7F3C";
+    e.target.style.background="#B8F2C2";
+    e.target.disabled=true;
 
-  function submitWS() {
-    localStorage.setItem("ws1_score", score);
-    alert(`Worksheet completed!\nScore: ${score}/${total}`);
-    window.location.href = "MathematicalWorksheets.html";
-  }
+    msg.textContent="Correct!";
+    msg.classList.add("correct-show");
+    msg.classList.remove("show");
 
-  function exitWorksheet() {
-    window.location.href = "MathematicalWorksheets.html";
-  }
-  /* ------------------ INPUT QUESTION (Q1) ------------------ */
-
-  function checkInputAnswer(e) {
-    const input = e.target;
-    const correctAnswer = input.dataset.correct.trim();
-    const userAnswer = input.value.trim();
-    const page = document.querySelector(".ws-page.active");
-    const btn = page.querySelector("#nextBtn");
-
-    if (answeredQuestions.has(current)) return;
-
-    if (userAnswer === correctAnswer) {
-      input.style.borderBottomColor = "#1E7F3C";
-      input.style.backgroundColor = "#B8F2C2";
-      input.disabled = true;
-      const errorMsg = page.querySelector(".error-message");
-      if (errorMsg) {
-        errorMsg.textContent = "Correct, you have picked the correct answer!";
-        errorMsg.classList.remove("show");
-        errorMsg.classList.add("correct-show");
-      }
-
-      correctSound.currentTime = 0;
-      correctSound.play();
-
-      answeredQuestions.add(current);
-      score++;
-
-      btn.disabled = false;
-    } else {
-      input.style.borderBottomColor = "black";
-      input.style.backgroundColor = "transparent";
-      const errorMsg = page.querySelector(".error-message");
-      if (errorMsg) {
-        errorMsg.textContent = "Oh no you have picked the wrong answer! please try again!";
-        errorMsg.classList.add("show");
-        errorMsg.classList.remove("correct-show");
-      }
-      btn.disabled = true;
-    }
-  }
-
-  /* ------------------ SHAPE QUESTIONS ------------------ */
-
-  function isQuestionAnsweredCorrectly(page) {
-    const correctLetters = Array.from(page.querySelectorAll('.letter[data-correct="true"]'));
-    return correctLetters.every(l => l.classList.contains("correct"));
-  }
-
-  document.addEventListener("click", function (e) {
-    if (!e.target.classList.contains("letter")) return;
-
-    const page = document.querySelector(".ws-page.active");
-    const btn = page.querySelector(".nextBtn");
-
-    if (answeredQuestions.has(current)) return;
-
-    const correct = e.target.dataset.correct === "true";
-
-    if (!correct) {
-      e.target.classList.add("wrong");
-      wrongSound.currentTime = 0;
-      wrongSound.play();
-      const errorMsg = page.querySelector(".error-message");
-      if (errorMsg) {
-        errorMsg.textContent = "Oh no you have picked the wrong answer! please try again!";
-        errorMsg.classList.add("show");
-        errorMsg.classList.remove("correct-show");
-      }
-      questionsWithWrongAnswers.add(current);
-      btn.disabled = false;
-      return;
-    }
-
-    e.target.classList.add("correct");
-    correctSound.currentTime = 0;
     correctSound.play();
-    const errorMsg = page.querySelector(".error-message");
-    if (errorMsg) {
-      errorMsg.textContent = "Correct, you have picked the correct answer!";
-      errorMsg.classList.add("correct-show");
-      errorMsg.classList.remove("show");
-    }
+    answered.add(current);
+    score++;
+    btn.disabled=false;
+  } else {
+    msg.textContent="Try again";
+    msg.classList.add("show");
+    msg.classList.remove("correct-show");
+  }
+});
 
-    if (isQuestionAnsweredCorrectly(page)) {
-      answeredQuestions.add(current);
-      score++;
-
-      // Lock letters
-      page.querySelectorAll(".letter").forEach(l => l.classList.add("disabled"));
-      btn.disabled = false;
-    }
-  });
-
-  /* ------------------ INIT ------------------ */
-
-  document.addEventListener("DOMContentLoaded", () => {
-    show(current);
-  });
+document.addEventListener("DOMContentLoaded",()=>show(current));
 </script>
-
 
 </body>
 </html>

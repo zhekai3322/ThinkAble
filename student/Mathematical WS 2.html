@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Mathematical Reasoning: Advanced</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <link rel="stylesheet" href="Stylesheet.css">
 
 <style>
@@ -13,8 +14,8 @@
   font-weight: bold;
   margin: 20px 0;
   opacity: 0;
-  transition: opacity 0.3s ease;
   height: 40px;
+  transition: opacity 0.3s ease;
 }
 
 .error-message.show {
@@ -25,6 +26,70 @@
   opacity: 1;
   color: #1E7F3C;
 }
+
+/* ================= RESULTS ================= */
+.results-page {
+  display: none;
+  min-height: 100vh;
+  padding: 40px 60px;
+  background: white;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+}
+
+.results-page.active {
+  display: flex;
+}
+
+.chart-container {
+  width: 320px;
+  height: 320px;
+  position: relative;
+}
+
+.score-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.score-percentage {
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.score-feedback {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1E7F3C;
+}
+
+.results-buttons {
+  display: flex;
+  gap: 30px;
+}
+
+.results-btn {
+  padding: 12px 28px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.review-btn {
+  background: white;
+  border: 2px solid #1e1e1e;
+}
+
+.home-btn {
+  background: #FFB36B;
+}
 </style>
 </head>
 
@@ -32,7 +97,7 @@
 
 <!-- ================= TOP BAR ================= -->
 <div class="ws-top">
-  <div id="title">Mathematical Reasoning WS2</div>
+  <div id="title">Mathematical Reasoning WS2 Q1</div>
   <div class="exit" onclick="exitWorksheet()">Exit Worksheet</div>
 </div>
 
@@ -44,18 +109,18 @@
 <div class="ws-page active" id="q1" data-answer-count="1">
   <div class="meta">MindCognition™</div>
   <div class="meta">Advanced</div>
-  <div class="meta">Literacy: Alphabets-lowercase<br>5 to 10</div>
+  <div class="meta">Numbers 5–10</div>
 
   <div class="instruction">(1) Point to 5</div>
   <div class="letters">
     <span class="letter" data-correct="true">5</span>
   </div>
-  <div class="error-message">Oh no you have picked the wrong answer! please try again!</div>
 
+  <div class="error-message">Try again</div>
   <div class="underline"></div>
 
   <div class="nav">
-    <button class="btn" id="nextBtn" disabled onclick="next()">Next</button>
+    <button id="nextBtn" disabled onclick="next()">Next</button>
   </div>
 </div>
 
@@ -67,13 +132,13 @@
     <span class="letter">5</span>
     <span class="letter" data-correct="true">7</span>
   </div>
-  <div class="error-message">Oh no you have picked the wrong answer! please try again!</div>
 
+  <div class="error-message">Try again</div>
   <div class="underline"></div>
 
   <div class="nav">
-    <button class="btn" onclick="prev()">Previous</button>
-    <button class="btn" id="nextBtn" disabled onclick="next()">Next</button>
+    <button onclick="prev()">Previous</button>
+    <button id="nextBtn" disabled onclick="next()">Next</button>
   </div>
 </div>
 
@@ -86,13 +151,13 @@
     <span class="letter" data-correct="true">6</span><br>
     <span class="letter">9</span>
   </div>
-  <div class="error-message">Oh no you have picked the wrong answer! please try again!</div>
 
+  <div class="error-message">Try again</div>
   <div class="underline"></div>
 
   <div class="nav">
-    <button class="btn" onclick="prev()">Previous</button>
-    <button class="btn" id="nextBtn" disabled onclick="next()">Next</button>
+    <button onclick="prev()">Previous</button>
+    <button id="nextBtn" disabled onclick="next()">Next</button>
   </div>
 </div>
 
@@ -106,13 +171,13 @@
     <span class="letter">10</span>
     <span class="letter">5</span>
   </div>
-  <div class="error-message">Oh no you have picked the wrong answer! please try again!</div>
 
+  <div class="error-message">Try again</div>
   <div class="underline"></div>
 
   <div class="nav">
-    <button class="btn" onclick="prev()">Previous</button>
-    <button class="btn" id="nextBtn" disabled onclick="next()">Next</button>
+    <button onclick="prev()">Previous</button>
+    <button id="nextBtn" disabled onclick="next()">Next</button>
   </div>
 </div>
 
@@ -127,106 +192,116 @@
     <span class="letter" data-correct="true">5</span>
     <span class="letter">8</span>
   </div>
-  <div class="error-message">Oh no you have picked the wrong answer! please try again!</div>
 
+  <div class="error-message">Try again</div>
   <div class="underline"></div>
 
   <div class="nav">
-    <button class="btn" onclick="prev()">Previous</button>
-    <button class="btn" id="nextBtn" disabled onclick="submit()">Submit</button>
+    <button onclick="prev()">Previous</button>
+    <button id="nextBtn" disabled onclick="submitWS()">Submit</button>
   </div>
 </div>
 
-<!-- ================= SCRIPT ================= -->
+<!-- ================= RESULTS ================= -->
+<div class="results-page" id="results">
+  <div class="chart-container">
+    <canvas id="scoreChart"></canvas>
+    <div class="score-overlay">
+      <div class="score-percentage" id="scoreText"></div>
+      <div class="score-feedback" id="scoreFeedback"></div>
+    </div>
+  </div>
+
+  <div class="results-buttons">
+    <button class="results-btn review-btn" onclick="location.reload()">Review</button>
+    <button class="results-btn home-btn" onclick="exitWorksheet()">Home</button>
+  </div>
+</div>
+
 <script>
 let current = 1;
 const total = 5;
 let score = 0;
-const answeredQuestions = new Set();
-const questionsWithWrongAnswers = new Set();
+
+const answered = new Set();
+const wrongBeforeCorrect = new Set();
+const selected = {};
 
 function show(n) {
   document.querySelectorAll(".ws-page").forEach(p => p.classList.remove("active"));
-  const page = document.getElementById("q" + n);
-  page.classList.add("active");
-  document.getElementById("title").innerText = "Literacy WS2 Q" + n;
+  document.getElementById("q" + n).classList.add("active");
+  document.getElementById("title").innerText = "Mathematical Reasoning WS2 Q" + n;
+}
 
-  page.querySelectorAll(".letter").forEach(l => {
-    l.classList.remove("correct", "wrong");
+function next() { if (current < total) show(++current); }
+function prev() { if (current > 1) show(--current); }
+
+function submitWS() {
+  document.querySelectorAll(".ws-page").forEach(p => p.classList.remove("active"));
+  document.getElementById("results").classList.add("active");
+
+  const percent = Math.round((score / total) * 100);
+  document.getElementById("scoreText").textContent = percent + "%";
+  document.getElementById("scoreFeedback").textContent =
+    percent >= 80 ? "Excellent!" :
+    percent >= 60 ? "Good job!" : "Keep practicing!";
+
+  new Chart(document.getElementById("scoreChart"), {
+    type: "doughnut",
+    data: {
+      datasets: [{
+        data: [score, total - score],
+        backgroundColor: ["#8BC88B", "#E5E5E5"],
+        borderWidth: 0
+      }]
+    },
+    options: { plugins: { legend: { display: false } } }
   });
-
-  const errorMsg = page.querySelector(".error-message");
-  if (errorMsg) errorMsg.classList.remove("show");
-
-  const btn = page.querySelector("#nextBtn");
-  if (btn) btn.disabled = true;
 }
 
-function next() {
-  if (current < total) {
-    current++;
-    show(current);
-  }
+function exitWorksheet() {
+  window.location.href = "MathematicalWorksheets.html";
 }
 
-function prev() {
-  if (current > 1) {
-    current--;
-    show(current);
-  }
-}
-
-  function submitWS() {
-    localStorage.setItem("ws1_score", score);
-    alert(`Worksheet completed!\nScore: ${score}/${total}`);
-    window.location.href = "MathematicalWorksheets.html";
-  }
-
-  function exitWorksheet() {
-    window.location.href = "MathematicalWorksheets.html";
-  }
-
-function isQuestionAnsweredCorrectly(page) {
-  const correctLetters = Array.from(page.querySelectorAll('.letter[data-correct="true"]'));
-  return correctLetters.every(l => l.classList.contains("correct"));
-}
-
-document.addEventListener("click", function (e) {
+document.addEventListener("click", e => {
   if (!e.target.classList.contains("letter")) return;
 
   const page = document.querySelector(".ws-page.active");
-  const correct = e.target.dataset.correct === "true";
+  const qid = page.id;
+  const required = parseInt(page.dataset.answerCount);
+  const msg = page.querySelector(".error-message");
+  const btn = page.querySelector("#nextBtn");
 
-  if (!correct) {
+  if (answered.has(qid)) return;
+  if (!selected[qid]) selected[qid] = new Set();
+
+  if (e.target.dataset.correct === "true") {
+    e.target.classList.add("correct");
+    document.getElementById("correctSound").play();
+    selected[qid].add(e.target.textContent);
+
+    const needed = [...page.querySelectorAll('[data-correct="true"]')]
+      .map(l => l.textContent);
+
+    const done = needed.every(v => selected[qid].has(v));
+
+    msg.textContent = "Correct!";
+    msg.classList.add("correct-show");
+    msg.classList.remove("show");
+
+    if (done) {
+      if (!wrongBeforeCorrect.has(qid)) score++;
+      answered.add(qid);
+      btn.disabled = false;
+    }
+  } else {
     e.target.classList.add("wrong");
     document.getElementById("wrongSound").play();
-    const errorMsg = page.querySelector(".error-message");
-    if (errorMsg) {
-      errorMsg.textContent = "Oh no you have picked the wrong answer! please try again!";
-      errorMsg.classList.add("show");
-      errorMsg.classList.remove("correct-show");
-    }
-    questionsWithWrongAnswers.add(current);
-    page.querySelector("#nextBtn")?.removeAttribute("disabled");
-    return;
-  }
+    wrongBeforeCorrect.add(qid);
 
-  e.target.classList.add("correct");
-  document.getElementById("correctSound").play();
-
-  const errorMsg = page.querySelector(".error-message");
-  if (errorMsg) {
-    errorMsg.textContent = "Correct, you have picked the correct answer!";
-    errorMsg.classList.add("correct-show");
-    errorMsg.classList.remove("show");
-  }
-
-  if (isQuestionAnsweredCorrectly(page) && !answeredQuestions.has(current) && !questionsWithWrongAnswers.has(current)) {
-    answeredQuestions.add(current);
-    score++;
-    page.querySelector("#nextBtn")?.removeAttribute("disabled");
-  } else if (answeredQuestions.has(current) || questionsWithWrongAnswers.has(current)) {
-    page.querySelector("#nextBtn")?.removeAttribute("disabled");
+    msg.textContent = "Try again";
+    msg.classList.add("show");
+    msg.classList.remove("correct-show");
   }
 });
 </script>

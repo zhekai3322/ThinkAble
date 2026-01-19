@@ -3,195 +3,241 @@
 <head>
 <meta charset="UTF-8">
 <title>Literacy WS – h to n</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
-  body {
-    margin: 0;
-    background: #F5F7F2;
-    color: black;
-    font-family: "Poppins", sans-serif;
-    height: 100vh;
-    overflow: hidden;
-  }
+body {
+  margin: 0;
+  background: #F5F7F2;
+  font-family: "Poppins", sans-serif;
+  height: 100vh;
+  overflow: hidden;
+}
 
-  /* ================= TOP BAR ================= */
-  .ws-top {
-    background: #2D3A32;
-    color: white;
-    padding: 14px 22px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 16px;
-  }
+/* ================= TOP BAR ================= */
+.ws-top {
+  background: #2D3A32;
+  color: white;
+  padding: 14px 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 16px;
+}
 
-  .exit-btn {
-    cursor: pointer;
-    font-size: 14px;
-       text-decoration: underline;
-  }
+.exit-btn {
+  cursor: pointer;
+  font-size: 14px;
+  text-decoration: underline;
+}
 
-  /* ================= PAGE ================= */
-  .ws-page {
-    display: none;
-    height: calc(100vh - 56px);
-    padding: 40px 60px;
-    background: white;
-    text-align: center;
-    flex-direction: column;
-    justify-content: center;
-  }
+/* ================= PAGE ================= */
+.ws-page {
+  display: none;
+  height: calc(100vh - 56px);
+  padding: 40px 60px;
+  background: white;
+  text-align: center;
+  flex-direction: column;
+  justify-content: center;
+}
 
-  .ws-page.active {
-    display: flex;
-  }
+.ws-page.active {
+  display: flex;
+}
 
-  /* ================= META ================= */
-  .ws-title {
-    font-size: 22px;
-    font-weight: 500;
-    margin-bottom: 6px;
-  }
+/* ================= META ================= */
+.ws-title {
+  font-size: 22px;
+  font-weight: 500;
+}
 
-  .ws-meta {
-    font-size: 18px;
-    margin-bottom: 6px;
-  }
+.ws-meta {
+  font-size: 18px;
+  margin-bottom: 6px;
+}
 
-  /* ================= INSTRUCTION ================= */
-  .ws-instruction {
-    margin: 30px 0;
-    font-size: 24px;
-    font-weight: 500;
-  }
+/* ================= INSTRUCTION ================= */
+.ws-instruction {
+  margin: 30px 0;
+  font-size: 24px;
+  font-weight: 500;
+}
 
-  /* ================= LETTERS ================= */
-  .letters {
-    font-size: 80px;
-    letter-spacing: 45px;
-    color: #7A55D1;
-    margin: 60px 0;
-    line-height: 1.4;
-  }
+/* ================= LETTERS ================= */
+.letters {
+  font-size: 80px;
+  letter-spacing: 45px;
+  color: #7A55D1;
+  margin: 60px 0;
+}
 
-  .letter {
-    cursor: pointer;
-    padding: 10px 14px;
-    border-radius: 16px;
-    display: inline-block;
-    transition: 0.2s;
-  }
+.letter {
+  cursor: pointer;
+  padding: 10px 14px;
+  border-radius: 16px;
+  display: inline-block;
+  transition: 0.2s;
+}
 
-  .letter:hover {
-    background: #EFE9FF;
-  }
+.letter:hover {
+  background: #EFE9FF;
+}
 
-  .correct {
-    background: #B8F2C2;
-    color: #1E7F3C;
-  }
+.correct {
+  background: #B8F2C2;
+  color: #1E7F3C;
+}
 
-  .wrong {
-    background: #FFD6D6;
-    color: #9A1C1C;
-  }
+.wrong {
+  background: #FFD6D6;
+  color: #9A1C1C;
+}
 
-  /* ================= UNDERLINE ================= */
-  .underline {
-    border-top: 3px solid black;
-    width: 85%;
-    margin: 50px auto 0 auto;
-  }
+/* ================= MESSAGE ================= */
+.error-message {
+  color: #9A1C1C;
+  font-size: 24px;
+  font-weight: bold;
+  margin: 20px 0;
+  opacity: 0;
+  height: 40px;
+  transition: opacity 0.3s ease;
+}
 
-  /* ================= NAV ================= */
-  .nav-buttons {
-    margin-top: 50px;
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-  }
+.error-message.show {
+  opacity: 1;
+}
 
-  .btn {
-    padding: 14px 32px;
-    border-radius: 14px;
-    border: none;
-    cursor: pointer;
-    background: #FFB36B;
-    font-weight: bold;
-    font-size: 18px;
-  }
+.error-message.correct-show {
+  opacity: 1;
+  color: #1E7F3C;
+}
 
-  .btn:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-  }
+/* ================= UNDERLINE ================= */
+.underline {
+  border-top: 3px solid black;
+  width: 85%;
+  margin: 50px auto 0;
+}
 
-  /* ================= MESSAGE ================= */
-  .error-message {
-    color: #9A1C1C;
-    font-size: 24px;
-    font-weight: bold;
-    margin: 20px 0;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    height: 40px;
-  }
+/* ================= NAV ================= */
+.nav-buttons {
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+}
 
-  .error-message.show {
-    opacity: 1;
-  }
+.btn {
+  padding: 14px 32px;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  background: #FFB36B;
+  font-weight: bold;
+  font-size: 18px;
+}
 
-  .error-message.correct-show {
-    opacity: 1;
-    color: #1E7F3C;
-  }
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
 
-  /* ================= RESPONSIVE ================= */
-  @media (max-width: 768px) {
-    .letters {
-      font-size: 60px;
-      letter-spacing: 30px;
-    }
+/* ================= RESULTS PAGE ================= */
+.results-page {
+  display: none;
+  min-height: 100vh;
+  padding: 40px 60px;
+  background: white;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+}
 
-    .ws-instruction {
-      font-size: 20px;
-    }
-  }
+.results-page.active {
+  display: flex;
+}
+
+.chart-container {
+  width: 320px;
+  height: 320px;
+  position: relative;
+}
+
+.score-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.score-percentage {
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.score-feedback {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1E7F3C;
+}
+
+.results-buttons {
+  display: flex;
+  gap: 30px;
+}
+
+.results-btn {
+  padding: 12px 28px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.review-btn {
+  background: white;
+  border: 2px solid #1e1e1e;
+}
+
+.home-btn {
+  background: #FFB36B;
+}
 </style>
 </head>
 
 <body>
 
-<!-- ================= TOP BAR ================= -->
 <div class="ws-top">
   <div id="pageTitle">Literacy WS2 Q1</div>
   <div class="exit-btn" onclick="exitWorksheet()">Exit Worksheet</div>
 </div>
 
-<!-- ================= AUDIO ================= -->
 <audio id="correctSound" src="correct.mp3"></audio>
 <audio id="wrongSound" src="wrong.mp3"></audio>
 
-<!-- ================= Q1 ================= -->
+<!-- ================= QUESTIONS ================= -->
 <div class="ws-page active" id="q1" data-answer-count="1">
   <div class="ws-title">MindCognition™</div>
   <div class="ws-meta">Advanced</div>
-  <div class="ws-meta">Literacy: Alphabets-lowercase<br>"h" to "n"</div>
+  <div class="ws-meta">Literacy: Alphabets (h–n)</div>
 
   <div class="ws-instruction">(1) Point to h</div>
   <div class="letters">
     <span class="letter" data-correct="true">h</span>
   </div>
-  <div class="error-message">Oh no you have picked the wrong answer! please try again!</div>
+  <div class="error-message">Try again</div>
 
   <div class="underline"></div>
-
   <div class="nav-buttons">
     <button class="btn" id="nextBtn" disabled onclick="nextPage()">Next</button>
   </div>
 </div>
 
-<!-- ================= Q2 ================= -->
 <div class="ws-page" id="q2" data-answer-count="1">
   <div class="ws-instruction">(2) Point to h</div>
   <div class="letters">
@@ -199,17 +245,15 @@
     <span class="letter">l</span>
     <span class="letter" data-correct="true">h</span>
   </div>
-  <div class="error-message">Oh no you have picked the wrong answer! please try again!</div>
+  <div class="error-message">Try again</div>
 
   <div class="underline"></div>
-
   <div class="nav-buttons">
     <button class="btn" onclick="prevPage()">Previous</button>
     <button class="btn" id="nextBtn" disabled onclick="nextPage()">Next</button>
   </div>
 </div>
 
-<!-- ================= Q3 ================= -->
 <div class="ws-page" id="q3" data-answer-count="2">
   <div class="ws-instruction">(3) Circle j and k</div>
   <div class="letters">
@@ -218,17 +262,15 @@
     <span class="letter">i</span><br>
     <span class="letter">h</span>
   </div>
-  <div class="error-message">Oh no you have picked the wrong answer! please try again!</div>
+  <div class="error-message">Try again</div>
 
   <div class="underline"></div>
-
   <div class="nav-buttons">
     <button class="btn" onclick="prevPage()">Previous</button>
     <button class="btn" id="nextBtn" disabled onclick="nextPage()">Next</button>
   </div>
 </div>
 
-<!-- ================= Q4 ================= -->
 <div class="ws-page" id="q4" data-answer-count="1">
   <div class="ws-instruction">(4) Point to m</div>
   <div class="letters">
@@ -238,17 +280,15 @@
     <span class="letter" data-correct="true">m</span>
     <span class="letter">h</span>
   </div>
-  <div class="error-message">Oh no you have picked the wrong answer! please try again!</div>
+  <div class="error-message">Try again</div>
 
   <div class="underline"></div>
-
   <div class="nav-buttons">
     <button class="btn" onclick="prevPage()">Previous</button>
     <button class="btn" id="nextBtn" disabled onclick="nextPage()">Next</button>
   </div>
 </div>
 
-<!-- ================= Q5 ================= -->
 <div class="ws-page" id="q5" data-answer-count="3">
   <div class="ws-instruction">(5) Circle m, n and k</div>
   <div class="letters">
@@ -259,122 +299,118 @@
     <span class="letter" data-correct="true">n</span>
     <span class="letter">h</span>
   </div>
-  <div class="error-message">Oh no you have picked the wrong answer! please try again!</div>
+  <div class="error-message">Try again</div>
 
   <div class="underline"></div>
-
   <div class="nav-buttons">
     <button class="btn" onclick="prevPage()">Previous</button>
     <button class="btn" id="nextBtn" disabled onclick="submitWorksheet()">Submit</button>
   </div>
 </div>
 
-<!-- ================= SCRIPT ================= -->
+<!-- ================= RESULTS ================= -->
+<div class="results-page" id="results">
+  <div class="chart-container">
+    <canvas id="scoreChart"></canvas>
+    <div class="score-overlay">
+      <div class="score-percentage" id="scoreText"></div>
+      <div class="score-feedback" id="scoreFeedback"></div>
+    </div>
+  </div>
+
+  <div class="results-buttons">
+    <button class="results-btn review-btn" onclick="location.reload()">Review</button>
+    <button class="results-btn home-btn" onclick="exitWorksheet()">Home</button>
+  </div>
+</div>
+
 <script>
 let current = 1;
 const total = 5;
-let answered = new Set();
-let selectedCorrect = 0;
+let score = 0;
+const answered = new Set();
+const wrongBeforeCorrect = new Set();
+const selected = {};
 
 function showPage(num) {
   document.querySelectorAll(".ws-page").forEach(p => p.classList.remove("active"));
-  const page = document.getElementById("q" + num);
-  page.classList.add("active");
-
+  document.getElementById("q" + num).classList.add("active");
   document.getElementById("pageTitle").innerText = `Literacy WS2 Q${num}`;
-
-  selectedCorrect = 0;
-  page.querySelectorAll(".letter").forEach(l => {
-    l.classList.remove("correct", "wrong");
-  });
-
-  const errorMsg = page.querySelector(".error-message");
-  if (errorMsg) {
-    errorMsg.textContent = "Oh no you have picked the wrong answer! please try again!";
-    errorMsg.classList.remove("show", "correct-show");
-  }
-
-  page.querySelector("#nextBtn").disabled = !answered.has(num);
 }
 
-function nextPage() {
-  if (current < total) {
-    current++;
-    showPage(current);
-  }
-}
-
-function prevPage() {
-  if (current > 1) {
-    current--;
-    showPage(current);
-  }
-}
-
-function saveProgress() {
-  const progress = Math.round((answered.size / total) * 100);
-  localStorage.setItem("literacy_ws2", progress);
-}
+function nextPage() { if (current < total) showPage(++current); }
+function prevPage() { if (current > 1) showPage(--current); }
 
 function submitWorksheet() {
-  saveProgress();
-  alert("Worksheet completed!\nProgress: " + localStorage.getItem("literacy_ws2") + "%");
-  window.location.href = "LiteracyWorksheets.html";
+  document.querySelectorAll(".ws-page").forEach(p => p.classList.remove("active"));
+  document.getElementById("results").classList.add("active");
+
+  const percent = Math.round((score / total) * 100);
+  document.getElementById("scoreText").textContent = percent + "%";
+
+  document.getElementById("scoreFeedback").textContent =
+    percent >= 80 ? "Great job!" :
+    percent >= 60 ? "Good effort!" : "Keep practicing!";
+
+  new Chart(document.getElementById("scoreChart"), {
+    type: "doughnut",
+    data: {
+      datasets: [{
+        data: [score, total - score],
+        backgroundColor: ["#8BC88B", "#E5E5E5"],
+        borderWidth: 0
+      }]
+    },
+    options: { plugins: { legend: { display: false } } }
+  });
 }
 
 function exitWorksheet() {
-  saveProgress();
   window.location.href = "LiteracyWorksheets.html";
 }
 
-document.addEventListener("click", function (e) {
+document.addEventListener("click", e => {
   if (!e.target.classList.contains("letter")) return;
 
   const page = document.querySelector(".ws-page.active");
+  const qid = page.id;
   const required = parseInt(page.dataset.answerCount);
-  const correct = e.target.dataset.correct === "true";
+  const msg = page.querySelector(".error-message");
+  const btn = page.querySelector("#nextBtn");
 
-  if (correct && !e.target.classList.contains("correct")) {
+  if (answered.has(qid)) return;
+  if (!selected[qid]) selected[qid] = new Set();
+
+  if (e.target.dataset.correct === "true") {
     e.target.classList.add("correct");
     document.getElementById("correctSound").play();
-    selectedCorrect++;
+    selected[qid].add(e.target.textContent);
 
-    const errorMsg = page.querySelector(".error-message");
-    if (errorMsg) {
-      errorMsg.textContent = "Correct, you have picked the correct answer!";
-      errorMsg.classList.remove("show");
-      errorMsg.classList.add("correct-show");
+    const needed = [...page.querySelectorAll('[data-correct="true"]')]
+      .map(l => l.textContent);
+
+    const done = needed.every(v => selected[qid].has(v));
+
+    msg.textContent = "Correct!";
+    msg.classList.add("correct-show");
+    msg.classList.remove("show");
+
+    if (done) {
+      if (!wrongBeforeCorrect.has(qid)) score++;
+      answered.add(qid);
+      btn.disabled = false;
     }
-  } else if (!correct) {
+  } else {
     e.target.classList.add("wrong");
     document.getElementById("wrongSound").play();
-    const errorMsg = page.querySelector(".error-message");
-    if (errorMsg) {
-      errorMsg.textContent = "Oh no you have picked the wrong answer! please try again!";
-      errorMsg.classList.remove("correct-show");
-      errorMsg.classList.add("show");
-    }
+    wrongBeforeCorrect.add(qid);
+
+    msg.textContent = "Try again";
+    msg.classList.add("show");
+    msg.classList.remove("correct-show");
   }
-
-  if (selectedCorrect === required) {
-    answered.add(current);
-    saveProgress();
-    page.querySelector("#nextBtn").disabled = false;
-  }
-});
-
-document.addEventListener("DOMContentLoaded", () => {
-  const saved = Number(localStorage.getItem("literacy_ws2")) || 0;
-  const answeredCount = Math.round((saved / 100) * total);
-
-  for (let i = 1; i <= answeredCount; i++) {
-    answered.add(i);
-  }
-
-  showPage(current);
 });
 </script>
-
 
 </body>
 </html>
