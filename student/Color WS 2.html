@@ -103,6 +103,26 @@ button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+/* ================= MESSAGE ================= */
+.error-message {
+  color: #9A1C1C;
+  font-size: 24px;
+  font-weight: bold;
+  margin: 20px 0;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  height: 40px;
+}
+
+.error-message.show {
+  opacity: 1;
+}
+
+.error-message.correct-show {
+  opacity: 1;
+  color: #1E7F3C;
+}
 </style>
 
 <body>
@@ -130,6 +150,7 @@ button:disabled {
     <span class="letter" style="background:blue;"></span>
     <span class="letter" style="background:#6BBF59;" data-correct="true"></span>
   </div>
+  <div class="error-message">Oh no you have picked the wrong answer! please try again!</div>
 
   <div class="underline"></div>
   <div class="nav">
@@ -147,6 +168,7 @@ button:disabled {
     <span class="letter" style="background:#9B51E0;"></span>
     <span class="letter" style="background:#B08968;" data-correct="true"></span>
   </div>
+  <div class="error-message">Oh no you have picked the wrong answer! please try again!</div>
 
   <div class="underline"></div>
   <div class="nav">
@@ -165,6 +187,7 @@ button:disabled {
     <span class="letter" style="background:#3F37FF;"></span>
     <span class="letter" style="background:#6BBF59;"></span>
   </div>
+  <div class="error-message">Oh no you have picked the wrong answer! please try again!</div>
 
   <div class="underline"></div>
   <div class="nav">
@@ -183,6 +206,7 @@ button:disabled {
     <span class="letter" style="background:#3F37FF;" data-correct="true"></span>
     <span class="letter" style="background:black;"></span>
   </div>
+  <div class="error-message">Oh no you have picked the wrong answer! please try again!</div>
 
   <div class="underline"></div>
   <div class="nav">
@@ -201,6 +225,7 @@ button:disabled {
     <span class="letter" style="background:#F2C94C;" data-correct="true"></span>
     <span class="letter" style="background:gray;"></span>
   </div>
+  <div class="error-message">Oh no you have picked the wrong answer! please try again!</div>
 
   <div class="underline"></div>
   <div class="nav">
@@ -226,6 +251,12 @@ function show(n) {
   page.querySelectorAll(".letter").forEach(l => {
     l.classList.remove("correct", "wrong");
   });
+
+  const errorMsg = page.querySelector(".error-message");
+  if (errorMsg) {
+    errorMsg.textContent = "Oh no you have picked the wrong answer! please try again!";
+    errorMsg.classList.remove("show", "correct-show");
+  }
 
   const btn = page.querySelector("#nextBtn");
   if (btn) btn.disabled = true;
@@ -257,6 +288,12 @@ document.addEventListener("click", function (e) {
   if (!correct) {
     e.target.classList.add("wrong");
     document.getElementById("wrongSound").play();
+    const errorMsg = page.querySelector(".error-message");
+    if (errorMsg) {
+      errorMsg.textContent = "Oh no you have picked the wrong answer! please try again!";
+      errorMsg.classList.add("show");
+      errorMsg.classList.remove("correct-show");
+    }
     questionsWithWrongAnswers.add(current);
     page.querySelector("#nextBtn")?.removeAttribute("disabled");
     return;
@@ -264,6 +301,13 @@ document.addEventListener("click", function (e) {
 
   e.target.classList.add("correct");
   document.getElementById("correctSound").play();
+
+  const errorMsg = page.querySelector(".error-message");
+  if (errorMsg) {
+    errorMsg.textContent = "Correct, you have picked the correct answer!";
+    errorMsg.classList.add("correct-show");
+    errorMsg.classList.remove("show");
+  }
 
   if (isQuestionAnsweredCorrectly(page) && !answeredQuestions.has(current) && !questionsWithWrongAnswers.has(current)) {
     answeredQuestions.add(current);

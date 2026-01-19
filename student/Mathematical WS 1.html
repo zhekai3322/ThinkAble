@@ -8,6 +8,28 @@
 </head>
   <link rel="stylesheet" href="Stylesheet.css">
 
+<style>
+/* ================= MESSAGE ================= */
+.error-message {
+  color: #9A1C1C;
+  font-size: 24px;
+  font-weight: bold;
+  margin: 20px 0;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  height: 40px;
+}
+
+.error-message.show {
+  opacity: 1;
+}
+
+.error-message.correct-show {
+  opacity: 1;
+  color: #1E7F3C;
+}
+</style>
+
 <body>
 
 <!-- ================= TOP BAR ================= -->
@@ -42,6 +64,7 @@
     <p>I have ate 2 apples.</p>
     <p>I have <input type="text" id="q1_answer" style="width: 100px; padding: 8px; border: none; border-bottom: 2px solid black; font-size: 18px;" data-correct="5"> apples left.</p>
   </div>
+  <div class="error-message">Oh no you have picked the wrong answer! please try again!</div>
 
   <div class="underline"></div>
 
@@ -75,6 +98,7 @@
     <p>My mother gave me four apples.</p>
     <p>I have <input type="text" id="q2_answer" style="width: 100px; padding: 8px; border: none; border-bottom: 2px solid black; font-size: 18px;" data-correct="7"> apples now.</p>
   </div>
+  <div class="error-message">Oh no you have picked the wrong answer! please try again!</div>
 
   <div class="underline"></div>
 
@@ -104,6 +128,7 @@
     <p>4 blue birds flew away.</p>
     <p>There are <input type="text" id="q3_answer" style="width: 100px; padding: 8px; border: none; border-bottom: 2px solid black; font-size: 18px;" data-correct="4"> blue birds in the garden now.</p>
   </div>
+  <div class="error-message">Oh no you have picked the wrong answer! please try again!</div>
 
   <div class="underline"></div>
 
@@ -141,6 +166,7 @@
     <p>5 more blue birds flew here later.</p>
     <p>There are now <input type="text" id="q4_answer" style="width: 100px; padding: 8px; border: none; border-bottom: 2px solid black; font-size: 18px;" data-correct="10"> blue birds in my garden.</p>
   </div>
+  <div class="error-message">Oh no you have picked the wrong answer! please try again!</div>
 
   <div class="underline"></div>
 
@@ -175,6 +201,7 @@
     <p>I ate 2 green apples</p>
     <p>There are now <input type="text" id="q5_answer" style="width: 100px; padding: 8px; border: none; border-bottom: 2px solid black; font-size: 18px;" data-correct="3"> green apples left.</p>
   </div>
+  <div class="error-message">Oh no you have picked the wrong answer! please try again!</div>
 
   <div class="underline"></div>
 
@@ -272,6 +299,12 @@
       input.style.borderBottomColor = "#1E7F3C";
       input.style.backgroundColor = "#B8F2C2";
       input.disabled = true;
+      const errorMsg = page.querySelector(".error-message");
+      if (errorMsg) {
+        errorMsg.textContent = "Correct, you have picked the correct answer!";
+        errorMsg.classList.remove("show");
+        errorMsg.classList.add("correct-show");
+      }
 
       correctSound.currentTime = 0;
       correctSound.play();
@@ -283,6 +316,12 @@
     } else {
       input.style.borderBottomColor = "black";
       input.style.backgroundColor = "transparent";
+      const errorMsg = page.querySelector(".error-message");
+      if (errorMsg) {
+        errorMsg.textContent = "Oh no you have picked the wrong answer! please try again!";
+        errorMsg.classList.add("show");
+        errorMsg.classList.remove("correct-show");
+      }
       btn.disabled = true;
     }
   }
@@ -308,6 +347,12 @@
       e.target.classList.add("wrong");
       wrongSound.currentTime = 0;
       wrongSound.play();
+      const errorMsg = page.querySelector(".error-message");
+      if (errorMsg) {
+        errorMsg.textContent = "Oh no you have picked the wrong answer! please try again!";
+        errorMsg.classList.add("show");
+        errorMsg.classList.remove("correct-show");
+      }
       questionsWithWrongAnswers.add(current);
       btn.disabled = false;
       return;
@@ -316,6 +361,12 @@
     e.target.classList.add("correct");
     correctSound.currentTime = 0;
     correctSound.play();
+    const errorMsg = page.querySelector(".error-message");
+    if (errorMsg) {
+      errorMsg.textContent = "Correct, you have picked the correct answer!";
+      errorMsg.classList.add("correct-show");
+      errorMsg.classList.remove("show");
+    }
 
     if (isQuestionAnsweredCorrectly(page)) {
       answeredQuestions.add(current);
