@@ -97,17 +97,17 @@ async function seedDefaultAdmin() {
     // Check if admin account already exists
     const [rows] = await connection.execute(
       "SELECT * FROM users WHERE email = ?",
-      ["admin@thinkable"]
+      ["admin@thinkable.com"]
     );
     
     if (rows.length === 0) {
       // Create admin account
-      const hashedPassword = await bcrypt.hash("AdminPassword123", 10);
+      const hashedPassword = await bcrypt.hash("admin", 10);
       await connection.execute(
         "INSERT INTO users (email, password, role) VALUES (?, ?, ?)",
-        ["admin@thinkable", hashedPassword, "admin"]
+        ["admin@thinkable.com", hashedPassword, "admin"]
       );
-      console.log("✅ Default admin account created: admin@thinkable / AdminPassword123");
+      console.log("✅ Default admin account created: admin@thinkable.com / admin");
     } else {
       console.log("✅ Admin account already exists");
     }
