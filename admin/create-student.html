@@ -624,152 +624,141 @@
   </div>
 
   <script>
-    function handleSubmit(event) {
-      event.preventDefault();
-      
-      // Collect form data
-      const studentData = {
-        fullName: document.getElementById('fullName').value,
-        gender: document.getElementById('gender').value,
-        dob: document.getElementById('dob').value,
-        age: document.getElementById('age').value,
-        email: document.getElementById('email').value,
-        school: document.getElementById('school').value,
-        parentName: document.getElementById('parentName').value,
-        parentEmail: document.getElementById('parentEmail').value,
-        parentPhone: document.getElementById('parentPhone').value,
-        relation: document.getElementById('relation').value,
-        communication: document.getElementById('communication').value
-      };
+  async function handleSubmit(event) {
+    event.preventDefault();
 
-      // Log data (you can later send this to a backend)
-      console.log('Student data to save:', studentData);
+    // Collect base student data
+    const studentData = {
+      fullName: document.getElementById('fullName').value,
+      gender: document.getElementById('gender').value,
+      dob: document.getElementById('dob').value,
+      age: document.getElementById('age').value,
+      email: document.getElementById('email').value,
+      school: document.getElementById('school').value,
+      parentName: document.getElementById('parentName').value,
+      parentEmail: document.getElementById('parentEmail').value,
+      parentPhone: document.getElementById('parentPhone').value,
+      relation: document.getElementById('relation').value,
+      communication: document.getElementById('communication').value
+    };
 
-      // Show confirmation message
-      alert('Student created successfully!');
-
-      // Redirect back to manage students
-      window.location.href = 'manage-student.html';
-    }
-
-    function goBack() {
-      window.location.href = 'manage-student.html';
-    }
-
-    // Add Column Modal Functions
-    function openAddColumnModal() {
-      document.getElementById('addColumnModal').classList.add('active');
-    }
-
-    function closeAddColumnModal() {
-      document.getElementById('addColumnModal').classList.remove('active');
-    }
-
-    function addCustomColumn() {
-      const customName = document.getElementById('customColumnName').value;
-      if (customName.trim()) {
-        const optionsDiv = document.getElementById('columnOptions');
-        const newOption = document.createElement('div');
-        newOption.className = 'add-column-option';
-        newOption.innerHTML = `
-          <input type="checkbox" id="${customName.replace(/\s+/g, '_')}" value="${customName}" checked>
-          <label for="${customName.replace(/\s+/g, '_')}">${customName}</label>
-        `;
-        optionsDiv.appendChild(newOption);
-        document.getElementById('customColumnName').value = '';
-      }
-    }
-
-    function confirmAddColumns() {
-      const checkboxes = document.querySelectorAll('#addColumnModal .add-column-option input[type="checkbox"]:checked');
-      const selectedColumns = Array.from(checkboxes).map(cb => cb.value);
-      
-      if (selectedColumns.length === 0) {
-        alert('Please select at least one column');
-        return;
-      }
-
-      // Add selected columns to the form and remove them from modal
-      selectedColumns.forEach(column => {
-        addColumnToForm(column);
-        // Remove the option from the modal
-        removeColumnFromModal(column);
+    // Collect dynamic custom columns
+    const customFields = {};
+    document
+      .querySelectorAll('#addedColumnsContainer input')
+      .forEach(input => {
+        customFields[input.name] = input.value;
       });
 
-      closeAddColumnModal();
-    }
-
-    function removeColumnFromModal(columnName) {
-      const optionsDiv = document.getElementById('columnOptions');
-      const options = optionsDiv.querySelectorAll('.add-column-option');
-      options.forEach(option => {
-        const checkbox = option.querySelector('input[type="checkbox"]');
-        if (checkbox.value === columnName) {
-          option.remove();
-        }
+    try {
+      const res = await fetch("http://localhost:3000/api/students", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...studentData,
+          customFields
+        })
       });
-    }
 
-    function addColumnToForm(columnName) {
-      // Show the added columns container
-      const container = document.getElementById('addedColumnsContainer');
-      container.style.display = 'block';
-      
-      // Alternate between left and right columns
-      const leftCol = document.getElementById('addedColumnsLeft');
-      const rightCol = document.getElementById('addedColumnsRight');
-      const targetCol = leftCol.children.length <= rightCol.children.length ? leftCol : rightCol;
-      
-      // Create new field
-      const newField = document.createElement('div');
-      newField.className = 'form-field';
-      newField.innerHTML = `
-        <div class="form-field-content">
-          <label for="${columnName.replace(/\s+/g, '_')}">${columnName}</label>
-          <input type="text" id="${columnName.replace(/\s+/g, '_')}" name="${columnName.replace(/\s+/g, '_')}">
-        </div>
-        <button type="button" class="delete-column-btn" title="Delete">✕</button>
-      `;
-      
-      // Add delete functionality
-      const deleteBtn = newField.querySelector('.delete-column-btn');
-      deleteBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        // Re-add the column option to the modal
-        readdColumnToModal(columnName);
-        // Remove the field
-        newField.remove();
-        // Hide container if no columns left
-        if (leftCol.children.length === 0 && rightCol.children.length === 0) {
-          container.style.display = 'none';
-        }
-      });
-      
-      targetCol.appendChild(newField);
-    }
-
-    function readdColumnToModal(columnName) {
-      const optionsDiv = document.getElementById('columnOptions');
-      const newOption = document.createElement('div');
-      newOption.className = 'add-column-option';
-      newOption.innerHTML = `
-        <input type="checkbox" id="${columnName.replace(/\s+/g, '_')}" value="${columnName}">
-        <label for="${columnName.replace(/\s+/g, '_')}">${columnName}</label>
-      `;
-      optionsDiv.appendChild(newOption);
-    }
-
-    // Attach click handler to Add Column button
-    document.addEventListener('DOMContentLoaded', function() {
-      const addColumnBtn = document.querySelector('.add-column-btn');
-      if (addColumnBtn) {
-        addColumnBtn.onclick = function(e) {
-          e.preventDefault();
-          openAddColumnModal();
-        };
+      if (!res.ok) {
+        throw new Error("Failed to save student");
       }
+
+      alert("Student created successfully!");
+      window.location.href = "manage-student.html";
+
+    } catch (err) {
+      console.error(err);
+      alert("Error creating student. Please check server.");
+    }
+  }
+
+  function goBack() {
+    window.location.href = 'manage-student.html';
+  }
+
+  // =========================
+  // Add Column Modal Logic
+  // =========================
+  function openAddColumnModal() {
+    document.getElementById('addColumnModal').classList.add('active');
+  }
+
+  function closeAddColumnModal() {
+    document.getElementById('addColumnModal').classList.remove('active');
+  }
+
+  function addCustomColumn() {
+    const customName = document.getElementById('customColumnName').value.trim();
+    if (!customName) return;
+
+    const optionsDiv = document.getElementById('columnOptions');
+    const id = customName.replace(/\s+/g, '_');
+
+    optionsDiv.insertAdjacentHTML('beforeend', `
+      <div class="add-column-option">
+        <input type="checkbox" id="${id}" value="${customName}" checked>
+        <label for="${id}">${customName}</label>
+      </div>
+    `);
+
+    document.getElementById('customColumnName').value = '';
+  }
+
+  function confirmAddColumns() {
+    const selected = document.querySelectorAll(
+      '#addColumnModal input[type="checkbox"]:checked'
+    );
+
+    if (!selected.length) {
+      alert("Select at least one column");
+      return;
+    }
+
+    selected.forEach(cb => {
+      addColumnToForm(cb.value);
+      cb.closest('.add-column-option').remove();
     });
-  </script>
+
+    closeAddColumnModal();
+  }
+
+  function addColumnToForm(columnName) {
+    const container = document.getElementById('addedColumnsContainer');
+    container.style.display = 'block';
+
+    const left = document.getElementById('addedColumnsLeft');
+    const right = document.getElementById('addedColumnsRight');
+    const target = left.children.length <= right.children.length ? left : right;
+
+    const id = columnName.replace(/\s+/g, '_');
+
+    const field = document.createElement('div');
+    field.className = 'form-field';
+    field.innerHTML = `
+      <div class="form-field-content">
+        <label>${columnName}</label>
+        <input type="text" name="${id}">
+      </div>
+      <button type="button" class="delete-column-btn">✕</button>
+    `;
+
+    field.querySelector('.delete-column-btn').onclick = () => {
+      field.remove();
+      if (!left.children.length && !right.children.length) {
+        container.style.display = 'none';
+      }
+    };
+
+    target.appendChild(field);
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    document
+      .querySelector('.add-column-btn')
+      .addEventListener('click', openAddColumnModal);
+  });
+</script>
 
   <script src="../script.js"></script>
 </body>
