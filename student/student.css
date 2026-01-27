@@ -29,11 +29,12 @@
 
 .student-container {
   max-width: 1100px;
-  margin: 2rem auto;
+  margin: 1rem auto;
   padding: 1.5rem;
   background: var(--soft-green);
   border-radius: 18px;
   box-shadow: 0 5px 18px rgba(0,0,0,0.07);
+  width: 95%;
 }
 
 body.dark .student-container {
@@ -68,6 +69,8 @@ body.dark {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .branding {
@@ -87,6 +90,7 @@ body.dark {
 }
 
 .main-nav {
+  flex-wrap: wrap;
   display: flex;
   gap: 14px;
 }
@@ -128,18 +132,6 @@ body.dark {
   display: grid;
   grid-template-columns: 2fr 1fr;
   padding: 25px;
-  gap: 25px;
-}
-
-.welcome-title {
-  margin: 0;
-  font-size: 2rem;
-  font-weight: 700;
-}
-
-.subtitle {
-  margin: 2px 0 20px 0;
-  font-size: 1rem;
   color: var(--primary-green);
 }
 
@@ -174,13 +166,15 @@ body.dark {
 
 .worksheet-link {
   text-decoration: none;
-  color: inherit;
-  display: block;
+  flex-wrap: wrap;
 }
 
-.card-info h3 {
-  margin: 0;
-  font-size: 1.3rem;
+.worksheet-card img {
+  width: 120px;
+  height: 120px;
+  border-radius: 15px;
+  object-fit: cover;
+  flex-shrink: 0;
   font-weight: 600;
 }
 
@@ -328,12 +322,207 @@ body.dark .choice-box {
 
 .modal {
   display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.3);
-  backdrop-filter: blur(3px);
-  justify-content: center;
-  align-items: center;
+  pRESPONSIVE
+========================================================== */
+
+/* Tablet: 768px and below */
+@media (max-width: 768px) {
+  .top-header {
+    padding: 10px 15px;
+    gap: 8px;
+  }
+
+  .branding {
+    gap: 10px;
+  }
+
+  .logo {
+    width: 100px;
+  }
+
+  .brand-name {
+    font-size: 18px;
+  }
+
+  .nav-btn {
+    padding: 6px 14px;
+    font-size: 0.9rem;
+  }
+
+  .main-layout {
+    grid-template-columns: 1fr;
+    padding: 15px;
+    gap: 15px;
+  }
+
+  .student-container {
+    width: 98%;
+    margin: 1rem auto;
+    padding: 1rem;
+  }
+
+  .welcome-title {
+    font-size: 1.5rem;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+    padding: 15px;
+  }
+
+  .worksheet-card {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .worksheet-card img {
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+  }
+
+  .profile-box {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .chart-img {
+    max-width: 100%;
+  }
+
+  .right-section {
+    padding: 15px;
+  }
+}
+
+/* Mobile: 480px and below */
+@media (max-width: 480px) {
+  * {
+    font-size: 14px;
+  }
+
+  .top-header {
+    padding: 8px 10px;
+    gap: 5px;
+  }
+
+  .branding {
+    width: 100%;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .logo {
+    width: 80px;
+  }
+
+  .brand-name {
+    font-size: 16px;
+  }
+
+  .main-nav {
+    width: 100%;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .nav-btn {
+    padding: 5px 10px;
+    font-size: 0.8rem;
+    border-radius: 15px;
+  }
+
+  .color-divider {
+    height: 8px;
+  }
+
+  .main-layout {
+    grid-template-columns: 1fr;
+    padding: 10px;
+    gap: 10px;
+  }
+
+  .student-container {
+    width: 100%;
+    margin: 0.5rem auto;
+    padding: 0.8rem;
+    border-radius: 12px;
+  }
+
+  .welcome-title {
+    font-size: 1.3rem;
+  }
+
+  .subtitle {
+    font-size: 0.9rem;
+  }
+
+  .section-title {
+    font-size: 1.2rem;
+    padding: 12px;
+  }
+
+  .worksheet-card {
+    padding: 15px;
+    gap: 12px;
+    margin-bottom: 15px;
+  }
+
+  .worksheet-card img {
+    width: 100%;
+    max-width: 150px;
+    height: auto;
+  }
+
+  .card-info h3 {
+    font-size: 1.1rem;
+  }
+
+  .profile-box {
+    padding: 12px;
+    gap: 12px;
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .profile-img {
+    width: 60px;
+    height: 60px;
+  }
+
+  .profile-name {
+    font-size: 1rem;
+  }
+
+  .profile-role {
+    font-size: 0.8rem;
+  }
+
+  .right-section {
+    padding: 12px;
+  }
+
+  .progress-chart-box {
+    margin-top: 15px;
+  }
+
+  .chart-img {
+    max-width: 100%;
+  }
+
+  .choice-box {
+    min-width: 45px;
+    height: 45px;
+    font-size: 1.1rem;
+  }
+
+  .progress-bar {
+    height: 15px;
+  }
+
+  .student-stars {
+    font-size: 1.8rem;
+  } center;
 }
 
 .modal-box {

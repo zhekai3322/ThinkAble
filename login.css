@@ -19,8 +19,9 @@
 .login-page {
   display: flex;
   min-height: 80vh;
-  max-width: 1200px;        /* NEW: limits giant wide space */
-  margin: 0 auto;           /* center whole layout */
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
 }
 
 /* LEFT = Login section */
@@ -62,6 +63,7 @@
   width: 380px;
   text-align: center;
   box-shadow: 0px 8px 26px rgba(0,0,0,0.22);
+  max-width: 90vw;
 }
 
 /* Logo */
@@ -154,15 +156,117 @@
 /* ===========================
    RESPONSIVE
 =========================== */
-@media (max-width: 380px) {
+
+/* Tablet: 768px and below */
+@media (max-width: 768px) {
   .login-page {
     flex-direction: column;
+    min-height: auto;
   }
-  .login-left, .login-right {
-    flex: unset;
-    height: auto;
+
+  .login-left,
+  .login-right {
+    flex: 1;
+    min-height: 40vh;
+    padding: 1rem;
   }
+
   .login-card {
-    width: 90%;
+    width: 100%;
+    max-width: 400px;
+    padding: 1.5rem 2rem;
+  }
+
+  .login-logo {
+    width: 120px;
+  }
+
+  .login-title {
+    font-size: 1.5rem;
+  }
+
+  .login-subtitle {
+    font-size: 0.9rem;
+  }
+
+  .login-form input {
+    padding: 0.8rem;
+  }
+
+  .login-btn {
+    font-size: 1rem;
+    padding: 0.8rem;
+  }
+
+  .login-hint {
+    font-size: 0.85rem;
+  }
+
+  .login-illustration {
+    max-width: 90%;
+  }
+}
+
+/* Mobile: 480px and below */
+@media (max-width: 480px) {
+  .login-page {
+    min-height: auto;
+  }
+
+  .login-left,
+  .login-right {
+    min-height: 30vh;
+    padding: 0.8rem;
+  }
+
+  .login-card {
+    width: 95%;
+    max-width: 100%;
+    padding: 1.2rem;
+    border-radius: 20px;
+  }
+
+  .login-logo {
+    width: 100px;
+    margin-bottom: 0.8rem;
+  }
+
+  .login-title {
+    font-size: 1.3rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .login-subtitle {
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+  }
+
+  .login-form {
+    gap: 0.8rem;
+  }
+
+  .login-form label {
+    font-size: 0.9rem;
+  }
+
+  .login-form input {
+    padding: 0.7rem;
+    font-size: 0.9rem;
+  }
+
+  .login-btn {
+    font-size: 0.9rem;
+    padding: 0.7rem;
+    margin-top: 0.3rem;
+  }
+
+  .login-hint {
+    font-size: 0.8rem;
+    margin-top: 1rem;
+  }
+
+  .login-illustration {
+    max-width: 100%;
+    max-height: 300px;
   }
 }

@@ -3,8 +3,8 @@
     margin: 0;
     font-family: "Poppins", sans-serif;
     background: #F5F7F2;
-    height: 100vh;
-    overflow: hidden;
+    min-height: 100vh;
+    overflow-x: hidden;
   }
 
   /* ================= TOP BAR ================= */
@@ -16,6 +16,8 @@
     justify-content: space-between;
     align-items: center;
     font-size: 16px;
+    flex-wrap: wrap;
+    gap: 10px;
   }
 
   .exit {
@@ -27,7 +29,7 @@
   /* ================= PAGE ================= */
   .ws-page {
     display: none;
-    height: calc(100vh - 56px);
+    min-height: calc(100vh - 56px);
     padding: 40px 60px;
     background: white;
     text-align: center;
@@ -144,15 +146,206 @@
   }
 
   /* ================= RESPONSIVE ================= */
+
+  /* Tablet: 768px and below */
   @media (max-width: 768px) {
-    .letters {
-      font-size: 60px;
-      letter-spacing: 30px;
+    body {
+      min-height: auto;
     }
-    .single-letter {
-      font-size: 90px;
+
+    .ws-top {
+      padding: 12px 15px;
+      font-size: 14px;
     }
+
+    .exit {
+      font-size: 12px;
+    }
+
+    .ws-page {
+      min-height: auto;
+      padding: 30px 40px;
+    }
+
+    .meta {
+      font-size: 18px;
+    }
+
     .instruction {
       font-size: 20px;
+      margin: 20px 0;
+    }
+
+    .letters {
+      font-size: 80px;
+      letter-spacing: 35px;
+      margin: 40px 0;
+    }
+
+    .single-letter {
+      font-size: 80px;
+      margin: 40px 0;
+    }
+
+    .shapes {
+      font-size: 70px;
+      letter-spacing: 35px;
+      margin: 40px 0;
+    }
+
+    .question-text {
+      font-size: 20px;
+      max-width: 100%;
+      margin: 20px 15px;
+    }
+
+    .letter {
+      padding: 8px 12px;
+      font-size: 1rem;
+    }
+
+    .nav {
+      margin-top: 30px;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      padding: 10px 24px;
+      font-size: 16px;
+    }
+  }
+
+  /* Mobile: 480px and below */
+  @media (max-width: 480px) {
+    * {
+      font-size: 14px;
+    }
+
+    body {
+      min-height: auto;
+      overflow-x: hidden;
+    }
+
+    .ws-top {
+      padding: 10px 12px;
+      font-size: 13px;
+      gap: 8px;
+    }
+
+    .exit {
+      font-size: 11px;
+    }
+
+    .ws-page {
+      min-height: auto;
+      padding: 20px 15px;
+    }
+
+    .meta {
+      font-size: 16px;
+      margin-bottom: 6px;
+    }
+
+    .instruction {
+      font-size: 16px;
+      margin: 15px 0;
+      font-weight: 600;
+    }
+
+    .letters {
+      font-size: 50px;
+      letter-spacing: 20px;
+      margin: 30px 0;
+    }
+
+    .single-letter {
+      font-size: 60px;
+      margin: 30px 0;
+    }
+
+    .shapes {
+      font-size: 50px;
+      letter-spacing: 20px;
+      margin: 30px 0;
+    }
+
+    .question-text {
+      font-size: 16px;
+      max-width: 100%;
+      margin: 15px 10px;
+      line-height: 1.6;
+    }
+
+    .question-text p {
+      margin: 8px 0;
+    }
+
+    .letter {
+      padding: 6px 10px;
+      font-size: 0.9rem;
+      border-radius: 12px;
+    }
+
+    .underline {
+      width: 90%;
+      margin: 30px auto 0;
+      border-top: 2px solid black;
+    }
+
+    .nav {
+      margin-top: 20px;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    button {
+      padding: 8px 16px;
+      font-size: 14px;
+      border-radius: 12px;
+      flex: 1 1 auto;
+      min-width: 100px;
+      max-width: 140px;
+    }
+
+    button:disabled {
+      opacity: 0.5;
+    }
+  }
+
+  /* Extra small: 360px and below */
+  @media (max-width: 360px) {
+    .ws-page {
+      padding: 15px 10px;
+    }
+
+    .letters {
+      font-size: 40px;
+      letter-spacing: 15px;
+    }
+
+    .single-letter {
+      font-size: 50px;
+    }
+
+    .shapes {
+      font-size: 40px;
+      letter-spacing: 15px;
+    }
+
+    .instruction {
+      font-size: 14px;
+    }
+
+    .question-text {
+      font-size: 14px;
+    }
+
+    button {
+      min-width: 80px;
+      max-width: 120px;
+      padding: 6px 12px;
+      font-size: 12px;
     }
   }

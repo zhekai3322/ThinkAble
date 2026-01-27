@@ -30,6 +30,7 @@ body {
   max-width: 1600px;
   margin: 0 auto;
   padding: 2rem;
+  width: 95%;
 }
 
 /* PAGE TITLES */
@@ -53,11 +54,13 @@ h2 {
 header {
   background: var(--deep-navy);
   color: white;
-  padding: 1rem 2rem;
+  padding: 1rem 1.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-bottom: 10px solid var(--accent-yellow);
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
 header .logo {
@@ -72,15 +75,21 @@ header .brand-name {
 }
 
 /* NAV BUTTONS */
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
 nav a {
   text-decoration: none;
   background: white;
   color: #333 !important;
   padding: 0.5rem 1rem;
   border-radius: 20px;
-  margin-left: 1rem;
   font-weight: 600;
   transition: 0.2s;
+  white-space: nowrap;
 }
 
 nav a:hover {
@@ -217,32 +226,147 @@ textarea:focus {
 
 /* ==========================================================
    RESPONSIVE
-========================================================== */
-@media (max-width: 900px) {
+
+/* Tablet: 768px and below */
+@media (max-width: 768px) {
   header {
+    padding: 0.8rem 1rem;
     flex-direction: column;
     text-align: center;
+    gap: 0.8rem;
+  }
+
+  header .brand-name {
+    font-size: 18px;
+  }
+
+  header .logo {
+    height: 60px;
   }
 
   nav {
-    margin-top: 0.5rem;
+    justify-content: center;
   }
 
   nav a {
-    margin: 0.3rem;
+    font-size: 0.9rem;
+    padding: 0.4rem 0.8rem;
   }
-}
 
-@media (max-width: 600px) {
   .container {
-    padding: 1rem;
+    padding: 1.5rem;
+    width: 98%;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  h2 {
+    font-size: 1.1rem;
   }
 
   table {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
   }
 
   .btn {
+    font-size: 0.9rem;
+    padding: 0.5rem 0.8rem;
+  }
+
+  .form-group {
+    margin-bottom: 1rem;
+  }
+}
+
+/* Mobile: 480px and below */
+@media (max-width: 480px) {
+  * {
+    font-size: 14px;
+  }
+
+  header {
+    padding: 0.6rem 0.8rem;
+    gap: 0.5rem;
+    border-bottom-width: 8px;
+  }
+
+  header .brand-name {
+    font-size: 16px;
+  }
+
+  header .logo {
+    height: 50px;
+  }
+
+  nav {
+    width: 100%;
+    justify-content: center;
+    gap: 0.4rem;
+  }
+
+  nav a {
+    font-size: 0.8rem;
+    padding: 0.3rem 0.6rem;
+    border-radius: 15px;
+  }
+
+  .container {
+    padding: 0.8rem;
+    width: 100%;
+    margin: 0;
+  }
+
+  h1 {
+    font-size: 1.3rem !important;
+    margin-bottom: 1rem;
+  }
+
+  h2 {
+    font-size: 1rem;
+    margin-bottom: 0.8rem;
+  }
+
+  h3 {
+    font-size: 0.95rem;
+  }
+
+  table {
+    font-size: 0.75rem;
+    display: block;
+    overflow-x: auto;
+  }
+
+  th,
+  td {
+    padding: 0.3rem;
+  }
+
+  .btn {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.6rem;
+    width: 100%;
+  }
+
+  .form-group {
+    margin-bottom: 0.8rem;
+  }
+
+  input,
+  select,
+  textarea {
+    padding: 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  label {
+    font-size: 0.9rem;
+  }
+
+  .admin-dashboard-card,
+  .card {
+    padding: 1
     font-size: 0.85rem;
   }
 }
