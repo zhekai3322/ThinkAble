@@ -301,8 +301,22 @@
       window.location.href = 'subscription-status.html';
     }
 
+    //Fill in customer name
+    function getUrlParamater(name) {
+      const params = new URLSearchParams(window.location.search);
+      return params.get(name)
+    }
+
     // Add event listeners to initial row inputs
     document.addEventListener('DOMContentLoaded', function() {
+      const customerName = getUrlParamater('customerName');
+      if (customerName) {
+        const invoiceToInputs = document.querySelectorAll('.invoice-section input[type="text"]');
+        if (invoiceToInputs.length >= 2) {
+          invoiceToInputs[1].value = decodeURIComponent(customerName);
+        }
+      }
+      
       const initialRow = document.querySelector('#productTableBody tr');
       if (initialRow) {
         const priceInput = initialRow.querySelector('.price-input');
