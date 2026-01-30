@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Literacy WS – h to n</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
   body {
     margin: 0;
@@ -119,6 +120,124 @@
     cursor: not-allowed;
   }
 
+  /* ================= RESULTS PAGE ================= */
+  .results-page {
+    display: none;
+    min-height: 100vh;
+    padding: 40px 60px;
+    background: white;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 40px;
+  }
+
+  .results-page.active {
+    display: flex;
+  }
+
+  .results-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 800px;
+    gap: 30px;
+    align-items: center;
+  }
+
+  .results-header {
+    width: 100%;
+    text-align: center;
+  }
+
+  .results-left-title {
+    font-size: 48px;
+    font-weight: 700;
+    color: #1e1e1e;
+    margin-bottom: 20px;
+  }
+
+  .results-metadata {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #333;
+  }
+
+  .results-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    width: 100%;
+  }
+
+  .chart-container {
+    position: relative;
+    width: 320px;
+    height: 320px;
+    margin: 0 auto;
+  }
+
+  .score-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 10;
+  }
+
+  .score-percentage {
+    font-size: 28px;
+    font-weight: 600;
+    color: #1e1e1e;
+    margin-bottom: 10px;
+  }
+
+  .score-feedback {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1E7F3C;
+  }
+
+  .results-buttons {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    width: 100%;
+    padding-top: 20px;
+    border-top: 2px solid #ddd;
+  }
+
+  .results-btn {
+    padding: 12px 28px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+
+  .review-btn {
+    background: white;
+    color: #1e1e1e;
+    border: 2px solid #1e1e1e;
+  }
+
+  .review-btn:hover {
+    background: #f0f0f0;
+  }
+
+  .home-btn {
+    background: #FFB36B;
+    color: #1e1e1e;
+  }
+
+  .home-btn:hover {
+    background: #ff9f4a;
+  }
+
   /* ================= RESPONSIVE ================= */
   @media (max-width: 768px) {
     .letters {
@@ -232,7 +351,35 @@
 
   <div class="nav">
     <button class="btn" onclick="prev()">Previous</button>
-    <button class="btn" id="nextBtn" disabled onclick="submit()">Submit</button>
+    <button class="btn" id="nextBtn" disabled onclick="submitWS()">Submit</button>
+  </div>
+</div>
+
+<!-- ================= RESULTS PAGE ================= -->
+<div class="results-page" id="results">
+  <div class="results-wrapper">
+    <div class="results-header">
+      <h1 class="results-left-title">Your score:</h1>
+      <div class="results-metadata">
+        <p><strong>Difficulty:</strong> Advanced</p>
+        <p><strong>Category:</strong> Shapes: Recognition 5-10</p>
+      </div>
+    </div>
+    
+    <div class="results-center">
+      <div class="chart-container">
+        <canvas id="scoreChart"></canvas>
+        <div class="score-overlay">
+          <div class="score-percentage" id="scorePercentageText"></div>
+          <div class="score-feedback" id="scoreFeedback"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="results-buttons">
+    <button class="results-btn review-btn" onclick="location.reload()">Review worksheet</button>
+    <button class="results-btn home-btn" onclick="goBack()">Back to home</button>
   </div>
 </div>
 
@@ -242,20 +389,36 @@ let current = 1;
 const total = 5;
 let score = 0;
 const answeredQuestions = new Set();
-const questionsWithWrongAnswers = new Set();
+const selectedAnswers = {};
+const wrongAnswersClicked = new Set();
 
 function show(n) {
   document.querySelectorAll(".ws-page").forEach(p => p.classList.remove("active"));
   const page = document.getElementById("q" + n);
   page.classList.add("active");
-  document.getElementById("title").innerText = "Literacy WS2 Q" + n;
+  document.getElementById("title").innerText = "Shape WS2 Q" + n;
 
-  page.querySelectorAll(".letter").forEach(l => {
-    l.classList.remove("correct", "wrong");
-  });
+  const questionId = "q" + n;
+  if (!selectedAnswers[questionId]) {
+    selectedAnswers[questionId] = new Set();
+  }
 
-  const btn = page.querySelector("#nextBtn");
-  if (btn) btn.disabled = true;
+  if (answeredQuestions.has(questionId)) {
+    page.querySelectorAll(".letter").forEach(l => {
+      if (l.dataset.correct === "true" && selectedAnswers[questionId].has(l.textContent)) {
+        l.classList.add("correct");
+        l.classList.remove("wrong");
+      }
+    });
+    const btn = page.querySelector("#nextBtn");
+    if (btn) btn.disabled = false;
+  } else {
+    page.querySelectorAll(".letter").forEach(l => {
+      l.classList.remove("correct", "wrong");
+    });
+    const btn = page.querySelector("#nextBtn");
+    if (btn) btn.disabled = true;
+  }
 }
 
 function next() {
@@ -272,9 +435,60 @@ function prev() {
   }
 }
 
-function submit() {
+function submitWS() {
   localStorage.setItem("ws2_score", score);
-  alert("Worksheet completed!\nScore: " + score + "/" + total);
+  showResults();
+}
+
+function showResults() {
+  document.querySelectorAll(".ws-page").forEach(p => p.classList.remove("active"));
+  document.getElementById("results").classList.add("active");
+  
+  const percentage = Math.round((score / total) * 100);
+  document.getElementById("scorePercentageText").textContent = "Your score " + percentage + "%";
+  
+  let feedback = "Good job!";
+  if (percentage >= 90) {
+    feedback = "Excellent!";
+  } else if (percentage >= 80) {
+    feedback = "Great!";
+  } else if (percentage >= 70) {
+    feedback = "Good job!";
+  } else if (percentage >= 60) {
+    feedback = "Not bad!";
+  } else {
+    feedback = "Keep trying!";
+  }
+  document.getElementById("scoreFeedback").textContent = feedback;
+  
+  const ctx = document.getElementById("scoreChart").getContext("2d");
+  const correctCount = score;
+  const incorrectCount = total - score;
+  
+  new Chart(ctx, {
+    type: "doughnut",
+    data: {
+      labels: ["Correct", "Incorrect"],
+      datasets: [{
+        data: [correctCount, incorrectCount],
+        backgroundColor: ["#8BC88B", "#D4A574"],
+        borderColor: ["#8BC88B", "#D4A574"],
+        borderWidth: 0
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      plugins: {
+        legend: {
+          display: false
+        }
+      }
+    }
+  });
+}
+
+function goBack() {
   window.location.href = "ShapeWorksheets.html";
 }
 
@@ -282,34 +496,50 @@ function exitWorksheet() {
   window.location.href = "ShapeWorksheets.html";
 }
 
-function isQuestionAnsweredCorrectly(page) {
-  const correctLetters = Array.from(page.querySelectorAll('.letter[data-correct="true"]'));
-  return correctLetters.every(l => l.classList.contains("correct"));
-}
-
 document.addEventListener("click", function (e) {
   if (!e.target.classList.contains("letter")) return;
 
   const page = document.querySelector(".ws-page.active");
-  const correct = e.target.dataset.correct === "true";
-
-  if (!correct) {
-    e.target.classList.add("wrong");
-    document.getElementById("wrongSound").play();
-    questionsWithWrongAnswers.add(current);
-    page.querySelector("#nextBtn")?.removeAttribute("disabled");
+  const questionId = page.id;
+  
+  if (answeredQuestions.has(questionId)) {
     return;
   }
 
-  e.target.classList.add("correct");
-  document.getElementById("correctSound").play();
+  const correct = e.target.dataset.correct === "true";
 
-  if (isQuestionAnsweredCorrectly(page) && !answeredQuestions.has(current) && !questionsWithWrongAnswers.has(current)) {
-    answeredQuestions.add(current);
-    score++;
-    page.querySelector("#nextBtn")?.removeAttribute("disabled");
-  } else if (answeredQuestions.has(current) || questionsWithWrongAnswers.has(current)) {
-    page.querySelector("#nextBtn")?.removeAttribute("disabled");
+  if (!selectedAnswers[questionId]) {
+    selectedAnswers[questionId] = new Set();
+  }
+
+  if (correct) {
+    page.querySelectorAll(".letter").forEach(l => {
+      l.classList.remove("wrong");
+    });
+    
+    if (!e.target.classList.contains("correct")) {
+      e.target.classList.add("correct");
+      document.getElementById("correctSound").play();
+      
+      selectedAnswers[questionId].add(e.target.textContent);
+      
+      const correctItems = Array.from(page.querySelectorAll("[data-correct='true']")).map(l => l.textContent);
+      const allSelected = correctItems.every(item => selectedAnswers[questionId].has(item));
+      
+      if (allSelected) {
+        if (!wrongAnswersClicked.has(questionId)) {
+          score++;
+        }
+        answeredQuestions.add(questionId);
+        page.querySelector("#nextBtn")?.removeAttribute("disabled");
+      }
+    }
+  } else {
+    wrongAnswersClicked.add(questionId);
+    if (!e.target.classList.contains("correct")) {
+      e.target.classList.add("wrong");
+      document.getElementById("wrongSound").play();
+    }
   }
 });
 </script>

@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Literacy WS3 – 10 to 15</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
   body {
@@ -118,6 +119,124 @@
   button:disabled {
     opacity: 0.5;
     cursor: not-allowed;
+  }
+
+  /* ================= RESULTS PAGE ================= */
+  .results-page {
+    display: none;
+    min-height: 100vh;
+    padding: 40px 60px;
+    background: white;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 40px;
+  }
+
+  .results-page.active {
+    display: flex;
+  }
+
+  .results-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 800px;
+    gap: 30px;
+    align-items: center;
+  }
+
+  .results-header {
+    width: 100%;
+    text-align: center;
+  }
+
+  .results-left-title {
+    font-size: 48px;
+    font-weight: 700;
+    color: #1e1e1e;
+    margin-bottom: 20px;
+  }
+
+  .results-metadata {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #333;
+  }
+
+  .results-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    width: 100%;
+  }
+
+  .chart-container {
+    position: relative;
+    width: 320px;
+    height: 320px;
+    margin: 0 auto;
+  }
+
+  .score-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 10;
+  }
+
+  .score-percentage {
+    font-size: 28px;
+    font-weight: 600;
+    color: #1e1e1e;
+    margin-bottom: 10px;
+  }
+
+  .score-feedback {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1E7F3C;
+  }
+
+  .results-buttons {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    width: 100%;
+    padding-top: 20px;
+    border-top: 2px solid #ddd;
+  }
+
+  .results-btn {
+    padding: 12px 28px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+
+  .review-btn {
+    background: white;
+    color: #1e1e1e;
+    border: 2px solid #1e1e1e;
+  }
+
+  .review-btn:hover {
+    background: #f0f0f0;
+  }
+
+  .home-btn {
+    background: #FFB36B;
+    color: #1e1e1e;
+  }
+
+  .home-btn:hover {
+    background: #ff9f4a;
   }
 
   /* ================= RESPONSIVE ================= */
@@ -238,6 +357,29 @@
   </div>
 </div>
 
+<!-- ================= RESULTS PAGE ================= -->
+<div class="ws-page" id="results">
+  <div class="results-wrapper">
+    <div class="results-header">
+      <div class="results-left-title">Results</div>
+      <div class="results-metadata">Numeracy: Numbers 10 to 15</div>
+    </div>
+    <div class="results-center">
+      <div class="chart-container">
+        <canvas id="scoreChart"></canvas>
+        <div class="score-overlay">
+          <div class="score-percentage" id="scorePercentageText">Your score 0%</div>
+          <div class="score-feedback" id="scoreFeedback">Good job!</div>
+        </div>
+      </div>
+    </div>
+    <div class="results-buttons">
+      <button class="results-btn review-btn" onclick="goBack()">Back</button>
+      <button class="results-btn home-btn" onclick="exitWorksheet()">Home</button>
+    </div>
+  </div>
+</div>
+
 <!-- ================= SCRIPT (UNCHANGED LOGIC) ================= -->
 <script>
 let current = 1;
@@ -275,13 +417,55 @@ function prev() {
 }
 
 function submit() {
-  localStorage.setItem("ws3_score", score);
-  alert("Worksheet completed!\nScore: " + score + "/" + total);
-  window.location.href = "LiteracyWorksheets.html";
+  localStorage.setItem("numeracy_ws3_score", score);
+  showResults();
+}
+
+function showResults() {
+  document.querySelectorAll(".ws-page").forEach(p => p.classList.remove("active"));
+  document.getElementById("results").classList.add("active");
+
+  const percentage = Math.round((score / total) * 100);
+  document.getElementById("scorePercentageText").textContent = "Your score " + percentage + "%";
+
+  let feedback = "Good job!";
+  if (percentage >= 90) feedback = "Excellent!";
+  else if (percentage >= 80) feedback = "Great!";
+  else if (percentage >= 70) feedback = "Good job!";
+  else if (percentage >= 60) feedback = "Not bad!";
+  else feedback = "Keep trying!";
+
+  document.getElementById("scoreFeedback").textContent = feedback;
+
+  const ctx = document.getElementById("scoreChart").getContext("2d");
+  new Chart(ctx, {
+    type: "doughnut",
+    data: {
+      labels: ["Correct", "Incorrect"],
+      datasets: [{
+        data: [score, total - score],
+        backgroundColor: ["#8BC88B", "#D4A574"],
+        borderColor: ["#8BC88B", "#D4A574"],
+        borderWidth: 0
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      plugins: { legend: { display: false } }
+    }
+  });
+}
+
+function goBack() {
+  show(1);
+  document.querySelectorAll(".ws-page").forEach(p => p.classList.remove("active"));
+  document.getElementById("q1").classList.add("active");
+  current = 1;
 }
 
 function exitWorksheet() {
-  window.location.href = "LiteracyWorksheets.html";
+  window.location.href = "NumeracyWorksheets.html";
 }
 
 function isQuestionAnsweredCorrectly(page) {
