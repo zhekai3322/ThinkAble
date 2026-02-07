@@ -1,47 +1,106 @@
-// =========================
-// Navbar Active State
-// =========================
+/* =========================================================
+   ThinkAble – script.js (FULLY UPDATED)
+   - Navbar active highlight
+   - Safe storage helpers
+   - Login / Signup
+   - Dark mode + Large text mode
+   - Custom theme color
+   - Parent PIN + Subscription flow
+   - Stars (safe + minimal)
+   - Student Home: Student Progress chart (horizontal grouped bar)
+   - Student Results graph (existing)
+   - Universal worksheet engine
+   - Admin worksheet CRUD (kept as-is)
+========================================================= */
+
+// ✅ Apply dark mode ASAP (prevents white flash)
+(function applyDarkModeEarly() {
+  const enabled = localStorage.getItem("darkMode") === "true";
+  document.documentElement.classList.toggle("dark", enabled);
+  document.body?.classList.toggle("dark", enabled);
+})();
+
+/* =========================
+   Navbar Active State
+========================= */
 function highlightActiveNavLink() {
-  const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-  const navLinks = document.querySelectorAll('nav a');
-  
-  navLinks.forEach(link => {
-    const href = link.getAttribute('href');
-    const linkPage = href.split('/').pop();
-    
-    // Remove active class from all links
-    link.classList.remove('active');
-    
-    // Add active class to the current page link
-    if (currentPage === linkPage || 
-        (currentPage === '' && linkPage === 'index.html') ||
-        (currentPage.includes('home.html') && href.includes('home.html'))) {
-      link.classList.add('active');
+  const currentPage = window.location.pathname.split("/").pop() || "index.html";
+  const navLinks = document.querySelectorAll("nav a");
+
+  navLinks.forEach((link) => {
+    const href = link.getAttribute("href") || "";
+    const linkPage = href.split("/").pop();
+
+    link.classList.remove("active");
+
+    if (
+      currentPage === linkPage ||
+      (currentPage === "" && linkPage === "index.html") ||
+      (currentPage.includes("home.html") && href.includes("home.html"))
+    ) {
+      link.classList.add("active");
     }
   });
 }
 
-// =========================
-// Helpers: generic storage
-// =========================
-function loadFromStorage(key) {
+/* =========================
+   Helpers: generic storage
+========================= */
+function loadFromStorage(key, fallback = []) {
   try {
-    return JSON.parse(localStorage.getItem(key)) || [];
+    const raw = localStorage.getItem(key);
+    if (!raw) return fallback;
+    const parsed = JSON.parse(raw);
+    return parsed ?? fallback;
   } catch (e) {
     console.error("Error loading", key, e);
-    return [];
+    return fallback;
   }
 }
+
 function saveToStorage(key, value) {
   localStorage.setItem(key, JSON.stringify(value));
 }
 
-function loadWorksheets() { return loadFromStorage("worksheets"); }
-function saveWorksheets(data) { saveToStorage("worksheets", data); }
+function loadWorksheets() {
+  return loadFromStorage("worksheets", []);
+}
+function saveWorksheets(data) {
+  saveToStorage("worksheets", data);
+}
 
-// =========================
-// Login
-// =========================
+/* =========================
+   Stars (SAFE)
+========================= */
+function loadStars() {
+  const starDisplay = document.getElementById("starCount");
+  if (!starDisplay) return;
+
+  const currentUser = loadFromStorage("currentUser", null);
+  const userId = currentUser?.id || localStorage.getItem("userId") || "guest";
+
+  const starsMap = loadFromStorage("starsByUser", {});
+  const stars = starsMap[userId] ?? 0;
+
+  starDisplay.textContent = stars;
+}
+
+function addStar(amount = 1) {
+  const currentUser = loadFromStorage("currentUser", null);
+  const userId = currentUser?.id || localStorage.getItem("userId") || "guest";
+
+  const starsMap = loadFromStorage("starsByUser", {});
+  const current = starsMap[userId] ?? 0;
+
+  starsMap[userId] = current + amount;
+  saveToStorage("starsByUser", starsMap);
+
+  loadStars();
+}
+
+/* =========================
+   Login
+========================= */
 function initLogin() {
   const form = document.getElementById("loginForm");
   if (!form) return;
@@ -49,88 +108,158 @@ function initLogin() {
   form.addEventListener("submit", async function (e) {
     e.preventDefault();
 
-    const email = document.getElementById("email").value.trim().toLowerCase();
-    const password = document.getElementById("password").value.trim();
+    const email = document.getElementById("email")?.value.trim().toLowerCase();
+    const password = document.getElementById("password")?.value.trim();
+
+    if (!email || !password) {
+      alert("Please enter email and password.");
+      return;
+    }
 
     try {
       const response = await fetch("/api/auth/login", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
 
       const data = await response.json();
 
-      if (!data.success) {
-        alert(data.message || "Login failed");
+      if (!response.ok || !data.success) {
+        alert(data.message || "Login failed.");
         return;
       }
 
-      // Store user info in localStorage
       localStorage.setItem("currentUser", JSON.stringify(data.user));
       localStorage.setItem("userId", data.user.id);
       localStorage.setItem("userRole", data.user.role);
 
-      // Redirect based on role
       if (data.user.role === "admin") {
         window.location.href = "admin/home.html";
-      } else if (data.user.role === "parent") {
-        window.location.href = "parent/home.html";
       } else {
         window.location.href = "student/home.html";
       }
     } catch (error) {
       console.error("Login error:", error);
-      alert("Connection error. Please try again.");
+      alert("Server connection error. Please try again.");
     }
   });
 }
 
-// =========================
-// Dark Mode
-// =========================
-function applySavedDarkMode() {
-  const enabled = localStorage.getItem("darkMode") === "true";
-  if (enabled) document.body.classList.add("dark");
-}
-function toggleDarkMode() {
-  const enabled = document.getElementById("darkModeToggle").checked;
-  document.body.classList.toggle("dark", enabled);
-  localStorage.setItem("darkMode", enabled);
+/* =========================
+   SignUp
+========================= */
+function initSignup() {
+  const form = document.getElementById("signupForm");
+  if (!form) return;
+
+  form.addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const email = document
+      .getElementById("signupEmail")
+      ?.value.trim()
+      .toLowerCase();
+    const password = document.getElementById("signupPassword")?.value.trim();
+    const confirmPassword = document
+      .getElementById("signupConfirmPassword")
+      ?.value.trim();
+
+    if (!email || !password) {
+      alert("Please enter email and password.");
+      return;
+    }
+
+    if (password.length < 4) {
+      alert("Password must be at least 4 characters.");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      alert("Passwords do not match.");
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok || !data.success) {
+        alert(data.message || "Signup failed.");
+        return;
+      }
+
+      alert("Signup successful! Please login.");
+      window.location.href = "login.html";
+    } catch (error) {
+      console.error("Signup error:", error);
+      alert("Server connection error. Please try again.");
+    }
+  });
 }
 
-// =========================
-// Large Text Mode
-// =========================
+/* =========================
+   Dark Mode
+========================= */
+function applySavedDarkMode() {
+  const enabled = localStorage.getItem("darkMode") === "true";
+
+  // ✅ apply to both html + body (stronger)
+  document.documentElement.classList.toggle("dark", enabled);
+  document.body.classList.toggle("dark", enabled);
+
+  // ✅ sync toggle if it exists on this page
+  const toggle = document.getElementById("darkModeToggle");
+  if (toggle) toggle.checked = enabled;
+}
+
+function toggleDarkMode() {
+  const toggle = document.getElementById("darkModeToggle");
+  const enabled = toggle ? toggle.checked : !(localStorage.getItem("darkMode") === "true");
+
+  // ✅ save + apply
+  localStorage.setItem("darkMode", enabled);
+  document.documentElement.classList.toggle("dark", enabled);
+  document.body.classList.toggle("dark", enabled);
+}
+
+/* =========================
+   Large Text Mode
+========================= */
 function applySavedLargeText() {
   const enabled = localStorage.getItem("largeText") === "true";
-  if (enabled) document.body.classList.add("largeText");
+  document.body.classList.toggle("largeText", enabled);
+
+  const toggle = document.getElementById("largeTextToggle");
+  if (toggle) toggle.checked = enabled;
 }
+
 function toggleLargeText() {
-  const enabled = document.getElementById("largeTextToggle").checked;
+  const toggle = document.getElementById("largeTextToggle");
+  const enabled = !!toggle?.checked;
   document.body.classList.toggle("largeText", enabled);
   localStorage.setItem("largeText", enabled);
 }
 
-// ======================
-// CUSTOM COLOR THEME
-// ======================
-
-// Apply the user's saved color
+/* ======================
+   CUSTOM COLOR THEME
+====================== */
 function applyCustomColor(hex) {
   if (!hex) return;
   document.documentElement.style.setProperty("--accent-peach", hex);
   localStorage.setItem("customColor", hex);
 }
 
-// Save button handler
 function saveCustomColor() {
-  const color = document.getElementById("customColorInput").value.trim();
+  const input = document.getElementById("customColorInput");
+  const color = input?.value.trim();
 
-  // Basic HEX validation
-  if (!/^#([0-9A-F]{3}){1,2}$/i.test(color)) {
+  if (!color || !/^#([0-9A-F]{3}){1,2}$/i.test(color)) {
     alert("Please enter a valid HEX color. Example: #FFB36B");
     return;
   }
@@ -139,23 +268,17 @@ function saveCustomColor() {
   alert("Theme color updated!");
 }
 
-// Load saved custom color on startup
-const savedColor = localStorage.getItem("customColor");
-if (savedColor) {
-  applyCustomColor(savedColor);
-  document.getElementById("customColorInput").value = savedColor;
-}
-
-
-// =========================
-// Parent PIN (for student dashboard)
-// =========================
+/* =========================
+   Parent PIN (modal)
+========================= */
 function openPIN() {
-  document.getElementById("pinModal").style.display = "flex";
+  const modal = document.getElementById("pinModal");
+  if (modal) modal.style.display = "flex";
 }
 
 function closePIN() {
-  document.getElementById("pinModal").style.display = "none";
+  const modal = document.getElementById("pinModal");
+  if (modal) modal.style.display = "none";
 }
 
 function verifyPIN() {
@@ -168,58 +291,35 @@ function verifyPIN() {
     return;
   }
 
-  // Correct PIN → close modal
   closePIN();
 
-  // If user was trying to activate subscription → go payment page
   if (pending === "subscription") {
     localStorage.removeItem("pendingAction");
     window.location.href = "subscription-payment.html";
     return;
   }
 
-  // Else → normal results flow
   const dash = document.getElementById("studentDashboard");
   if (dash) dash.classList.remove("dashboard-locked");
 
-  window.location.href = "student-progress.html";
+  // If you want to go to progress page after PIN:
+  // window.location.href = "student-progress.html";
 }
 
-
-// =========================
-// Stars System
-// =========================
-function addStar() {
-  let stars = parseInt(localStorage.getItem("stars") || "0");
-  stars++;
-  localStorage.setItem("stars", stars);
-}
-function loadStars() {
-  const starCount = document.getElementById("starCount");
-  if (starCount) starCount.textContent = localStorage.getItem("stars") || "0";
-}
-
-// =========================
-// Subscription System
-// =========================
+/* =========================
+   Subscription System
+========================= */
 function isSubscribed() {
   return localStorage.getItem("subscriptionActive") === "true";
 }
 
-/* Called when user clicks Activate Full Subscription */
 function payNow() {
-  // For prototype: just activate subscription
   localStorage.setItem("subscriptionActive", "true");
-
   alert("Your subscription is now Active!");
 
-  // Update subscription text if dashboard exists
   const subStatus = document.getElementById("subStatus");
-  if (subStatus) {
-    subStatus.innerHTML = "ACTIVE — Unlimited Worksheets";
-  }
+  if (subStatus) subStatus.innerHTML = "ACTIVE — Unlimited Worksheets";
 
-  // Reload so UI updates
   window.location.reload();
 }
 
@@ -227,100 +327,158 @@ function updateSubscriptionUI() {
   const subStatus = document.getElementById("subStatus");
   if (!subStatus) return;
 
-  if (isSubscribed()) {
-    subStatus.innerHTML = "ACTIVE — Unlimited Worksheets";
-  }
+  if (isSubscribed()) subStatus.innerHTML = "ACTIVE — Unlimited Worksheets";
 }
 
-// =========================
-// Subscription Flow
-// =========================
-
-// 1) When user clicks Activate Full Subscription
 function startSubscription() {
-  // Show Parent PIN popup first
-  document.getElementById("pinModal").style.display = "flex";
-
-  // Mark purpose = subscription
+  openPIN();
   localStorage.setItem("pendingAction", "subscription");
 }
 
-
-// =========================
-// Student Dashboard Logic
-// =========================
+/* =========================
+   Student Dashboard Logic
+========================= */
 function initStudentDashboard() {
   const starDisplay = document.getElementById("starCount");
-  const resultsBtn = document.getElementById("viewResultsBtn");
-  const payBtn = document.getElementById("paySubscriptionBtn");
+  if (!starDisplay) return; // not dashboard
 
-  // Not on student dashboard
-  if (!starDisplay) return;
-
-  // Load stars
   loadStars();
 
-  // Lock dashboard until PIN entered
   const dash = document.getElementById("studentDashboard");
   if (dash) dash.classList.add("dashboard-locked");
 
-  // View results requires PIN
-  if (resultsBtn) {
-    resultsBtn.addEventListener("click", () => {
-      document.getElementById("pinModal").style.display = "flex";
-    });
-  }
+  const resultsBtn = document.getElementById("viewResultsBtn");
+  if (resultsBtn) resultsBtn.addEventListener("click", openPIN);
 
-  // Subscription button
+  const payBtn = document.getElementById("paySubscriptionBtn");
   if (payBtn) {
-    payBtn.addEventListener("click", () => {
-      activateSubscription();
-      alert("Subscription activated!");
-      window.location.reload();
-    });
-
-    if (isSubscribed()) payBtn.style.display = "none";
+    if (isSubscribed()) {
+      payBtn.style.display = "none";
+    } else {
+      payBtn.addEventListener("click", () => {
+        // If you want to require PIN before subscription:
+        startSubscription();
+      });
+    }
   }
+
+  updateSubscriptionUI();
 }
 
-// =========================
-// Chart.js – For Student Results
-// =========================
+/* =========================
+   Chart.js – Student Home Progress Chart
+   (Horizontal grouped bars like your screenshot)
+========================= */
+function initStudentProgressChart() {
+  const canvas = document.getElementById("studentProgressChart");
+  if (!canvas) return;
+  if (typeof Chart === "undefined") {
+    console.warn("Chart.js not loaded. Add Chart.js CDN before script.js.");
+    return;
+  }
+
+  // Optional: if you want the chart to be based on localStorage data later,
+  // you can compute these values dynamically.
+  const labels = ["Colors", "Shapes", "Mathematical", "Numeracy", "Literacy"];
+
+  const dataWS3 = [1, 1, 2, 2, 2];
+  const dataWS2 = [2, 2, 4, 3, 2];
+  const dataWS1 = [2, 4, 4, 5, 3];
+
+  if (window.studentProgressChart) window.studentProgressChart.destroy();
+
+  window.studentProgressChart = new Chart(canvas, {
+    type: "bar",
+    data: {
+      labels,
+      datasets: [
+        {
+          label: "WS 3",
+          data: dataWS3,
+          backgroundColor: "rgba(140, 190, 235, 0.85)",
+          borderRadius: 6,
+          barThickness: 14,
+        },
+        {
+          label: "WS 2",
+          data: dataWS2,
+          backgroundColor: "rgba(60, 160, 230, 0.85)",
+          borderRadius: 6,
+          barThickness: 14,
+        },
+        {
+          label: "WS 1",
+          data: dataWS1,
+          backgroundColor: "rgba(0, 130, 190, 0.85)",
+          borderRadius: 6,
+          barThickness: 14,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      indexAxis: "y",
+      plugins: {
+        legend: {
+          position: "bottom",
+          labels: { boxWidth: 14, boxHeight: 14 },
+        },
+      },
+      scales: {
+        x: {
+          beginAtZero: true,
+          ticks: { stepSize: 2 },
+          grid: { color: "rgba(0,0,0,0.12)" },
+        },
+        y: {
+          grid: { display: false },
+        },
+      },
+    },
+  });
+}
+
+/* =========================
+   Chart.js – Student Results Graph
+========================= */
 function showStudentResultsGraph() {
   const canvas = document.getElementById("resultsChart");
   if (!canvas) return;
+  if (typeof Chart === "undefined") return;
 
   canvas.style.display = "block";
 
   const worksheets = loadWorksheets();
-
-  const labels = worksheets.map(w => w.title);
-  const data = worksheets.map(w => w.questions.length);
+  const labels = worksheets.map((w) => w.title);
+  const data = worksheets.map((w) => (w.questions ? w.questions.length : 0));
 
   if (window.resultsChart) window.resultsChart.destroy();
 
   window.resultsChart = new Chart(canvas, {
     type: "bar",
     data: {
-      labels: labels,
-      datasets: [{
-        label: "Total Questions (Used as Score)",
-        data: data,
-        backgroundColor: "#6FAF78"
-      }]
+      labels,
+      datasets: [
+        {
+          label: "Total Questions (Used as Score)",
+          data,
+          backgroundColor: "#6FAF78",
+        },
+      ],
     },
     options: {
       responsive: true,
       scales: {
-        y: { beginAtZero: true }
-      }
-    }
+        y: { beginAtZero: true },
+      },
+    },
   });
 }
 
-// =========================
-// Worksheet Engine
-// =========================
+/* =========================
+   Worksheet Engine
+========================= */
 function initUniversalWorksheetEngine() {
   const main = document.querySelector("main");
   if (!main) return;
@@ -329,13 +487,12 @@ function initUniversalWorksheetEngine() {
   const inputs = document.querySelectorAll("input.ws-input");
   if (!boxes.length && !inputs.length) return;
 
-  const passScore = parseInt(main.dataset.pass || "99");
+  const passScore = parseInt(main.dataset.pass || "99", 10);
   const submitBtn = document.getElementById("submitBtn");
   const doneBtn = document.getElementById("doneBtn");
   const resultText = document.getElementById("resultText");
 
-  // MCQ selection
-  boxes.forEach(box => {
+  boxes.forEach((box) => {
     box.addEventListener("click", () => {
       box.classList.toggle("selected");
     });
@@ -344,23 +501,23 @@ function initUniversalWorksheetEngine() {
   submitBtn?.addEventListener("click", () => {
     let score = 0;
 
-    boxes.forEach(b => {
+    boxes.forEach((b) => {
       if (b.dataset.answer === "true" && b.classList.contains("selected")) {
         score++;
       }
     });
 
-    inputs.forEach(input => {
+    inputs.forEach((input) => {
       const correct = input.dataset.answer?.trim();
       const user = input.value.trim();
       if (correct && user === correct) score++;
     });
 
-    resultText.textContent = "Your score: " + score;
+    if (resultText) resultText.textContent = "Your score: " + score;
 
     if (score >= passScore) addStar();
 
-    doneBtn.style.display = "inline-block";
+    if (doneBtn) doneBtn.style.display = "inline-block";
   });
 
   doneBtn?.addEventListener("click", () => {
@@ -368,11 +525,9 @@ function initUniversalWorksheetEngine() {
   });
 }
 
-// =========================
-// Admin Worksheet CRUD
-// =========================
-// (UNCHANGED — exactly same as you provided)
-// ---- RENDER ROW ----
+/* =========================
+   Admin Worksheet CRUD
+========================= */
 function renderQuestionRow(container, qText = "", aText = "") {
   const row = document.createElement("div");
   row.className = "question-row";
@@ -388,26 +543,31 @@ function renderQuestionRow(container, qText = "", aText = "") {
     <div>
       <button type="button" class="btn sm danger remove-question">Remove</button>
     </div>`;
-  
+
   container.appendChild(row);
-  row.querySelector(".remove-question").addEventListener("click", () => row.remove());
+  row
+    .querySelector(".remove-question")
+    .addEventListener("click", () => row.remove());
 }
 
-// ---- COLLECT FORM ----
 function collectWorksheetForm(isEdit = false) {
-  const title = document.getElementById("ws_title").value.trim();
-  const subject = document.getElementById("ws_subject").value.trim();
-  const grade = document.getElementById("ws_grade").value.trim();
-  const description = document.getElementById("ws_description").value.trim();
-  const status = document.getElementById("ws_status").value;
+  const title = document.getElementById("ws_title")?.value.trim();
+  const subject = document.getElementById("ws_subject")?.value.trim();
+  const grade = document.getElementById("ws_grade")?.value.trim();
+  const description = document.getElementById("ws_description")?.value.trim();
+  const status = document.getElementById("ws_status")?.value;
 
   if (!title || !subject || !grade) {
     alert("Missing required fields.");
     return null;
   }
 
-  const questions = [...document.querySelectorAll(".question-text")].map(e => e.value.trim());
-  const answerKey = [...document.querySelectorAll(".question-answer")].map(e => e.value.trim());
+  const questions = [...document.querySelectorAll(".question-text")].map((e) =>
+    e.value.trim()
+  );
+  const answerKey = [...document.querySelectorAll(".question-answer")].map((e) =>
+    e.value.trim()
+  );
 
   const now = new Date().toISOString();
 
@@ -419,7 +579,7 @@ function collectWorksheetForm(isEdit = false) {
     questions,
     answerKey,
     status,
-    updatedAt: now
+    updatedAt: now,
   };
 
   if (!isEdit) {
@@ -430,17 +590,14 @@ function collectWorksheetForm(isEdit = false) {
   return data;
 }
 
-// ---- CREATE ----
 function initWorksheetCreate() {
   const form = document.getElementById("worksheetCreateForm");
   if (!form) return;
 
   const container = document.getElementById("questionsContainer");
+  const addBtn = document.getElementById("addQuestionBtn");
 
-  document.getElementById("addQuestionBtn").addEventListener("click", () => {
-    renderQuestionRow(container);
-  });
-
+  addBtn?.addEventListener("click", () => renderQuestionRow(container));
   renderQuestionRow(container);
 
   form.addEventListener("submit", (e) => {
@@ -457,7 +614,6 @@ function initWorksheetCreate() {
   });
 }
 
-// ---- LIST ----
 function initWorksheetList() {
   const tableBody = document.getElementById("worksheetTable");
   if (!tableBody) return;
@@ -468,7 +624,9 @@ function initWorksheetList() {
     return;
   }
 
-  tableBody.innerHTML = worksheets.map(ws => `
+  tableBody.innerHTML = worksheets
+    .map(
+      (ws) => `
     <tr>
       <td>${ws.title}</td>
       <td>${ws.subject}</td>
@@ -480,10 +638,11 @@ function initWorksheetList() {
         <button class="btn sm danger" onclick="deleteWorksheet(${ws.id})">Delete</button>
       </td>
     </tr>
-  `).join("");
+  `
+    )
+    .join("");
 }
 
-// ---- EDIT ----
 function openWorksheetEdit(id) {
   localStorage.setItem("editWorksheetId", id);
   window.location.href = "worksheet-update.html";
@@ -493,9 +652,9 @@ function initWorksheetUpdate() {
   const form = document.getElementById("worksheetUpdateForm");
   if (!form) return;
 
-  const id = parseInt(localStorage.getItem("editWorksheetId"));
+  const id = parseInt(localStorage.getItem("editWorksheetId"), 10);
   const worksheets = loadWorksheets();
-  const ws = worksheets.find(w => w.id === id);
+  const ws = worksheets.find((w) => w.id === id);
 
   if (!ws) {
     alert("Worksheet not found.");
@@ -510,7 +669,9 @@ function initWorksheetUpdate() {
   document.getElementById("ws_status").value = ws.status;
 
   const container = document.getElementById("questionsContainer");
-  document.getElementById("addQuestionBtn").addEventListener("click", () => renderQuestionRow(container));
+  document
+    .getElementById("addQuestionBtn")
+    ?.addEventListener("click", () => renderQuestionRow(container));
 
   ws.questions.forEach((q, i) => {
     renderQuestionRow(container, q, ws.answerKey[i]);
@@ -519,6 +680,7 @@ function initWorksheetUpdate() {
   form.addEventListener("submit", (e) => {
     e.preventDefault();
     const updated = collectWorksheetForm(true);
+    if (!updated) return;
 
     Object.assign(ws, updated);
     saveWorksheets(worksheets);
@@ -528,29 +690,52 @@ function initWorksheetUpdate() {
   });
 }
 
-// ---- DELETE ----
 function deleteWorksheet(id) {
   if (!confirm("Delete this worksheet?")) return;
 
   let worksheets = loadWorksheets();
-  worksheets = worksheets.filter(w => w.id !== id);
+  worksheets = worksheets.filter((w) => w.id !== id);
   saveWorksheets(worksheets);
 
   alert("Deleted.");
   window.location.reload();
 }
 
-// Auto Initialization
-// =========================
+/* =========================
+   Auto Initialization
+========================= */
 document.addEventListener("DOMContentLoaded", function () {
+  // theme
+  const savedColor = localStorage.getItem("customColor");
+  if (savedColor) {
+    applyCustomColor(savedColor);
+    const input = document.getElementById("customColorInput");
+    if (input) input.value = savedColor;
+  }
+
   highlightActiveNavLink();
+
+  // auth
   initLogin();
+  initSignup();
+
+  // admin worksheet
   initWorksheetCreate();
   initWorksheetList();
   initWorksheetUpdate();
-  loadStars();
+
+  // accessibility
   applySavedDarkMode();
   applySavedLargeText();
-  initUniversalWorksheetEngine();
+
+  // stars + dashboards
+  loadStars();
   initStudentDashboard();
+
+  // worksheets (student)
+  initUniversalWorksheetEngine();
+
+  // charts
+  initStudentProgressChart();
+  showStudentResultsGraph();
 });
